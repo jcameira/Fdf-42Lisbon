@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joao <joao@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 17:38:19 by joao              #+#    #+#             */
-/*   Updated: 2024/01/05 20:31:24 by joao             ###   ########.fr       */
+/*   Updated: 2024/01/08 15:50:27 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@
 # define Y 1
 # define Z 2
 
+# define ISOMETRIC 0
+
 typedef struct s_point
 {
 	int		color;
@@ -40,12 +42,14 @@ typedef struct s_map
 	int		z_max;
 	int		z_min;
 	int		z_range;
+	int		projection;
+	char	*map_info;
 	float	scale;
 	float	limits[3];
 	float	angles[3];
 	t_point	*origin;
 	t_point **points;
-}
+}				t_map;
 
 typedef struct s_bitmap
 {
