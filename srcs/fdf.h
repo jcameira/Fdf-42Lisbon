@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 17:38:19 by joao              #+#    #+#             */
-/*   Updated: 2024/01/08 15:50:27 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/01/11 14:37:43 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ typedef struct s_map
 	int		z_min;
 	int		z_range;
 	int		projection;
-	char	*map_info;
+	char	**map_info;
 	float	scale;
 	float	limits[3];
 	float	angles[3];
@@ -67,5 +67,11 @@ typedef struct s_vars
 	t_bitmap	*bitmap;
 	t_map		*map;
 }				t_vars;
+
+char	**read_map(t_map *map, char *file);
+void	faster_pixel_put(t_bitmap *bitmap, int x, int y, int color);
+t_vars	*vars_init(char *title);
+t_map   *map_init(void);
+t_map	*parser(char *file);
 
 #endif

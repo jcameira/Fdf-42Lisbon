@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:34:32 by jcameira          #+#    #+#             */
-/*   Updated: 2024/01/08 17:56:24 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/01/11 11:55:52 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ t_map   *map_init(void)
     map->angles[X] = 0;
     map->angles[Y] = 0;
     map->angles[Z] = 0;
-    map->origin = malloc(sizeod (t_point));
+    map->origin = malloc(sizeof (t_point));
     if (!map->origin)
         return (NULL);
     map->origin->coordinates[X] = WIDTH/2;
