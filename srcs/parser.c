@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:30:27 by jcameira          #+#    #+#             */
-/*   Updated: 2024/01/12 14:53:17 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/01/12 18:37:00 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ t_map	*parser(char *file)
 		return (NULL);
 	map->points = get_original_points(map);
 	i = -1;
-	while (map->points[++i])
+	while (++i < map->limits[Y])
 	{
 		j = -1;
 		while (++j < map->limits[X])
