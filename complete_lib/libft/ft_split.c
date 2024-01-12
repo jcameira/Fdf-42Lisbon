@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 14:45:23 by jcameira          #+#    #+#             */
-/*   Updated: 2023/12/09 11:30:31 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/01/12 12:11:35 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	word_count(char const *str, char c)
 	words = 0;
 	while (str[i])
 	{
-		while (str[i] && (str[i] == c || str[i] == '\n'))
+		while (str[i] && (str[i] == c))
 			i++;
 		if (str[i] && str[i++] != c)
 			words++;
@@ -53,7 +53,7 @@ static void	*fill_matrix(char **matrix, char const *str, char c)
 	word = 0;
 	while (str[i])
 	{
-		if (str[i] && (str[i] == c || str[i] == '\n'))
+		if (str[i] && (str[i] == c))
 			i++;
 		else
 		{
