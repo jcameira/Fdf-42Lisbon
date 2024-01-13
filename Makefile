@@ -5,7 +5,8 @@ CFLAGS				=	-Wall -Wextra -Werror
 AR					=	ar rcs
 RM					=	rm -rf
 
-SRCS				=	fdf.c fdf_utils.c inits.c parser.c
+SRCS				=	fdf.c fdf_utils.c inits.c parser.c draw_map.c \
+						matrix_operations.c
 SRCS_PATH			=	srcs/
 
 MAIN				=	$(SRCS_PATH)fdf.c

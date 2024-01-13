@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 17:38:19 by joao              #+#    #+#             */
-/*   Updated: 2024/01/11 14:37:43 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/01/13 15:59:49 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,5 +73,11 @@ void	faster_pixel_put(t_bitmap *bitmap, int x, int y, int color);
 t_vars	*vars_init(char *title);
 t_map   *map_init(void);
 t_map	*parser(char *file);
+void    draw_map(t_vars *fdf);
+t_point matmul(float mat[3][3], t_point point);
+void    rotatex(t_map *map, int angle);
+void    rotatey(t_map *map, int angle);
+void    rotatez(t_map *map, int angle);
+void    orthographic(t_map *map);
 
 #endif

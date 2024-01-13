@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:34:32 by jcameira          #+#    #+#             */
-/*   Updated: 2024/01/11 11:55:52 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/01/13 16:38:15 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ t_map   *map_init(void)
         return (NULL);
     map->projection = ISOMETRIC;
     map->scale = 1;
-    map->angles[X] = 0;
-    map->angles[Y] = 0;
-    map->angles[Z] = 0;
+    map->angles[X] = 30;
+    map->angles[Y] = 330;
+    map->angles[Z] = 45;
     map->origin = malloc(sizeof (t_point));
     if (!map->origin)
         return (NULL);

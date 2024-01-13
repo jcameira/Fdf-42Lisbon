@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 17:55:13 by joao              #+#    #+#             */
-/*   Updated: 2024/01/12 20:11:03 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/01/13 12:43:13 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,6 @@ int	main(int argc, char **argv)
 		return (0);
 	fdf = vars_init(argv[1]);
 	fdf->map = parser(argv[1]);
-	draw_map(fdf->map);
+	draw_map(fdf);
 	mlx_loop(fdf->mlx);
 }
