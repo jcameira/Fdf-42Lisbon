@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 13:11:59 by jcameira          #+#    #+#             */
-/*   Updated: 2024/01/13 16:36:55 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/01/15 21:51:36 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_point matmul(float mat[3][3], t_point point)
         while (++j < 3)
         {
             tmp.coordinates[i] += point.coordinates[j] * mat[i][j];
-            printf("Mat vale %d %d: %f\n", i, j, mat[i][j]);
+            printf("Mat value %d %d: %f\n", i, j, mat[i][j]);
         }
     }
     printf("X value post mul: %f\n", tmp.coordinates[X]);
@@ -40,7 +40,7 @@ t_point matmul(float mat[3][3], t_point point)
 
 void    rotatex(t_map *map, int angle)
 {
-    int rad;
+    float rad;
     int x;
     int y;
     float rotmat[3][3];
@@ -69,7 +69,7 @@ void    rotatex(t_map *map, int angle)
 
 void    rotatey(t_map *map, int angle)
 {
-    int rad;
+    float rad;
     int x;
     int y;
     float rotmat[3][3];
@@ -95,7 +95,7 @@ void    rotatey(t_map *map, int angle)
 
 void    rotatez(t_map *map, int angle)
 {
-    int rad;
+    float rad;
     int x;
     int y;
     float rotmat[3][3];
