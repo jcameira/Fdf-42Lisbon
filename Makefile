@@ -6,7 +6,7 @@ AR					=	ar rcs
 RM					=	rm -rf
 
 SRCS				=	fdf.c fdf_utils.c inits.c parser.c draw_map.c \
-						matrix_operations.c
+						matrix_operations.c bresenham.c
 SRCS_PATH			=	srcs/
 
 MAIN				=	$(SRCS_PATH)fdf.c

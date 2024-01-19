@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 17:38:19 by joao              #+#    #+#             */
-/*   Updated: 2024/01/13 15:59:49 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/01/19 13:35:58 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,5 +79,6 @@ void    rotatex(t_map *map, int angle);
 void    rotatey(t_map *map, int angle);
 void    rotatez(t_map *map, int angle);
 void    orthographic(t_map *map);
+void    pos_slope(t_vars *fdf, t_point start, t_point end, float slope);
 
 #endif

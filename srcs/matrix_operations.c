@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 13:11:59 by jcameira          #+#    #+#             */
-/*   Updated: 2024/01/15 21:51:36 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/01/19 12:41:16 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,23 +18,14 @@ t_point matmul(float mat[3][3], t_point point)
     int j;
     t_point tmp;
 
-    printf("X value pre mul: %f\n", point.coordinates[X]);
-    printf("Y value pre mul: %f\n", point.coordinates[Y]);
-    printf("Z value pre mul: %f\n", point.coordinates[Z]);
     i = -1;
     while (++i < 3)
     {
         j = -1;
         tmp.coordinates[i] = 0;
         while (++j < 3)
-        {
             tmp.coordinates[i] += point.coordinates[j] * mat[i][j];
-            printf("Mat value %d %d: %f\n", i, j, mat[i][j]);
-        }
     }
-    printf("X value post mul: %f\n", tmp.coordinates[X]);
-    printf("Y value post mul: %f\n", tmp.coordinates[Y]);
-    printf("Z value post mul: %f\n", tmp.coordinates[Z]);
     return (tmp);
 }
 
@@ -60,10 +51,7 @@ void    rotatex(t_map *map, int angle)
     {
         x = -1;
         while (++x < map->limits[X])
-        {
             map->points[y][x] = matmul(rotmat, map->points[y][x]);
-            printf("X Y Z after x rotation: %f %f %f\n", map->origin->coordinates[X] + map->points[y][x].coordinates[X], map->origin->coordinates[Y] + map->points[y][x].coordinates[Y], map->points[y][x].coordinates[Z]);
-        }
     }
 }
 
