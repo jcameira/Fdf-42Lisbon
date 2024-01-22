@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 20:16:42 by jcameira          #+#    #+#             */
-/*   Updated: 2024/01/19 18:15:41 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/01/22 19:03:55 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,15 @@ void    connect_points(t_vars *fdf, t_point start, t_point end)
     }
     else
         tmp = start;
-    x_variation = (int)(fdf->map->origin->coordinates[X] + (end.coordinates[X])) - (int)(fdf->map->origin->coordinates[X] + (tmp.coordinates[X]));
-    y_variation = (int)(fdf->map->origin->coordinates[Y] + (end.coordinates[Y])) - (int)(fdf->map->origin->coordinates[Y] + (tmp.coordinates[Y]));
+    x_variation = round(fdf->map->origin->coordinates[X] + (end.coordinates[X])) - round(fdf->map->origin->coordinates[X] + (tmp.coordinates[X]));
+    y_variation = round(fdf->map->origin->coordinates[Y] + (end.coordinates[Y])) - round(fdf->map->origin->coordinates[Y] + (tmp.coordinates[Y]));
     slope = y_variation / x_variation;
-    decision = (2 * abs((int)y_variation)) - abs((int)x_variation);
-    while ((int)tmp.coordinates[X] != (int)end.coordinates[X] || (int)tmp.coordinates[Y] != (int)end.coordinates[Y])
+    if (slope >= -1 && slope <= 1)
+        decision = (2 * abs((int)y_variation)) - abs((int)x_variation);
+    else
+        decision = (2 * abs((int)x_variation)) - abs((int)y_variation);
+    while (round(fdf->map->origin->coordinates[X] + (tmp.coordinates[X])) != round(fdf->map->origin->coordinates[X] + (end.coordinates[X])) || round(fdf->map->origin->coordinates[Y] + (tmp.coordinates[Y])) != round(fdf->map->origin->coordinates[Y] + (end.coordinates[Y])))
     {
-        printf("\nSlope of %f, with decision variable of %d and X Y Z: %f %f %f\n", slope, decision, tmp.coordinates[X], tmp.coordinates[Y], tmp.coordinates[Z]);
-        printf("Slope of %f, with decision variable of %d and X Y Z: %f %f %f\n\n", slope, decision, end.coordinates[X], end.coordinates[Y], end.coordinates[Z]);
         if (slope >= -1 && slope <= 1)
         {
             if (decision > 0)
@@ -56,7 +57,8 @@ void    connect_points(t_vars *fdf, t_point start, t_point end)
         {
             if (decision > 0)
             {
-                tmp.coordinates[X]++;
+                if (slope != INFINITY)
+                    tmp.coordinates[X]++;
                 if (slope >= 0)
                     tmp.coordinates[Y]++;
                 else
