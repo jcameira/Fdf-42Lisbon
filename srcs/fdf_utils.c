@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 18:39:58 by joao              #+#    #+#             */
-/*   Updated: 2024/01/24 00:57:02 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/01/24 12:30:46 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,12 @@ void	copy_map(t_point **projection, t_map original_map)
 	{
 		x = -1;
 		while (++x < original_map.limits[X])
+		{
 			projection[y][x] = original_map.points[y][x];
+			projection[y][x].coordinates[X] *= original_map.scale;
+			projection[y][x].coordinates[Y] *= original_map.scale;
+			projection[y][x].coordinates[Z] *= original_map.z_multiplier;
+		}
 	}
 }
 

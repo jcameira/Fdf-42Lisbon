@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 20:16:42 by jcameira          #+#    #+#             */
-/*   Updated: 2024/01/24 01:06:12 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/01/24 12:20:49 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,8 @@ void	connect_points(t_vars *fdf, t_point start, t_point end)
 				decision += (2 * abs((int)x_variation));
 			}
 		}
-		faster_pixel_put(&fdf->bitmap, (int)(fdf->map.origin.coordinates[X] + (tmp.coordinates[X])), (int)(fdf->map.origin.coordinates[Y] + (tmp.coordinates[Y])), 0xFFFFFFFF);
+		if ((int)(fdf->map.origin.coordinates[X] + (tmp.coordinates[X])) <= WIDTH && (int)(fdf->map.origin.coordinates[X] + (tmp.coordinates[X])) >= 0 && (int)(fdf->map.origin.coordinates[Y] + (tmp.coordinates[Y])) <= HEIGHT && (int)(fdf->map.origin.coordinates[Y] + (tmp.coordinates[Y])) >= 0)
+			faster_pixel_put(&fdf->bitmap, (int)(fdf->map.origin.coordinates[X] + (tmp.coordinates[X])), (int)(fdf->map.origin.coordinates[Y] + (tmp.coordinates[Y])), 0xFFFFFFFF);
 	}
 }
 
@@ -118,7 +119,8 @@ void	draw_map(t_vars *fdf)
 	{
 		x = -1;
 		while (++x < fdf->map.limits[X])
-			faster_pixel_put(&fdf->bitmap, (int)(fdf->map.origin.coordinates[X] + (projection[y][x].coordinates[X])), (int)(fdf->map.origin.coordinates[Y] + (projection[y][x].coordinates[Y])), 0xFFFFFFFF);
+			if ((int)(fdf->map.origin.coordinates[X] + (projection[y][x].coordinates[X])) <= WIDTH && (int)(fdf->map.origin.coordinates[X] + (projection[y][x].coordinates[X])) >= 0 && (int)(fdf->map.origin.coordinates[Y] + (projection[y][x].coordinates[Y])) <= HEIGHT && (int)(fdf->map.origin.coordinates[Y] + (projection[y][x].coordinates[Y])) >= 0)
+				faster_pixel_put(&fdf->bitmap, (int)(fdf->map.origin.coordinates[X] + (projection[y][x].coordinates[X])), (int)(fdf->map.origin.coordinates[Y] + (projection[y][x].coordinates[Y])), 0xFFFFFFFF);
 	}
 	draw_lines(fdf, projection);
 	mlx_put_image_to_window(fdf->mlx, fdf->win, fdf->bitmap.img, 0, 0);

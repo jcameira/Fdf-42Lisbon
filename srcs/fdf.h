@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 17:38:19 by joao              #+#    #+#             */
-/*   Updated: 2024/01/24 01:01:54 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/01/24 18:14:42 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef struct s_map
 	int		projection;
 	char	**map_info;
 	float	scale;
+	float	z_multiplier;
 	float	limits[3];
 	float	angles[3];
 	t_point	origin;
@@ -80,11 +81,16 @@ void	rotatex(t_map *map, t_point **projection, int angle);
 void	rotatey(t_map *map, t_point **projection, int angle);
 void	rotatez(t_map *map, t_point **projection, int angle);
 void	orthographic(t_map *map, t_point **projection);
-int		show_keycode(int keycode, t_vars *fdf);
-int		change_prespective(int keycode, t_vars *fdf);
-int		end_program(int keycode, t_vars *fdf);
+void	change_prespective(int keycode, t_vars *fdf);
+void	end_program(t_vars *fdf);
 void	isometric(t_vars *fdf);
 void	top_view(t_vars *fdf);
 void	choose_prespective(t_vars *fdf, int prespective);
+void	move_origin(int keycode, t_vars *fdf);
+int		key_press(int keycode, t_vars *fdf);
+void	change_scale(int keycode, t_vars *fdf);
+void	change_z_multiplier(int keycode, t_vars *fdf);
+int		mouse_press(int button, int x, int y, t_vars *fdf);
+int		map_translation(int x, int y, t_vars *fdf);
 
 #endif

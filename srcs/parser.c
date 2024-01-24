@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:30:27 by jcameira          #+#    #+#             */
-/*   Updated: 2024/01/24 00:33:41 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/01/24 12:30:12 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ void	load_coordinates(t_map *map, t_point ***points, char **z_values, int y)
 	x = -1;
 	while (++x < map->limits[X])
 	{
-		(*points)[y][x].coordinates[X] = (x - (map->limits[X] / 2) + 0.5) * 75;
-		(*points)[y][x].coordinates[Y] = (y - (map->limits[Y] / 2) + 0.5) * 75;
-		(*points)[y][x].coordinates[Z] = (float)atoi(z_values[x]) * 10;
+		(*points)[y][x].coordinates[X] = (x - (map->limits[X] / 2) + 0.5);
+		(*points)[y][x].coordinates[Y] = (y - (map->limits[Y] / 2) + 0.5);
+		(*points)[y][x].coordinates[Z] = (float)atoi(z_values[x]);
 	}
 }
 

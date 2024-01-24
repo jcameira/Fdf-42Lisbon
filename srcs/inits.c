@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:34:32 by jcameira          #+#    #+#             */
-/*   Updated: 2024/01/24 00:29:41 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/01/24 18:49:30 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ void	vars_init(t_vars *fdf, char *title)
 void	map_init(t_map *map)
 {
 	map->projection = 0;
-	map->scale = 1;
+	map->scale = 75;
+	map->z_multiplier = 10;
 	map->angles[X] = 30;
 	map->angles[Y] = 330;
 	map->angles[Z] = 45;
