@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 17:38:19 by joao              #+#    #+#             */
-/*   Updated: 2024/01/22 20:54:52 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/01/24 01:01:54 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ typedef struct s_map
 	float	scale;
 	float	limits[3];
 	float	angles[3];
-	t_point	*origin;
-	t_point **points;
+	t_point	origin;
+	t_point	**points;
 }				t_map;
 
 typedef struct s_bitmap
@@ -64,26 +64,27 @@ typedef struct s_vars
 {
 	void		*mlx;
 	void		*win;
-	t_bitmap	*bitmap;
-	t_map		*map;
+	t_bitmap	bitmap;
+	t_map		map;
 }				t_vars;
 
 char	**read_map(t_map *map, char *file);
+void	copy_map(t_point **projection, t_map original_map);
 void	faster_pixel_put(t_bitmap *bitmap, int x, int y, int color);
-t_vars	*vars_init(char *title);
-t_map   *map_init(void);
-t_map	*parser(char *file);
-void    draw_map(t_vars *fdf);
-t_point matmul(float mat[3][3], t_point point);
-void    rotatex(t_map *map, int angle);
-void    rotatey(t_map *map, int angle);
-void    rotatez(t_map *map, int angle);
-void    orthographic(t_map *map);
+void	vars_init(t_vars *fdf, char *title);
+void	map_init(t_map *map);
+void	parser(t_map *map, char *file);
+void	draw_map(t_vars *fdf);
+t_point	matmul(float mat[3][3], t_point point);
+void	rotatex(t_map *map, t_point **projection, int angle);
+void	rotatey(t_map *map, t_point **projection, int angle);
+void	rotatez(t_map *map, t_point **projection, int angle);
+void	orthographic(t_map *map, t_point **projection);
 int		show_keycode(int keycode, t_vars *fdf);
-int 	change_prespective(int keycode, t_vars *fdf);
-int 	end_program(int keycode, t_vars *fdf);
-void    isometric(t_vars *fdf);
-void    top_view(t_vars *fdf);
-void    choose_prespective(t_vars *fdf, int  prespective);
+int		change_prespective(int keycode, t_vars *fdf);
+int		end_program(int keycode, t_vars *fdf);
+void	isometric(t_vars *fdf);
+void	top_view(t_vars *fdf);
+void	choose_prespective(t_vars *fdf, int prespective);
 
 #endif

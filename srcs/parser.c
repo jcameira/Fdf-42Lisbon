@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:30:27 by jcameira          #+#    #+#             */
-/*   Updated: 2024/01/18 16:46:36 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/01/24 00:33:41 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ t_point	**get_original_points(t_map *map)
 			printf("Z value: %s\n", z_values[i]);
 		load_coordinates(map, &points, z_values, y);
 	}
-	return(points);
+	return (points);
 }
 
 char	**read_map(t_map *map, char *file)
@@ -58,7 +58,7 @@ char	**read_map(t_map *map, char *file)
 	int		y;
 	char	**map_info;
 
-	map_info = malloc(sizeof (char*) * (map->limits[Y] + 1));
+	map_info = malloc(sizeof (char *) * (map->limits[Y] + 1));
 	if (!map_info)
 		return (NULL);
 	fd = open(file, O_RDONLY);
@@ -75,7 +75,7 @@ char	**read_map(t_map *map, char *file)
 	return (map_info);
 }
 
-void	get_x_y_limits(t_map **map, char *file)
+void	get_x_y_limits(t_map *map, char *file)
 {
 	int		fd;
 	char	*line;
@@ -83,30 +83,27 @@ void	get_x_y_limits(t_map **map, char *file)
 	fd = open(file, O_RDONLY);
 	line = get_next_line(fd);
 	line = ft_strtrim(line, " \n");
-	(*map)->limits[X] = (float)word_count(line, ' ');
-	(*map)->limits[Y] = 0;
+	map->limits[X] = (float)word_count(line, ' ');
+	map->limits[Y] = 0;
 	while (line)
 	{
-		(*map)->limits[Y]++;
+		map->limits[Y]++;
 		line = get_next_line(fd);
 	}
 	free(line);
-	printf("X limit: %f\n", (*map)->limits[X]);
-	printf("Y limit: %f\n", (*map)->limits[Y]);
+	printf("X limit: %f\n", map->limits[X]);
+	printf("Y limit: %f\n", map->limits[Y]);
 	close(fd);
 }
 
-t_map	*parser(char *file)
+void	parser(t_map *map, char *file)
 {
-	t_map	*map;
 	int		i;
 	int		j;
 
-	map = map_init();
-	get_x_y_limits(&map, file);
+	map_init(map);
+	get_x_y_limits(map, file);
 	map->map_info = read_map(map, file);
-	if (!map->map_info)
-		return (NULL);
 	map->points = get_original_points(map);
 	i = -1;
 	while (++i < map->limits[Y])
@@ -118,5 +115,4 @@ t_map	*parser(char *file)
 			printf("X Y Z: %f %f %f\n", map->points[i][j].coordinates[X], map->points[i][j].coordinates[Y], map->points[i][j].coordinates[Z]);
 		}
 	}
-	return (map);
 }
