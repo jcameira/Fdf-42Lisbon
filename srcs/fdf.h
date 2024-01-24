@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 17:38:19 by joao              #+#    #+#             */
-/*   Updated: 2024/01/24 18:14:42 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/01/24 19:04:25 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef struct s_map
 	int		z_max;
 	int		z_min;
 	int		z_range;
+	int		velocity;
 	int		projection;
 	char	**map_info;
 	float	scale;

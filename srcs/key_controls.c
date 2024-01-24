@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 19:36:35 by jcameira          #+#    #+#             */
-/*   Updated: 2024/01/24 18:35:27 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/01/24 19:06:56 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,9 +111,19 @@ void	map_rotation(int keycode, t_vars *fdf)
 	draw_map(fdf);
 }
 
+void	change_mov_vel(int keycode, t_vars *fdf)
+{
+	if (keycode == 45 && fdf->map.velocity > 0)
+		fdf->map.velocity--;
+	else
+		fdf->map.velocity++;
+}
+
 int	key_press(int keycode, t_vars *fdf)
 {
 	printf("%d\n", keycode);
+	if (keycode == 45 || keycode == 61) //-, +
+		change_mov_vel(keycode, fdf);
 	if (keycode == 113 || keycode == 119 || keycode == 101 || keycode == 97 || keycode == 115 || keycode == 100) //Q, W, E, A, S, D
 		map_rotation(keycode, fdf);
 	if (keycode == 109 || keycode == 110) //M, N
@@ -153,12 +163,12 @@ int	map_translation(int x, int y, t_vars *fdf)
 	}
 	if (x != prev_x)
 	{
-		fdf->map.origin.coordinates[X] -= (prev_x - x) * 10;
+		fdf->map.origin.coordinates[X] -= (prev_x - x) * fdf->map.velocity;
 		prev_x = x;
 	}
 	if (y != prev_y)
 	{
-		fdf->map.origin.coordinates[Y] -= (prev_y - y) * 10;
+		fdf->map.origin.coordinates[Y] -= (prev_y - y) * fdf->map.velocity;
 		prev_y = y;
 	}
 	draw_map(fdf);
