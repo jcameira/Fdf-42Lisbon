@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 18:39:58 by joao              #+#    #+#             */
-/*   Updated: 2024/01/24 12:30:46 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/01/25 17:48:38 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	copy_map(t_point **projection, t_map original_map)
 			projection[y][x].coordinates[X] *= original_map.scale;
 			projection[y][x].coordinates[Y] *= original_map.scale;
 			projection[y][x].coordinates[Z] *= original_map.z_multiplier;
+			projection[y][x].color = original_map.points[y][x].color;
 		}
 	}
 }

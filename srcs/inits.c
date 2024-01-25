@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:34:32 by jcameira          #+#    #+#             */
-/*   Updated: 2024/01/24 19:04:44 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/01/25 14:43:17 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,27 @@ void	vars_init(t_vars *fdf, char *title)
 
 void	map_init(t_map *map)
 {
+	map->z_min = INT_MAX;
+	map->z_max = INT_MIN;
 	map->projection = 0;
 	map->scale = 75;
 	map->z_multiplier = 10;
-	map->velocity = 10;
+	map->translation_velocity = 10;
+	map->rotation_velocity = 1;
 	map->angles[X] = 30;
 	map->angles[Y] = 330;
 	map->angles[Z] = 45;
 	map->origin.coordinates[X] = WIDTH / 2;
 	map->origin.coordinates[Y] = HEIGHT / 2;
 	map->origin.coordinates[Z] = 0;
+	map->b_pressed.mov_d = 0;
+	map->b_pressed.mov_u = 0;
+	map->b_pressed.mov_l = 0;
+	map->b_pressed.mov_r = 0;
+	map->b_pressed.pos_rot_x = 0;
+	map->b_pressed.neg_rot_x = 0;
+	map->b_pressed.pos_rot_y = 0;
+	map->b_pressed.neg_rot_y = 0;
+	map->b_pressed.pos_rot_z = 0;
+	map->b_pressed.neg_rot_z = 0;
 }

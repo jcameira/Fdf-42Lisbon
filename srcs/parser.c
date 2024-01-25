@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:30:27 by jcameira          #+#    #+#             */
-/*   Updated: 2024/01/24 12:30:12 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/01/25 17:49:26 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,13 @@ t_point	**get_original_points(t_map *map)
 			return (NULL);
 		i = -1;
 		while (z_values[++i])
+		{
 			printf("Z value: %s\n", z_values[i]);
+			if (map->z_min > atoi(z_values[i]))
+				map->z_min = atoi(z_values[i]);
+			if (map->z_max < atoi(z_values[i]))
+				map->z_max = atoi(z_values[i]);
+		}
 		load_coordinates(map, &points, z_values, y);
 	}
 	return (points);
@@ -98,21 +104,24 @@ void	get_x_y_limits(t_map *map, char *file)
 
 void	parser(t_map *map, char *file)
 {
-	int		i;
-	int		j;
+	// int		i;
+	// int		j;
 
 	map_init(map);
 	get_x_y_limits(map, file);
 	map->map_info = read_map(map, file);
 	map->points = get_original_points(map);
-	i = -1;
-	while (++i < map->limits[Y])
-	{
-		j = -1;
-		while (++j < map->limits[X])
-		{
-			printf("I, J: %d, %d\n", i, j);
-			printf("X Y Z: %f %f %f\n", map->points[i][j].coordinates[X], map->points[i][j].coordinates[Y], map->points[i][j].coordinates[Z]);
-		}
-	}
+	map->z_range = map->z_max - map->z_min;
+	set_point_color(map);
+	// i = -1;
+	// while (++i < map->limits[Y])
+	// {
+	// 	j = -1;
+	// 	while (++j < map->limits[X])
+	// 	{
+	// 		printf("I, J: %d, %d\n", i, j);
+	// 		printf("X Y Z: %f %f %f\n", map->points[i][j].coordinates[X], map->points[i][j].coordinates[Y], map->points[i][j].coordinates[Z]);
+	// 	}
+	// }
+	printf("Z_min, Z_max: %d, %d\n", map->z_min, map->z_max);
 }

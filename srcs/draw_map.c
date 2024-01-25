@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 20:16:42 by jcameira          #+#    #+#             */
-/*   Updated: 2024/01/24 12:20:49 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/01/25 17:52:03 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,13 @@ void	draw_map(t_vars *fdf)
 		x = -1;
 		while (++x < fdf->map.limits[X])
 			if ((int)(fdf->map.origin.coordinates[X] + (projection[y][x].coordinates[X])) <= WIDTH && (int)(fdf->map.origin.coordinates[X] + (projection[y][x].coordinates[X])) >= 0 && (int)(fdf->map.origin.coordinates[Y] + (projection[y][x].coordinates[Y])) <= HEIGHT && (int)(fdf->map.origin.coordinates[Y] + (projection[y][x].coordinates[Y])) >= 0)
-				faster_pixel_put(&fdf->bitmap, (int)(fdf->map.origin.coordinates[X] + (projection[y][x].coordinates[X])), (int)(fdf->map.origin.coordinates[Y] + (projection[y][x].coordinates[Y])), 0xFFFFFFFF);
+			{
+				printf("Color White: %d\n", WHITE);
+				printf("Color Blue: %d\n", FULL_BLUE);
+				printf("Color Green: %d\n", FULL_GREEN);
+				printf("Point color: %d\n", projection[y][x].color);
+				faster_pixel_put(&fdf->bitmap, (int)(fdf->map.origin.coordinates[X] + (projection[y][x].coordinates[X])), (int)(fdf->map.origin.coordinates[Y] + (projection[y][x].coordinates[Y])), projection[x][y].color);
+			}
 	}
 	draw_lines(fdf, projection);
 	mlx_put_image_to_window(fdf->mlx, fdf->win, fdf->bitmap.img, 0, 0);

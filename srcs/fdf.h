@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 17:38:19 by joao              #+#    #+#             */
-/*   Updated: 2024/01/24 19:04:25 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/01/25 17:41:26 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <stdlib.h>
 # include <fcntl.h>
 # include <math.h>
+# include <limits.h>
 
 # define WIDTH 1920
 # define HEIGHT 1080
@@ -31,26 +32,47 @@
 
 # define ISOMETRIC 0
 
+# define WHITE 0xFFFFFFFF
+# define FULL_BLUE 0xFF0000FF
+# define FULL_GREEN 0xFF00FF00
+
 typedef struct s_point
 {
 	int		color;
 	float	coordinates[3];
 }				t_point;
 
+typedef struct s_pressed
+{
+	int close;
+	int	pos_rot_x;
+	int neg_rot_x;
+	int	pos_rot_y;
+	int neg_rot_y;
+	int	pos_rot_z;
+	int neg_rot_z;
+	int	mov_l;
+	int	mov_r;
+	int	mov_u;
+	int	mov_d;
+}
+				t_pressed;
 typedef struct s_map
 {
-	int		z_max;
-	int		z_min;
-	int		z_range;
-	int		velocity;
-	int		projection;
-	char	**map_info;
-	float	scale;
-	float	z_multiplier;
-	float	limits[3];
-	float	angles[3];
-	t_point	origin;
-	t_point	**points;
+	int			z_max;
+	int			z_min;
+	int			z_range;
+	int			translation_velocity;
+	int			rotation_velocity;
+	int			projection;
+	char		**map_info;
+	float		scale;
+	float		z_multiplier;
+	float		limits[3];
+	float		angles[3];
+	t_pressed	b_pressed;
+	t_point		origin;
+	t_point		**points;
 }				t_map;
 
 typedef struct s_bitmap
@@ -87,11 +109,15 @@ void	end_program(t_vars *fdf);
 void	isometric(t_vars *fdf);
 void	top_view(t_vars *fdf);
 void	choose_prespective(t_vars *fdf, int prespective);
-void	move_origin(int keycode, t_vars *fdf);
+void	keys_origin(int keycode, t_vars *fdf);
 int		key_press(int keycode, t_vars *fdf);
+int		key_release(int keycode, t_vars *fdf);
 void	change_scale(int keycode, t_vars *fdf);
 void	change_z_multiplier(int keycode, t_vars *fdf);
 int		mouse_press(int button, int x, int y, t_vars *fdf);
 int		map_translation(int x, int y, t_vars *fdf);
+int		render_frame(t_vars *fdf);
+void	move_origin(t_vars *fdf);
+void	set_point_color(t_map *map);
 
 #endif

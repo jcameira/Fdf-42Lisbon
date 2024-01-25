@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 17:55:13 by joao              #+#    #+#             */
-/*   Updated: 2024/01/24 18:15:35 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/01/25 17:50:49 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,9 @@ int	main(int argc, char **argv)
 	parser(&fdf.map, argv[1]);
 	draw_map(&fdf);
 	mlx_hook(fdf.win, 2, (1L << 0), key_press, &fdf);
+	mlx_hook(fdf.win, 3, (1L << 1), key_release, &fdf);
 	mlx_hook(fdf.win, 4, (1L << 2), mouse_press, &fdf);
 	mlx_hook(fdf.win, 6, (1L << 8), map_translation, &fdf);
-	//mlx_loop_hook(fdf.mlx, );
+	//mlx_loop_hook(fdf.mlx, render_frame, &fdf);
 	mlx_loop(fdf.mlx);
 }

@@ -6,7 +6,8 @@ AR					=	ar rcs
 RM					=	rm -rf
 
 SRCS				=	fdf.c fdf_utils.c inits.c parser.c draw_map.c \
-						matrix_operations.c prespectives.c key_controls.c
+						matrix_operations.c prespectives.c key_controls.c \
+						color.c
 SRCS_PATH			=	srcs/
 
 MAIN				=	$(SRCS_PATH)fdf.c
