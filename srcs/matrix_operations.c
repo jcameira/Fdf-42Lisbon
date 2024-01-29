@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 13:11:59 by jcameira          #+#    #+#             */
-/*   Updated: 2024/01/24 01:01:31 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/01/29 12:13:15 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,10 @@ t_point	matmul(float mat[3][3], t_point point)
 		j = -1;
 		tmp.coordinates[i] = 0;
 		while (++j < 3)
+		{
 			tmp.coordinates[i] += point.coordinates[j] * mat[i][j];
+			tmp.color = point.color;
+		}
 	}
 	return (tmp);
 }

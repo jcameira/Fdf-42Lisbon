@@ -6,11 +6,32 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:30:27 by jcameira          #+#    #+#             */
-/*   Updated: 2024/01/25 17:49:26 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/01/29 13:31:14 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+
+void	update_z_limits(t_map *map, t_point **points)
+{
+	int	y;
+	int	x;
+
+	y = -1;
+	map->z_min = INT_MAX;
+	map->z_max = INT_MIN;
+	while (++y < map->limits[Y])
+	{
+		x = -1;
+		while (++x < map->limits[X])
+		{
+			if (map->z_min > points[y][x].coordinates[Z])
+				map->z_min = points[y][x].coordinates[Z];
+			if (map->z_max < points[y][x].coordinates[Z])
+				map->z_max = points[y][x].coordinates[Z];
+		}
+	}
+}
 
 void	load_coordinates(t_map *map, t_point ***points, char **z_values, int y)
 {
@@ -22,12 +43,12 @@ void	load_coordinates(t_map *map, t_point ***points, char **z_values, int y)
 		(*points)[y][x].coordinates[X] = (x - (map->limits[X] / 2) + 0.5);
 		(*points)[y][x].coordinates[Y] = (y - (map->limits[Y] / 2) + 0.5);
 		(*points)[y][x].coordinates[Z] = (float)atoi(z_values[x]);
+		(*points)[y][x].color = 0;
 	}
 }
 
 t_point	**get_original_points(t_map *map)
 {
-	int		i;
 	int		y;
 	char	**z_values;
 	t_point	**points;
@@ -44,15 +65,6 @@ t_point	**get_original_points(t_map *map)
 		z_values = ft_split(map->map_info[y], ' ');
 		if (!z_values)
 			return (NULL);
-		i = -1;
-		while (z_values[++i])
-		{
-			printf("Z value: %s\n", z_values[i]);
-			if (map->z_min > atoi(z_values[i]))
-				map->z_min = atoi(z_values[i]);
-			if (map->z_max < atoi(z_values[i]))
-				map->z_max = atoi(z_values[i]);
-		}
 		load_coordinates(map, &points, z_values, y);
 	}
 	return (points);
@@ -111,8 +123,9 @@ void	parser(t_map *map, char *file)
 	get_x_y_limits(map, file);
 	map->map_info = read_map(map, file);
 	map->points = get_original_points(map);
+	update_z_limits(map, map->points);
 	map->z_range = map->z_max - map->z_min;
-	set_point_color(map);
+	//set_point_color(map);
 	// i = -1;
 	// while (++i < map->limits[Y])
 	// {
@@ -121,6 +134,7 @@ void	parser(t_map *map, char *file)
 	// 	{
 	// 		printf("I, J: %d, %d\n", i, j);
 	// 		printf("X Y Z: %f %f %f\n", map->points[i][j].coordinates[X], map->points[i][j].coordinates[Y], map->points[i][j].coordinates[Z]);
+	// 		printf("Point color: %d\n", map->points[i][j].color);
 	// 	}
 	// }
 	printf("Z_min, Z_max: %d, %d\n", map->z_min, map->z_max);

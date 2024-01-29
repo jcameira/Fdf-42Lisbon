@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 20:16:42 by jcameira          #+#    #+#             */
-/*   Updated: 2024/01/25 17:52:03 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/01/29 13:32:11 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void	connect_points(t_vars *fdf, t_point start, t_point end)
 	int		decision;
 	t_point	tmp;
 
+	// printf("Projection start point color: %d\n", start.color);
+	// printf("Projection end point color: %d\n", end.color);
 	if (start.coordinates[X] > end.coordinates[X])
 	{
 		tmp = end;
@@ -74,8 +76,9 @@ void	connect_points(t_vars *fdf, t_point start, t_point end)
 				decision += (2 * abs((int)x_variation));
 			}
 		}
+		//printf("Projection point color: %d\n", tmp.color);
 		if ((int)(fdf->map.origin.coordinates[X] + (tmp.coordinates[X])) <= WIDTH && (int)(fdf->map.origin.coordinates[X] + (tmp.coordinates[X])) >= 0 && (int)(fdf->map.origin.coordinates[Y] + (tmp.coordinates[Y])) <= HEIGHT && (int)(fdf->map.origin.coordinates[Y] + (tmp.coordinates[Y])) >= 0)
-			faster_pixel_put(&fdf->bitmap, (int)(fdf->map.origin.coordinates[X] + (tmp.coordinates[X])), (int)(fdf->map.origin.coordinates[Y] + (tmp.coordinates[Y])), 0xFFFFFFFF);
+			faster_pixel_put(&fdf->bitmap, (int)(fdf->map.origin.coordinates[X] + (tmp.coordinates[X])), (int)(fdf->map.origin.coordinates[Y] + (tmp.coordinates[Y])), tmp.color);
 	}
 }
 
@@ -90,6 +93,8 @@ void	draw_lines(t_vars *fdf, t_point **projection)
 		x = -1;
 		while (++x < fdf->map.limits[X] - 1)
 		{
+			// printf("Projection start point color: %d\n", projection[y][x].color);
+			// printf("Projection end point color: %d\n", projection[y][x + 1].color);
 			connect_points(fdf, projection[y][x], projection[y][x + 1]);
 			if (y < fdf->map.limits[Y] - 1)
 				connect_points(fdf, projection[y][x], projection[y + 1][x]);
@@ -109,7 +114,7 @@ void	draw_map(t_vars *fdf)
 	y = -1;
 	while (++y < fdf->map.limits[Y])
 		projection[y] = malloc(sizeof (t_point) * fdf->map.limits[X]);
-	copy_map(projection, fdf->map);
+	copy_map(&projection, fdf->map);
 	rotatex(&fdf->map, projection, fdf->map.angles[X]);
 	rotatey(&fdf->map, projection, fdf->map.angles[Y]);
 	rotatez(&fdf->map, projection, fdf->map.angles[Z]);
@@ -125,7 +130,7 @@ void	draw_map(t_vars *fdf)
 				printf("Color Blue: %d\n", FULL_BLUE);
 				printf("Color Green: %d\n", FULL_GREEN);
 				printf("Point color: %d\n", projection[y][x].color);
-				faster_pixel_put(&fdf->bitmap, (int)(fdf->map.origin.coordinates[X] + (projection[y][x].coordinates[X])), (int)(fdf->map.origin.coordinates[Y] + (projection[y][x].coordinates[Y])), projection[x][y].color);
+				faster_pixel_put(&fdf->bitmap, (int)(fdf->map.origin.coordinates[X] + (projection[y][x].coordinates[X])), (int)(fdf->map.origin.coordinates[Y] + (projection[y][x].coordinates[Y])), projection[y][x].color);
 			}
 	}
 	draw_lines(fdf, projection);

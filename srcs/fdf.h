@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 17:38:19 by joao              #+#    #+#             */
-/*   Updated: 2024/01/25 17:41:26 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/01/29 13:28:40 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ typedef struct s_vars
 }				t_vars;
 
 char	**read_map(t_map *map, char *file);
-void	copy_map(t_point **projection, t_map original_map);
+void	copy_map(t_point ***projection, t_map original_map);
 void	faster_pixel_put(t_bitmap *bitmap, int x, int y, int color);
 void	vars_init(t_vars *fdf, char *title);
 void	map_init(t_map *map);
@@ -118,6 +118,7 @@ int		mouse_press(int button, int x, int y, t_vars *fdf);
 int		map_translation(int x, int y, t_vars *fdf);
 int		render_frame(t_vars *fdf);
 void	move_origin(t_vars *fdf);
-void	set_point_color(t_map *map);
+void	set_point_color(t_map *map, t_point **points);
+void	update_z_limits(t_map *map, t_point **points);
 
 #endif
