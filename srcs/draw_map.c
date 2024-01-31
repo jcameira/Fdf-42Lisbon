@@ -6,22 +6,58 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 20:16:42 by jcameira          #+#    #+#             */
-/*   Updated: 2024/01/29 13:32:11 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/01/31 18:34:02 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+void	bresenham_ls(t_point *tmp, int *decision, float x_variation, float y_variation)
+{
+	if (*decision > 0)
+	{
+		(*tmp).coordinates[X]++;
+		if (y_variation / x_variation >= 0)
+			(*tmp).coordinates[Y]++;
+		else
+			(*tmp).coordinates[Y]--;
+		*decision += (2 * abs((int)y_variation)) - (2 * abs((int)x_variation));
+	}
+	else
+	{
+		(*tmp).coordinates[X]++;
+		*decision += (2 * abs((int)y_variation));
+	}
+}
+
+void	bresenham_hs(t_point *tmp, int *decision, float x_variation, float y_variation)
+{
+	if (*decision > 0)
+	{
+		if (y_variation / x_variation != INFINITY)
+			(*tmp).coordinates[X]++;
+		if (y_variation / x_variation >= 0)
+			(*tmp).coordinates[Y]++;
+		else
+			(*tmp).coordinates[Y]--;
+		*decision += (2 * abs((int)x_variation)) - (2 * abs((int)y_variation));
+	}
+	else
+	{
+		if (y_variation / x_variation >= 0)
+			(*tmp).coordinates[Y]++;
+		else
+			(*tmp).coordinates[Y]--;
+		*decision += (2 * abs((int)x_variation));
+	}
+}
 
 void	connect_points(t_vars *fdf, t_point start, t_point end)
 {
 	float	x_variation;
 	float	y_variation;
-	float	slope;
 	int		decision;
 	t_point	tmp;
 
-	// printf("Projection start point color: %d\n", start.color);
-	// printf("Projection end point color: %d\n", end.color);
 	if (start.coordinates[X] > end.coordinates[X])
 	{
 		tmp = end;
@@ -31,53 +67,17 @@ void	connect_points(t_vars *fdf, t_point start, t_point end)
 		tmp = start;
 	x_variation = round(fdf->map.origin.coordinates[X] + (end.coordinates[X])) - round(fdf->map.origin.coordinates[X] + (tmp.coordinates[X]));
 	y_variation = round(fdf->map.origin.coordinates[Y] + (end.coordinates[Y])) - round(fdf->map.origin.coordinates[Y] + (tmp.coordinates[Y]));
-	slope = y_variation / x_variation;
-	if (slope >= -1 && slope <= 1)
+	if (y_variation / x_variation >= -1 && y_variation / x_variation <= 1)
 		decision = (2 * abs((int)y_variation)) - abs((int)x_variation);
 	else
 		decision = (2 * abs((int)x_variation)) - abs((int)y_variation);
 	while (round(fdf->map.origin.coordinates[X] + (tmp.coordinates[X])) != round(fdf->map.origin.coordinates[X] + (end.coordinates[X])) || round(fdf->map.origin.coordinates[Y] + (tmp.coordinates[Y])) != round(fdf->map.origin.coordinates[Y] + (end.coordinates[Y])))
 	{
-		if (slope >= -1 && slope <= 1)
-		{
-			if (decision > 0)
-			{
-				tmp.coordinates[X]++;
-				if (slope >= 0)
-					tmp.coordinates[Y]++;
-				else
-					tmp.coordinates[Y]--;
-				decision += (2 * abs((int)y_variation)) - (2 * abs((int)x_variation));
-			}
-			else
-			{
-				tmp.coordinates[X]++;
-				decision += (2 * abs((int)y_variation));
-			}
-		}
+		if (y_variation / x_variation >= -1 && y_variation / x_variation <= 1)
+			bresenham_ls(&tmp, &decision, x_variation, y_variation);
 		else
-		{
-			if (decision > 0)
-			{
-				if (slope != INFINITY)
-					tmp.coordinates[X]++;
-				if (slope >= 0)
-					tmp.coordinates[Y]++;
-				else
-					tmp.coordinates[Y]--;
-				decision += (2 * abs((int)x_variation)) - (2 * abs((int)y_variation));
-			}
-			else
-			{
-				if (slope >= 0)
-					tmp.coordinates[Y]++;
-				else
-					tmp.coordinates[Y]--;
-				decision += (2 * abs((int)x_variation));
-			}
-		}
-		//printf("Projection point color: %d\n", tmp.color);
-		if ((int)(fdf->map.origin.coordinates[X] + (tmp.coordinates[X])) <= WIDTH && (int)(fdf->map.origin.coordinates[X] + (tmp.coordinates[X])) >= 0 && (int)(fdf->map.origin.coordinates[Y] + (tmp.coordinates[Y])) <= HEIGHT && (int)(fdf->map.origin.coordinates[Y] + (tmp.coordinates[Y])) >= 0)
+			bresenham_hs(&tmp, &decision, x_variation, y_variation);
+		if ((int)(fdf->map.origin.coordinates[X] + tmp.coordinates[X]) <= WIDTH && (int)(fdf->map.origin.coordinates[X] + tmp.coordinates[X]) >= 0 && (int)(fdf->map.origin.coordinates[Y] + tmp.coordinates[Y]) <= HEIGHT && (int)(fdf->map.origin.coordinates[Y] + tmp.coordinates[Y]) >= 0)
 			faster_pixel_put(&fdf->bitmap, (int)(fdf->map.origin.coordinates[X] + (tmp.coordinates[X])), (int)(fdf->map.origin.coordinates[Y] + (tmp.coordinates[Y])), tmp.color);
 	}
 }
@@ -93,8 +93,6 @@ void	draw_lines(t_vars *fdf, t_point **projection)
 		x = -1;
 		while (++x < fdf->map.limits[X] - 1)
 		{
-			// printf("Projection start point color: %d\n", projection[y][x].color);
-			// printf("Projection end point color: %d\n", projection[y][x + 1].color);
 			connect_points(fdf, projection[y][x], projection[y][x + 1]);
 			if (y < fdf->map.limits[Y] - 1)
 				connect_points(fdf, projection[y][x], projection[y + 1][x]);

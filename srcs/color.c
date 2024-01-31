@@ -6,11 +6,16 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 17:07:55 by jcameira          #+#    #+#             */
-/*   Updated: 2024/01/29 13:26:23 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/01/31 18:24:08 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+
+// void	set_gradient_color(t_point *start, t_point *end)
+// {
+	
+// }
 
 void	set_point_color(t_map *map, t_point **points)
 {
