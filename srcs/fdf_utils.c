@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 18:39:58 by joao              #+#    #+#             */
-/*   Updated: 2024/01/29 13:32:47 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/01 16:06:51 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,7 @@ void	copy_map(t_point ***projection, t_map original_map)
 			(*projection)[y][x].coordinates[X] *= original_map.scale;
 			(*projection)[y][x].coordinates[Y] *= original_map.scale;
 			(*projection)[y][x].coordinates[Z] *= original_map.z_multiplier;
-			printf("Point to be copied color: %d\n", original_map.points[y][x].color);
 			(*projection)[y][x].color = original_map.points[y][x].color;
-			printf("Point after being copied color: %d\n", (*projection)[y][x].color);
 		}
 	}
 	update_z_limits(&original_map, *projection);

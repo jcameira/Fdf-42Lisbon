@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 17:38:19 by joao              #+#    #+#             */
-/*   Updated: 2024/01/29 13:28:40 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/01 16:27:51 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,14 @@
 
 typedef struct s_point
 {
+	int		nmr_pixels_next_point;
+	int		t;
+	int		r;
+	float	r_increment;
+	int		g;
+	float	g_increment;
+	int		b;
+	float	b_increment;
 	int		color;
 	float	coordinates[3];
 }				t_point;
@@ -120,5 +128,8 @@ int		render_frame(t_vars *fdf);
 void	move_origin(t_vars *fdf);
 void	set_point_color(t_map *map, t_point **points);
 void	update_z_limits(t_map *map, t_point **points);
+void	set_color_increments(t_point *start, t_point end);
+void	update_color(t_point *tmp);
+void	free_projection(t_point **projection, t_map map);
 
 #endif

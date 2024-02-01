@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:30:27 by jcameira          #+#    #+#             */
-/*   Updated: 2024/01/29 13:31:14 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/01 16:05:45 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,26 +116,11 @@ void	get_x_y_limits(t_map *map, char *file)
 
 void	parser(t_map *map, char *file)
 {
-	// int		i;
-	// int		j;
-
 	map_init(map);
 	get_x_y_limits(map, file);
 	map->map_info = read_map(map, file);
 	map->points = get_original_points(map);
 	update_z_limits(map, map->points);
 	map->z_range = map->z_max - map->z_min;
-	//set_point_color(map);
-	// i = -1;
-	// while (++i < map->limits[Y])
-	// {
-	// 	j = -1;
-	// 	while (++j < map->limits[X])
-	// 	{
-	// 		printf("I, J: %d, %d\n", i, j);
-	// 		printf("X Y Z: %f %f %f\n", map->points[i][j].coordinates[X], map->points[i][j].coordinates[Y], map->points[i][j].coordinates[Z]);
-	// 		printf("Point color: %d\n", map->points[i][j].color);
-	// 	}
-	// }
 	printf("Z_min, Z_max: %d, %d\n", map->z_min, map->z_max);
 }
