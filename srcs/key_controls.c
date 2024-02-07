@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 19:36:35 by jcameira          #+#    #+#             */
-/*   Updated: 2024/01/29 13:20:03 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/07 16:35:47 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,7 @@ void	change_rot_vel(int keycode, t_vars *fdf)
 
 int	key_release(int keycode, t_vars *fdf)
 {
+	printf("%d\n", keycode);
 	if (keycode == 65361)
 		fdf->map.b_pressed.mov_l = 0;
 	if (keycode == 65362)
