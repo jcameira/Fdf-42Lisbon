@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:30:27 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/08 02:54:04 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/08 13:21:16 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ void	load_coordinates(t_map *map, t_point ***points, char **z_values, int y)
 		(*points)[y][x].coordinates[X] = (x - (map->limits[X] / 2) + 0.5);
 		(*points)[y][x].coordinates[Y] = (y - (map->limits[Y] / 2) + 0.5);
 		(*points)[y][x].coordinates[Z] = (float)atoi(z_values[x]);
-		(*points)[y][x].color = 0;
 	}
 }
 
@@ -143,6 +142,7 @@ void	parser(t_map *map, char *file)
 	map->map_info = read_map(map, file);
 	map->points = get_original_points(map);
 	update_z_limits(map, map->points);
+	set_point_color(map);
 	get_polar_coordinates(map);
 	map->z_range = map->z_max - map->z_min;
 	printf("Z_min, Z_max: %d, %d\n", map->z_min, map->z_max);

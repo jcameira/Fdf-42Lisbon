@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:34:32 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/08 01:19:57 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/08 12:24:35 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	map_init(t_map *map)
 	map->z_max = INT_MIN;
 	map->projection = 0;
 	map->scale = 75;
-	map->z_multiplier = 10;
+	map->z_multiplier = 1;
 	map->translation_velocity = 10;
 	map->rotation_velocity = 1;
 	map->angles[X] = 30;

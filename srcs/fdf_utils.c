@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 18:39:58 by joao              #+#    #+#             */
-/*   Updated: 2024/02/01 16:06:51 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/08 13:10:17 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	copy_map(t_point ***projection, t_map original_map)
 		}
 	}
 	update_z_limits(&original_map, *projection);
-	set_point_color(&original_map, *projection);
+	// set_point_color(&original_map, *projection);
 }
 
 void	faster_pixel_put(t_bitmap *bitmap, int x, int y, int color)
