@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 20:16:42 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/08 02:05:13 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/08 02:51:52 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@ void	spherize(t_map *map, t_point **projection)
 		while (++x < map->limits[X])
 		{
 			projection[y][x].coordinates[X] = (map->radius + projection[y][x].coordinates[Z]) * \
-			cos(projection[y][x].polar[0]) * sin(projection[y][x].polar[1]);
+			sin(projection[y][x].polar[LATITUDE]) * cos(projection[y][x].polar[LONGITUDE]);
 			projection[y][x].coordinates[Y] = (map->radius + projection[y][x].coordinates[Z]) * \
-			sin(projection[y][x].polar[0]) * sin(projection[y][x].polar[1]);
+			sin(projection[y][x].polar[LATITUDE]) * sin(projection[y][x].polar[LONGITUDE]);
 			projection[y][x].coordinates[Z] = (map->radius + projection[y][x].coordinates[Z]) * \
-			cos(projection[y][x].polar[1]);
+			cos(projection[y][x].polar[LATITUDE]);
 		}
 	}
 }

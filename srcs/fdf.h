@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 17:38:19 by joao              #+#    #+#             */
-/*   Updated: 2024/02/08 01:50:27 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/08 02:51:22 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,9 @@
 # define R 1
 # define G 2
 # define B 3
+
+# define LONGITUDE 0
+# define LATITUDE 1
 
 # define ISOMETRIC 0
 
