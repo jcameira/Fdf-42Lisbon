@@ -6,11 +6,32 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 20:16:42 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/07 21:32:36 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/08 02:05:13 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+
+void	spherize(t_map *map, t_point **projection)
+{
+	int	x;
+	int	y;
+
+	y = -1;
+	while (++y < map->limits[Y])
+	{
+		x = -1;
+		while (++x < map->limits[X])
+		{
+			projection[y][x].coordinates[X] = (map->radius + projection[y][x].coordinates[Z]) * \
+			cos(projection[y][x].polar[0]) * sin(projection[y][x].polar[1]);
+			projection[y][x].coordinates[Y] = (map->radius + projection[y][x].coordinates[Z]) * \
+			sin(projection[y][x].polar[0]) * sin(projection[y][x].polar[1]);
+			projection[y][x].coordinates[Z] = (map->radius + projection[y][x].coordinates[Z]) * \
+			cos(projection[y][x].polar[1]);
+		}
+	}
+}
 
 void	connect_points(t_vars *fdf, t_point start, t_point end)
 {
@@ -68,6 +89,8 @@ void	draw_map(t_vars *fdf)
 	while (++y < fdf->map.limits[Y])
 		projection[y] = malloc(sizeof (t_point) * fdf->map.limits[X]);
 	copy_map(&projection, fdf->map);
+	if (fdf->map.spherical)
+		spherize(&fdf->map, projection);
 	rotatex(&fdf->map, projection, fdf->map.angles[X]);
 	rotatey(&fdf->map, projection, fdf->map.angles[Y]);
 	rotatez(&fdf->map, projection, fdf->map.angles[Z]);

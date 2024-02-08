@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 17:38:19 by joao              #+#    #+#             */
-/*   Updated: 2024/02/07 21:32:57 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/08 01:50:27 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,33 +43,26 @@
 
 typedef struct s_point
 {
-	// int		nmr_pixels_next_point;
-	// int		t;
-	// int		r;
-	// float	r_increment;
-	// int		g;
-	// float	g_increment;
-	// int		b;
-	// float	b_increment;
 	int		color;
 	float	coordinates[3];
+	float	polar[2];
 }				t_point;
 
 typedef struct s_pressed
 {
-	int close;
+	int	close;
 	int	pos_rot_x;
-	int neg_rot_x;
+	int	neg_rot_x;
 	int	pos_rot_y;
-	int neg_rot_y;
+	int	neg_rot_y;
 	int	pos_rot_z;
-	int neg_rot_z;
+	int	neg_rot_z;
 	int	mov_l;
 	int	mov_r;
 	int	mov_u;
 	int	mov_d;
-}
-				t_pressed;
+}				t_pressed;
+
 typedef struct s_map
 {
 	int			z_max;
@@ -81,8 +74,10 @@ typedef struct s_map
 	char		**map_info;
 	float		scale;
 	float		z_multiplier;
-	float		limits[3];
+	float		limits[2];
 	float		angles[3];
+	float		radius;
+	int			spherical;
 	t_pressed	b_pressed;
 	t_point		origin;
 	t_point		**points;

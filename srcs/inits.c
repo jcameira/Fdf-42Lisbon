@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:34:32 by jcameira          #+#    #+#             */
-/*   Updated: 2024/01/25 14:43:17 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/08 01:19:57 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	map_init(t_map *map)
 	map->origin.coordinates[X] = WIDTH / 2;
 	map->origin.coordinates[Y] = HEIGHT / 2;
 	map->origin.coordinates[Z] = 0;
+	map->spherical = 0;
 	map->b_pressed.mov_d = 0;
 	map->b_pressed.mov_u = 0;
 	map->b_pressed.mov_l = 0;

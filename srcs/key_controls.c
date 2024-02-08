@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 19:36:35 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/07 16:35:47 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/08 02:07:45 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ void	change_scale(int keycode, t_vars *fdf)
 		fdf->map.scale += 1;
 	else
 		fdf->map.scale -= 1;
+	fdf->map.radius = (fdf->map.limits[X] * fdf->map.scale) / (M_PI * 2);
 }
 
 void	change_z_multiplier(int keycode, t_vars *fdf)
@@ -172,6 +173,8 @@ int	key_press(int keycode, t_vars *fdf)
 		printf("Pressed %d\n", keycode);
 		keys_origin(keycode, fdf);
 	}
+	if (keycode == 103)
+		fdf->map.spherical = !fdf->map.spherical;
 	return (0);
 }
 
@@ -208,6 +211,7 @@ int	map_translation(int x, int y, t_vars *fdf)
 int	mouse_press(int button, int x, int y, t_vars *fdf)
 {
 	x = y;
+	y = x;
 	if (button == 4 || button == 5)
 		change_z_multiplier(button, fdf);
 	return (0);

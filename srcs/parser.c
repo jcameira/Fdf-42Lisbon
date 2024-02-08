@@ -6,11 +6,38 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:30:27 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/07 16:25:27 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/08 02:25:00 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+
+void	get_polar_coordinates(t_map *map)
+{
+	int		x;
+	int		y;
+	float	steps_x;
+	float	steps_y;
+
+	steps_x = (M_PI * 2) / (map->limits[X] - 1);
+	steps_y = M_PI / (map->limits[Y]);
+	map->radius = (map->limits[X] * map->scale) / (M_PI * 2);
+	y = -1;
+	while (++y < map->limits[Y])
+	{
+		x = -1;
+		while (++x < map->limits[X])
+		{
+			map->points[y][x].polar[0] = -(map->points[y][x].coordinates[X]) * steps_x;
+			if (map->points[y][x].coordinates[Y] > 0)
+				map->points[y][x].polar[1] = ((map->points[y][x].coordinates[Y]) + 
+				(map->limits[Y] / 2)) * steps_y - 0.5 * steps_y;
+			else
+				map->points[y][x].polar[1] = (map->points[y][x].coordinates[Y] + 
+				(map->limits[Y] / 2) - 1) * steps_y + 0.5 * steps_y;
+		}
+	}
+}
 
 void	update_z_limits(t_map *map, t_point **points)
 {
@@ -121,6 +148,7 @@ void	parser(t_map *map, char *file)
 	map->map_info = read_map(map, file);
 	map->points = get_original_points(map);
 	update_z_limits(map, map->points);
+	get_polar_coordinates(map);
 	map->z_range = map->z_max - map->z_min;
 	printf("Z_min, Z_max: %d, %d\n", map->z_min, map->z_max);
 }
