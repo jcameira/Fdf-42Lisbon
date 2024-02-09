@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 17:07:55 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/08 13:22:25 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/08 16:22:27 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	set_point_color(t_map *map)
 			else if (map->points[y][x].coordinates[Z] == 0)
 				map->points[y][x].color = FULL_GREEN;
 			else if (map->points[y][x].coordinates[Z] > 0)
-				map->points[y][x].color = update_color_gradient(FULL_GREEN, WHITE, map->z_max, map->z_max - map->points[y][x].coordinates[Z]);
+				map->points[y][x].color = update_color_gradient(WHITE, FULL_GREEN, map->z_max, map->z_max - map->points[y][x].coordinates[Z]);
 			else
 				map->points[y][x].color = update_color_gradient(FULL_BLUE, FULL_GREEN, -map->z_min, -(map->z_min - map->points[y][x].coordinates[Z]));
 		}

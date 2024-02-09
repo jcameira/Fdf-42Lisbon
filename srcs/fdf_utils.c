@@ -6,11 +6,26 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 18:39:58 by joao              #+#    #+#             */
-/*   Updated: 2024/02/08 13:10:17 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/09 01:42:01 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+
+//void	fit_window(t_vars *fdf)
+//{
+//	
+//}
+
+int	inside_window(t_vars *fdf, t_point point)
+{
+	if (fdf->map.origin.coordinates[X] + point.coordinates[X] >= 0
+		&& fdf->map.origin.coordinates[X] + point.coordinates[X] <= WIDTH)
+		if (fdf->map.origin.coordinates[Y] + point.coordinates[Y] >= 0
+			&& fdf->map.origin.coordinates[Y] + point.coordinates[Y] <= HEIGHT)
+			return (1);
+	return (0);
+}
 
 void	copy_map(t_point ***projection, t_map original_map)
 {
@@ -31,7 +46,6 @@ void	copy_map(t_point ***projection, t_map original_map)
 		}
 	}
 	update_z_limits(&original_map, *projection);
-	// set_point_color(&original_map, *projection);
 }
 
 void	faster_pixel_put(t_bitmap *bitmap, int x, int y, int color)

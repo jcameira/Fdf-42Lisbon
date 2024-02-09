@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 17:38:19 by joao              #+#    #+#             */
-/*   Updated: 2024/02/08 13:11:21 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/09 00:07:05 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ typedef struct s_map
 	int			projection;
 	char		**map_info;
 	float		scale;
+	int			point_density;
 	float		z_multiplier;
 	float		limits[2];
 	float		angles[3];
@@ -131,9 +132,9 @@ int		render_frame(t_vars *fdf);
 void	move_origin(t_vars *fdf);
 void	set_point_color(t_map *map);
 void	update_z_limits(t_map *map, t_point **points);
-int		update_color_gradient(int start, int end,int len, int pixels);
-// void	set_color_increments(t_point *start, t_point end);
-// void	update_color(t_point *tmp);
+int		update_color_gradient(int start, int end, int len, int pixels);
+int		inside_window(t_vars *fdf, t_point point);
 void	free_projection(t_point **projection, t_map map);
+void	fit_window(t_vars *fdf);
 
 #endif

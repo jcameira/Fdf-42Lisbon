@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 20:16:42 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/08 13:45:23 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/09 01:42:57 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,12 @@ void	connect_points(t_vars *fdf, t_point start, t_point end)
 	int		pixels;
 	int		len;
 
+	if (!inside_window(fdf, start) && !inside_window(fdf, end))
+		return ;
 	delta.coordinates[X] = (fdf->map.origin.coordinates[X] + end.coordinates[X]) - (fdf->map.origin.coordinates[X] + start.coordinates[X]);
 	delta.coordinates[Y] = (fdf->map.origin.coordinates[Y] + end.coordinates[Y]) - (fdf->map.origin.coordinates[Y] + start.coordinates[Y]);
 	pixels = sqrt((delta.coordinates[X] * delta.coordinates[X]) + \
 			(delta.coordinates[Y] * delta.coordinates[Y]));
-	printf("Pixels: %d\n", pixels);
 	len = pixels;
 	delta.coordinates[X] /= pixels;
 	delta.coordinates[Y] /= pixels;
@@ -66,17 +67,19 @@ void	draw_lines(t_vars *fdf, t_point **projection)
 	int	x;
 	int	y;
 
-	y = -1;
-	while (++y < fdf->map.limits[Y])
+	y = 0;
+	while (y < fdf->map.limits[Y])
 	{
-		x = -1;
-		while (++x < fdf->map.limits[X])
+		x = 0;
+		while (x < fdf->map.limits[X])
 		{
 			if (x != fdf->map.limits[X] - 1)
 				connect_points(fdf, projection[y][x], projection[y][x + 1]);
 			if (y != fdf->map.limits[Y] - 1)
 				connect_points(fdf, projection[y][x], projection[y + 1][x]);
+			x += fdf->map.point_density;
 		}
+		y += fdf->map.point_density;
 	}
 }
 

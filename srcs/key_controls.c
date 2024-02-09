@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 19:36:35 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/08 02:07:45 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/08 19:34:48 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,9 @@ void	change_scale(int keycode, t_vars *fdf)
 	else
 		fdf->map.scale -= 1;
 	fdf->map.radius = (fdf->map.limits[X] * fdf->map.scale) / (M_PI * 2);
+	fdf->map.point_density = 8 / fdf->map.scale;
+	if (fdf->map.point_density == 0)
+		fdf->map.point_density = 1;
 }
 
 void	change_z_multiplier(int keycode, t_vars *fdf)
