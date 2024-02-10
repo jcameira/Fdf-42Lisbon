@@ -1,47 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   memory_handle.c                                    :+:      :+:    :+:   */
+/*   menu.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/01 16:23:16 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/10 16:42:38 by jcameira         ###   ########.fr       */
+/*   Created: 2024/02/10 18:23:21 by jcameira          #+#    #+#             */
+/*   Updated: 2024/02/10 18:34:25 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	free_split(char **split)
+void	draw_menu(t_vars *fdf)
 {
-	int	i;
-
-	i = -1;
-	while (split[++i])
-		free(split[i]);
-	free(split);
-}
-
-void	free_map(t_map *map)
-{
+	int	x;
 	int	y;
 
 	y = -1;
-	while (++y < map->limits[Y])
+	while (++y < HEIGHT)
 	{
-		free(map->points[y]);
-		free(map->map_info[y]);
+		x = -1;
+		while (++x < 200)
+		{
+			faster_pixel_put(&fdf->bitmap, x, y, 0x0F3A3D9F);
+		}
 	}
-	free(map->points);
-	free(map->map_info);
-}
-
-void	free_projection(t_point **projection, t_map map)
-{
-	int	y;
-
-	y = -1;
-	while (++y < map.limits[Y])
-		free(projection[y]);
-	free(projection);
 }

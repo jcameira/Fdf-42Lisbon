@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 20:16:42 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/09 01:42:57 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/10 13:37:06 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	connect_points(t_vars *fdf, t_point start, t_point end)
 	int		pixels;
 	int		len;
 
+	//printf("Start paint and End paint: %d %d\n", start.paint, end.paint);
 	if (!inside_window(fdf, start) && !inside_window(fdf, end))
 		return ;
 	delta.coordinates[X] = (fdf->map.origin.coordinates[X] + end.coordinates[X]) - (fdf->map.origin.coordinates[X] + start.coordinates[X]);
@@ -54,7 +55,7 @@ void	connect_points(t_vars *fdf, t_point start, t_point end)
 	while (pixels > 0)
 	{
 		pixel.color = update_color_gradient(start.color, end.color, len, len - pixels);
-		if ((int)(pixel.coordinates[X]) <= WIDTH && (int)(pixel.coordinates[X]) >= 0 && (int)(pixel.coordinates[Y]) <= HEIGHT && (int)(pixel.coordinates[Y]) >= 0)
+		if (start.paint && end.paint && (int)(pixel.coordinates[X]) <= WIDTH && (int)(pixel.coordinates[X]) >= 0 && (int)(pixel.coordinates[Y]) <= HEIGHT && (int)(pixel.coordinates[Y]) >= 0)
 			faster_pixel_put(&fdf->bitmap, (int)(pixel.coordinates[X]), (int)(pixel.coordinates[Y]), pixel.color);
 		pixel.coordinates[X] += delta.coordinates[X];
 		pixel.coordinates[Y] += delta.coordinates[Y];
@@ -73,31 +74,48 @@ void	draw_lines(t_vars *fdf, t_point **projection)
 		x = 0;
 		while (x < fdf->map.limits[X])
 		{
-			if (x != fdf->map.limits[X] - 1)
-				connect_points(fdf, projection[y][x], projection[y][x + 1]);
-			if (y != fdf->map.limits[Y] - 1)
-				connect_points(fdf, projection[y][x], projection[y + 1][x]);
+			//printf("point paint: %d\n", projection[y][x].paint);
+			if (x + fdf->map.point_density >= fdf->map.limits[X])
+				connect_points(fdf, projection[y][x], projection[y][fdf->map.limits[X] - 1]);
+			else if (x != fdf->map.limits[X] - 1)
+				connect_points(fdf, projection[y][x], projection[y][x + fdf->map.point_density]);
+			if (y + fdf->map.point_density >= fdf->map.limits[Y])
+				connect_points(fdf, projection[y][x], projection[fdf->map.limits[Y] - 1][x]);	
+			else if (y != fdf->map.limits[Y] - 1)
+				connect_points(fdf, projection[y][x], projection[y + fdf->map.point_density][x]);
 			x += fdf->map.point_density;
 		}
 		y += fdf->map.point_density;
 	}
 }
 
+void	hide_back_sphere(t_map *map, t_point **projection)
+{
+	int	x;
+	int	y;
+
+	y = -1;
+	while (++y < map->limits[Y])
+	{
+		x = -1;
+		while (++x < map->limits[X])
+			if (projection[y][x].coordinates[Z] < 0)
+				projection[y][x].paint = 0;
+	}
+}
+
 void	draw_map(t_vars *fdf)
 {
 	t_point	**projection;
-	int		y;
 
-	projection = malloc(sizeof (t_point *) * fdf->map.limits[Y]);
-	y = -1;
-	while (++y < fdf->map.limits[Y])
-		projection[y] = malloc(sizeof (t_point) * fdf->map.limits[X]);
-	copy_map(&projection, fdf->map);
+	projection = copy_map(fdf->map);
 	if (fdf->map.spherical)
 		spherize(&fdf->map, projection);
 	rotatex(&fdf->map, projection, fdf->map.angles[X]);
 	rotatey(&fdf->map, projection, fdf->map.angles[Y]);
 	rotatez(&fdf->map, projection, fdf->map.angles[Z]);
+	if (fdf->map.spherical)
+		hide_back_sphere(&fdf->map, projection);
 	orthographic(&fdf->map, projection);
 	draw_lines(fdf, projection);
 	mlx_put_image_to_window(fdf->mlx, fdf->win, fdf->bitmap.img, 0, 0);

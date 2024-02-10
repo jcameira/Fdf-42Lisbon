@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 17:38:19 by joao              #+#    #+#             */
-/*   Updated: 2024/02/09 00:07:05 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/10 18:30:31 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@
 typedef struct s_point
 {
 	int		color;
+	int		paint;
 	float	coordinates[3];
 	float	polar[2];
 }				t_point;
@@ -78,7 +79,7 @@ typedef struct s_map
 	float		scale;
 	int			point_density;
 	float		z_multiplier;
-	float		limits[2];
+	int		limits[2];
 	float		angles[3];
 	float		radius;
 	int			spherical;
@@ -105,7 +106,7 @@ typedef struct s_vars
 }				t_vars;
 
 char	**read_map(t_map *map, char *file);
-void	copy_map(t_point ***projection, t_map original_map);
+t_point	**copy_map(t_map original_map);
 void	faster_pixel_put(t_bitmap *bitmap, int x, int y, int color);
 void	vars_init(t_vars *fdf, char *title);
 void	map_init(t_map *map);
@@ -136,5 +137,9 @@ int		update_color_gradient(int start, int end, int len, int pixels);
 int		inside_window(t_vars *fdf, t_point point);
 void	free_projection(t_point **projection, t_map map);
 void	fit_window(t_vars *fdf);
+void	free_map(t_map *map);
+void	free_split(char **split);
+void	update_scale_dependants(t_map *map);
+void	draw_menu(t_vars *fdf);
 
 #endif

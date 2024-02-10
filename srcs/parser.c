@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:30:27 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/08 13:21:16 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/10 16:30:48 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	get_polar_coordinates(t_map *map)
 		while (++x < map->limits[X])
 		{
 			map->points[y][x].polar[LONGITUDE] = -(map->points[y][x].coordinates[X]) * steps_x;
+			//printf("Longitude: %f\n", map->points[y][x].polar[LONGITUDE]);
 			map->points[y][x].polar[LATITUDE] = ((map->points[y][x].coordinates[Y]) + (map->limits[Y] / 2)) * steps_y;
 		}
 	}
@@ -87,6 +88,7 @@ t_point	**get_original_points(t_map *map)
 		if (!z_values)
 			return (NULL);
 		load_coordinates(map, &points, z_values, y);
+		free_split(z_values);
 	}
 	return (points);
 }
@@ -96,20 +98,23 @@ char	**read_map(t_map *map, char *file)
 	int		fd;
 	int		y;
 	char	**map_info;
+	char	*tmp;
 
-	map_info = malloc(sizeof (char *) * (map->limits[Y] + 1));
+	map_info = malloc(sizeof (char *) * map->limits[Y]);
 	if (!map_info)
 		return (NULL);
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
 		return (NULL);
+	tmp = get_next_line(fd);
 	y = -1;
-	map_info[++y] = get_next_line(fd);
-	while (map_info[y])
+	while (++y < map->limits[Y])
 	{
-		map_info[y] = ft_strtrim(map_info[y], " \n");
-		map_info[++y] = get_next_line(fd);
+		map_info[y] = ft_strtrim(tmp, " \n");
+		free(tmp);
+		tmp = get_next_line(fd);
 	}
+	free(tmp);
 	close(fd);
 	return (map_info);
 }
@@ -118,20 +123,23 @@ void	get_x_y_limits(t_map *map, char *file)
 {
 	int		fd;
 	char	*line;
+	char	*trimmed_line;
 
 	fd = open(file, O_RDONLY);
 	line = get_next_line(fd);
-	line = ft_strtrim(line, " \n");
-	map->limits[X] = (float)word_count(line, ' ');
+	trimmed_line = ft_strtrim(line, " \n");
+	map->limits[X] = (float)word_count(trimmed_line, ' ');
 	map->limits[Y] = 0;
+	free(trimmed_line);
 	while (line)
 	{
 		map->limits[Y]++;
+		free(line);
 		line = get_next_line(fd);
 	}
 	free(line);
-	printf("X limit: %f\n", map->limits[X]);
-	printf("Y limit: %f\n", map->limits[Y]);
+	printf("X limit: %d\n", map->limits[X]);
+	printf("Y limit: %d\n", map->limits[Y]);
 	close(fd);
 }
 
