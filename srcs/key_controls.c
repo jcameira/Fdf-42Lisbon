@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 19:36:35 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/12 17:34:13 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/12 21:14:44 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -240,8 +240,8 @@ int	render_frame(t_vars *fdf)
 			&fdf->bitmap.endian);
 	move_origin(fdf);
 	rotations(fdf);
-	menu_background(fdf);
+	//menu_background(fdf);
 	draw_map(fdf);
-	draw_menu(fdf);
+	//draw_menu(fdf);
 	return (0);
 }

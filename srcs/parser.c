@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:30:27 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/11 14:56:20 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/12 20:57:35 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,13 @@ void	update_z_limits(t_map *map, t_point **points)
 		x = -1;
 		while (++x < map->limits[X])
 		{
-			if (map->z_min > points[y][x].coordinates[Z])
-				map->z_min = points[y][x].coordinates[Z];
-			if (map->z_max < points[y][x].coordinates[Z])
-				map->z_max = points[y][x].coordinates[Z];
+			if (map->z_min > round(points[y][x].coordinates[Z]))
+				map->z_min = round(points[y][x].coordinates[Z]);
+			if (map->z_max < round(points[y][x].coordinates[Z]))
+				map->z_max = round(points[y][x].coordinates[Z]);
 		}
 	}
+	map->z_range = map->z_max - map->z_min;
 }
 
 void	load_coordinates(t_map *map, t_point ***points, char **z_values, int y)
@@ -142,6 +143,27 @@ void	get_x_y_limits(t_map *map, char *file)
 	close(fd);
 }
 
+void	find_best_z_multiplier(t_map *map)
+{
+	int	x;
+	int	y;
+
+	while ((float)map->z_range / (float)map->limits[X] > 0.3)
+	{
+		//printf("Proportions: %f\n", (float)map->z_range / (float)map->limits[X]);
+		map->z_multiplier -= 0.1;
+		y = -1;
+		while (++y < map->limits[Y])
+		{
+			x = -1;
+			while (++x < map->limits[X])
+				map->points[y][x].coordinates[Z] *= map->z_multiplier;
+		}
+		update_z_limits(map, map->points);
+		//printf("Zmax and Zmin: %d %d\n", map->z_max, map->z_min);
+	}
+}
+
 void	parser(t_map *map, char *file)
 {
 	map_init(map);
@@ -149,8 +171,9 @@ void	parser(t_map *map, char *file)
 	map->map_info = read_map(map, file);
 	map->points = get_original_points(map);
 	update_z_limits(map, map->points);
+	//find_best_z_multiplier(map);
+	//printf("Zmax and Zmin: %d %d\n", map->z_max, map->z_min);
 	set_point_color(map);
 	get_polar_coordinates(map);
-	map->z_range = map->z_max - map->z_min;
-	printf("Z_min, Z_max: %d, %d\n", map->z_min, map->z_max);
+	//printf("Z_min, Z_max: %d, %d\n", map->z_min, map->z_max);
 }

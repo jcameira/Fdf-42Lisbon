@@ -1,7 +1,7 @@
 NAME 				=	fdf
 
 CC					=	cc
-CFLAGS				=	-Wall -Wextra -Werror
+CFLAGS				=	-Wall -Wextra -Werror -fsanitize=address
 AR					=	ar rcs
 RM					=	rm -rf
 
