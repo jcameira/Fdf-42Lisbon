@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 19:36:35 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/12 01:33:45 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/12 17:34:13 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,14 +92,20 @@ void	rotations(t_vars *fdf)
 		fdf->map.angles[X] += fdf->map.rotation_velocity;
 	if (fdf->map.b_pressed.neg_rot_x)
 		fdf->map.angles[X] -= fdf->map.rotation_velocity;
+	if (fdf->map.angles[X] > 360 || fdf->map.angles[X] < - 360)
+		fdf->map.angles[X] = 0;
 	if (fdf->map.b_pressed.pos_rot_y)
 		fdf->map.angles[Y] += fdf->map.rotation_velocity;
 	if (fdf->map.b_pressed.neg_rot_y)
 		fdf->map.angles[Y] -= fdf->map.rotation_velocity;
+	if (fdf->map.angles[Y] > 360 || fdf->map.angles[Y] < - 360)
+		fdf->map.angles[Y] = 0;
 	if (fdf->map.b_pressed.pos_rot_z)
 		fdf->map.angles[Z] += fdf->map.rotation_velocity;
 	if (fdf->map.b_pressed.neg_rot_z)
 		fdf->map.angles[Z] -= fdf->map.rotation_velocity;
+	if (fdf->map.angles[Z] > 360 || fdf->map.angles[Z] < - 360)
+		fdf->map.angles[Z] = 0;
 }
 
 void	map_rotation(int keycode, t_vars *fdf)
@@ -234,7 +240,8 @@ int	render_frame(t_vars *fdf)
 			&fdf->bitmap.endian);
 	move_origin(fdf);
 	rotations(fdf);
-	draw_menu(fdf);
+	menu_background(fdf);
 	draw_map(fdf);
+	draw_menu(fdf);
 	return (0);
 }

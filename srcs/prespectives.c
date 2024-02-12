@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 19:25:38 by jcameira          #+#    #+#             */
-/*   Updated: 2024/01/25 12:24:10 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/12 18:43:44 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,12 @@ void	side_view(t_vars *fdf)
 
 void	choose_prespective(t_vars *fdf, int prespective)
 {
-	if (prespective == 0)
+	if (prespective == ISOMETRIC)
 		isometric(fdf);
-	if (prespective == 1)
+	if (prespective == TOP_VIEW)
 		top_view(fdf);
-	if (prespective == 2)
-		front_view(fdf);
-	if (prespective == 3)
+	if (prespective == SIDE_VIEW)
 		side_view(fdf);
+	if (prespective == FRONT_VIEW)
+		front_view(fdf);
 }
