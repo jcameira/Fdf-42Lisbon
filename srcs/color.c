@@ -6,11 +6,27 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 17:07:55 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/10 12:53:20 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/11 21:19:58 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+
+void	behind_menu(t_point *pixel)
+{
+	int		updated_color[4];
+	int		i;
+
+	updated_color[T] = (pixel->color >> 24 & 0xFF) - 150;
+	updated_color[R] = (pixel->color >> 16 & 0xFF) - 150;
+	updated_color[G] = (pixel->color >> 8 & 0xFF) - 150;
+	updated_color[B] = (pixel->color & 0xFF) - 150;
+	i = -1;
+	while (++i < 4)
+		if (updated_color[i] < 0)
+			updated_color[i] = 0;
+	pixel->color = (updated_color[T] << 24) + (updated_color[R] << 16) + (updated_color[G] << 8) + updated_color[B];
+}
 
 int	update_color_gradient(int startcolor, int endcolor, int len, int pixels)
 {
@@ -48,7 +64,7 @@ void	set_point_color(t_map *map)
 			else if (map->points[y][x].coordinates[Z] > 0)
 				map->points[y][x].color = update_color_gradient(WHITE, FULL_GREEN, map->z_max, map->z_max - map->points[y][x].coordinates[Z]);
 			else
-				map->points[y][x].color = update_color_gradient(FULL_BLUE, FULL_GREEN, -map->z_min, -(map->z_min - map->points[y][x].coordinates[Z]));
+				map->points[y][x].color = update_color_gradient(FULL_BLUE, FULL_GREEN, - map->z_min, - map->z_min + map->points[y][x].coordinates[Z]);
 		}
 	}
 }

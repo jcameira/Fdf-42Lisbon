@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 17:38:19 by joao              #+#    #+#             */
-/*   Updated: 2024/02/10 18:30:31 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/11 21:02:57 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,5 +141,6 @@ void	free_map(t_map *map);
 void	free_split(char **split);
 void	update_scale_dependants(t_map *map);
 void	draw_menu(t_vars *fdf);
+void	behind_menu(t_point *pixel);
 
 #endif

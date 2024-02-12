@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 18:39:58 by joao              #+#    #+#             */
-/*   Updated: 2024/02/10 16:36:24 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/11 15:21:00 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	update_scale_dependants(t_map *map)
 
 void	fit_window(t_vars *fdf)
 {
-	t_point **projection;
+	t_point	**projection;
 	int		x;
 	int		y;
 
@@ -61,9 +61,9 @@ int	inside_window(t_vars *fdf, t_point point)
 
 t_point	**copy_map(t_map original_map)
 {
-	t_point **projection;
-	int	x;
-	int	y;
+	t_point	**projection;
+	int		x;
+	int		y;
 
 	projection = malloc(sizeof (t_point *) * original_map.limits[Y]);
 	y = -1;
@@ -84,7 +84,7 @@ t_point	**copy_map(t_map original_map)
 		}
 	}
 	update_z_limits(&original_map, projection);
-	return(projection);
+	return (projection);
 }
 
 void	faster_pixel_put(t_bitmap *bitmap, int x, int y, int color)

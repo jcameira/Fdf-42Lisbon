@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:30:27 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/10 16:30:48 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/11 14:56:20 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ void	get_polar_coordinates(t_map *map)
 		while (++x < map->limits[X])
 		{
 			map->points[y][x].polar[LONGITUDE] = -(map->points[y][x].coordinates[X]) * steps_x;
-			//printf("Longitude: %f\n", map->points[y][x].polar[LONGITUDE]);
 			map->points[y][x].polar[LATITUDE] = ((map->points[y][x].coordinates[Y]) + (map->limits[Y] / 2)) * steps_y;
 		}
 	}

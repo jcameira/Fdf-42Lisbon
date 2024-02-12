@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 20:16:42 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/10 13:37:06 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/12 00:24:36 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,14 @@ void	connect_points(t_vars *fdf, t_point start, t_point end)
 	pixel.coordinates[Y] = fdf->map.origin.coordinates[Y] + start.coordinates[Y];
 	while (pixels > 0)
 	{
-		pixel.color = update_color_gradient(start.color, end.color, len, len - pixels);
+		pixel.color = update_color_gradient(start.color, end.color, len, len - pixels);	
 		if (start.paint && end.paint && (int)(pixel.coordinates[X]) <= WIDTH && (int)(pixel.coordinates[X]) >= 0 && (int)(pixel.coordinates[Y]) <= HEIGHT && (int)(pixel.coordinates[Y]) >= 0)
+		{
+			if ((int)(pixel.coordinates[X]) <= 350 && (int)(pixel.coordinates[X]) >= 0)
+				behind_menu(&pixel);
 			faster_pixel_put(&fdf->bitmap, (int)(pixel.coordinates[X]), (int)(pixel.coordinates[Y]), pixel.color);
+		}
+			//mlx_pixel_put(fdf->mlx, fdf->win, (int)(pixel.coordinates[X]), (int)(pixel.coordinates[Y]), pixel.color);
 		pixel.coordinates[X] += delta.coordinates[X];
 		pixel.coordinates[Y] += delta.coordinates[Y];
 		pixels--;
