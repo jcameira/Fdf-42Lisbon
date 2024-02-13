@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 17:38:19 by joao              #+#    #+#             */
-/*   Updated: 2024/02/12 18:45:31 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/13 02:48:55 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@
 # define MLX fdf->mlx
 # define WIN fdf->win
 
-# define INFO "MAP INFORMATION"
+# define INFO "<================MAP INFORMATION================>"
 # define INFO_SIZE "Number of Points: "
 # define SIZE fdf->map.limits[X] * fdf->map.limits[Y]
 # define INFO_X "X Limit: "
@@ -71,7 +71,7 @@
 # define INFO_ZMIN "Minimum Z: "
 # define ZMIN fdf->map.z_min
 
-# define DETAILS "FRAME DETAILS"
+# define DETAILS "<=================FRAME DETAILS=================>"
 # define ANGLES "Angles in use for rotation"
 # define SPACES "X[    ] Y[    ] Z[    ]"
 # define X_ANGLE fdf->map.angles[X]
@@ -82,14 +82,14 @@
 # define Z_MUL "Z multiplier: "
 # define Z_VAL_MUL fdf->map.z_multiplier
 
-# define SCHEME "COLOR SCHEMES"
+# define SCHEME "<=================COLOR SCHEMES=================>"
 # define STR_DEFAULT "1: Default"
 # define STR_EARTH "2: Earth"
 # define STR_MONO_W "3: Monochromatic White"
 # define NEG_ON "Negative Mode: ON"
 # define NEG_OFF "Negative Mode: OFF"
 
-# define VIEW "PROJECTION TYPES"
+# define VIEW "<================PROJECTION TYPE================>"
 # define STR_ISOMETRIC "Isometric Projection"
 # define STR_TOP_VIEW "Top View Projection"
 # define STR_SIDE_VIEW "Side View Projection"
@@ -107,6 +107,7 @@
 # define Y_SPACE (X_START + ft_strlen("X[    ] Y[") * 6)
 # define Z_SPACE (X_START + ft_strlen("X[    ] Y[    ] Z[") * 6)
 # define TO_STR(int) ft_itoa(int)
+# define FTO_STR(int) ftoa(int, 1)
 
 typedef struct s_point
 {
@@ -140,8 +141,10 @@ typedef struct s_map
 	int			rotation_velocity;
 	int			projection;
 	char		**map_info;
-	float		scale;
 	int			point_density;
+	float		scale;
+	float		x_multiplier;
+	float		y_multiplier;
 	float		z_multiplier;
 	int			limits[2];
 	float		angles[3];
@@ -203,10 +206,11 @@ void	free_projection(t_point **projection, t_map map);
 void	fit_window(t_vars *fdf);
 void	free_map(t_map *map);
 void	free_split(char **split);
-void	update_scale_dependants(t_map *map);
+void	update_scale_dependants(t_map *map, float increment, int reset);
 void	draw_menu(t_vars *fdf);
 void	menu_background(t_vars *fdf);
 void	behind_menu(t_point *pixel);
 void	put_info(t_vars *fdf);
+char	*ftoa(float n, int precision);
 
 #endif

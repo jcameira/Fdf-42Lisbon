@@ -1,5 +1,6 @@
 {
     "files.associations": {
-        "fdf.h": "c"
+        "fdf.h": "c",
+        "string_view": "c"
     }
 }

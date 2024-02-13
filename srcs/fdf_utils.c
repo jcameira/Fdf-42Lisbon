@@ -6,18 +6,33 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 18:39:58 by joao              #+#    #+#             */
-/*   Updated: 2024/02/12 21:04:16 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/13 02:55:22 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	update_scale_dependants(t_map *map)
+void	update_scale_dependants(t_map *map, float increment, int reset)
 {
 	map->point_density = 8 / map->scale;
 	if (map->point_density == 0)
 		map->point_density = 1;
 	map->radius = (map->limits[X] * map->scale) / (M_PI * 2);
+	if (reset)
+	{
+		map->x_multiplier = 1;
+		map->y_multiplier = 1;
+		map->z_multiplier = 1;
+	}
+	map->x_multiplier += increment;
+	if (map->x_multiplier < 1)
+		map->x_multiplier = 1;
+	map->y_multiplier += increment;
+	if (map->y_multiplier < 1)
+		map->y_multiplier = 1;
+	map->z_multiplier += increment;
+	if (map->z_multiplier < 1)
+		map->z_multiplier = 1;
 }
 
 void	fit_window(t_vars *fdf)
@@ -43,7 +58,7 @@ void	fit_window(t_vars *fdf)
 			}
 		}
 		fdf->map.scale += 0.1;
-		update_scale_dependants(&fdf->map);
+		update_scale_dependants(&fdf->map, 0.1, 0);
 		free_projection(projection, fdf->map);
 		projection = copy_map(fdf->map);
 	}
@@ -76,8 +91,8 @@ t_point	**copy_map(t_map original_map)
 		while (++x < original_map.limits[X])
 		{
 			projection[y][x] = original_map.points[y][x];
-			projection[y][x].coordinates[X] *= original_map.scale;
-			projection[y][x].coordinates[Y] *= original_map.scale;
+			projection[y][x].coordinates[X] *= original_map.x_multiplier;
+			projection[y][x].coordinates[Y] *= original_map.y_multiplier;
 			projection[y][x].coordinates[Z] *= original_map.z_multiplier;
 			projection[y][x].color = original_map.points[y][x].color;
 			projection[y][x].paint = 1;

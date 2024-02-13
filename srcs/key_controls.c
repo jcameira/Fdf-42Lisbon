@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 19:36:35 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/12 21:14:44 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/13 02:51:33 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,22 +68,28 @@ void	reset_position(t_vars *fdf)
 void	change_scale(int keycode, t_vars *fdf)
 {
 	if (keycode == 109)
-		fdf->map.scale += 0.5;
+	{
+		fdf->map.scale += 0.1;
+		update_scale_dependants(&fdf->map, 0.1, 0);
+	}
 	else
 	{
-		fdf->map.scale -= 0.5;
+		fdf->map.scale -= 0.1;
 		if (fdf->map.scale < 1)
+		{
 			fdf->map.scale = 1;
+			update_scale_dependants(&fdf->map, 0, 1);
+		}
+		update_scale_dependants(&fdf->map, -0.1, 0);
 	}
-	update_scale_dependants(&fdf->map);
 }
 
 void	change_z_multiplier(int keycode, t_vars *fdf)
 {
 	if (keycode == 4)
-		fdf->map.z_multiplier += 2;
+		fdf->map.z_multiplier += 0.1;
 	else
-		fdf->map.z_multiplier -= 2;
+		fdf->map.z_multiplier -= 0.1;
 }
 
 void	rotations(t_vars *fdf)
@@ -240,8 +246,8 @@ int	render_frame(t_vars *fdf)
 			&fdf->bitmap.endian);
 	move_origin(fdf);
 	rotations(fdf);
-	//menu_background(fdf);
+	menu_background(fdf);
 	draw_map(fdf);
-	//draw_menu(fdf);
+	draw_menu(fdf);
 	return (0);
 }
