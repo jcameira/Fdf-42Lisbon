@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 18:39:58 by joao              #+#    #+#             */
-/*   Updated: 2024/02/13 23:26:10 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/14 12:52:33 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,35 +43,35 @@ void	fit_window(t_vars *fdf)
 	int		x;
 	int		y;
 
-	proj = copy_map(fdf->map);
+	proj = copy_map(fdf->map[fdf->current_map]);
 	while (1)
 	{
 		y = -1;
-		while (++y < fdf->map.limits[Y])
+		while (++y < fdf->map[fdf->current_map].limits[Y])
 		{
 			x = -1;
-			while (++x < fdf->map.limits[X])
+			while (++x < fdf->map[fdf->current_map].limits[X])
 			{
 				if (!inside_window(fdf, proj[y][x]))
 				{
-					free_proj(proj, fdf->map);
+					free_proj(proj, fdf->map[fdf->current_map]);
 					return ;
 				}
 			}
 		}
-		fdf->map.scale += 0.1;
-		update_scale_dependants(&fdf->map, 0.1, 0);
-		free_proj(proj, fdf->map);
-		proj = copy_map(fdf->map);
+		fdf->map[fdf->current_map].scale += 0.1;
+		update_scale_dependants(&fdf->map[fdf->current_map], 0.1, 0);
+		free_proj(proj, fdf->map[fdf->current_map]);
+		proj = copy_map(fdf->map[fdf->current_map]);
 	}
 }
 
 int	inside_window(t_vars *fdf, t_point point)
 {
-	if (fdf->map.origin.coord[X] + point.coord[X] >= 0
-		&& fdf->map.origin.coord[X] + point.coord[X] <= WIDTH)
-		if (fdf->map.origin.coord[Y] + point.coord[Y] >= 0
-			&& fdf->map.origin.coord[Y] + point.coord[Y] <= HEIGHT)
+	if (fdf->map[fdf->current_map].origin.coord[X] + point.coord[X] >= 0
+		&& fdf->map[fdf->current_map].origin.coord[X] + point.coord[X] <= WIDTH)
+		if (fdf->map[fdf->current_map].origin.coord[Y] + point.coord[Y] >= 0
+			&& fdf->map[fdf->current_map].origin.coord[Y] + point.coord[Y] <= HEIGHT)
 			return (1);
 	return (0);
 }

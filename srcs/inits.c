@@ -6,11 +6,21 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:34:32 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/14 01:13:15 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/14 12:53:46 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+
+t_map	*input_info_init(t_vars *fdf, int argc)
+{
+	t_map *map;
+
+	map = malloc(sizeof (t_map) * (argc - 1));
+	fdf->number_of_maps = argc - 1;
+	fdf->current_map = 0;
+	return(map);
+}
 
 void	vars_init(t_vars *fdf, char *title)
 {

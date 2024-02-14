@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:30:27 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/13 23:25:17 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/14 18:53:15 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,21 @@ void	update_z_limits(t_map *map, t_point **points)
 		}
 	}
 	map->z_range = map->z_max - map->z_min;
+	if (map->z_max > 0 && map->z_min < 0)
+	{
+		map->z_pos_range = map->z_max;
+		map->z_neg_range = -map->z_min;
+	}
+	else if (map->z_max > 0 && map->z_min >= 0)
+	{
+		map->z_pos_range = map->z_range;
+		map->z_neg_range = 0;
+	}
+	else if (map->z_max > 0 && map->z_min >= 0)
+	{
+		map->z_pos_range = 0;
+		map->z_neg_range = map->z_range;
+	}
 }
 
 void	load_coord(t_map *map, t_point ***points, char **z_values, int y)

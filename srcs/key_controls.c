@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 19:36:35 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/13 23:26:10 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/14 20:51:24 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	end_program(t_vars *fdf)
 {
-	free_map(&fdf->map);
+	free_map(&fdf->map[fdf->current_map]);
 	mlx_destroy_image(fdf->mlx, fdf->bitmap.img);
 	mlx_destroy_window(fdf->mlx, fdf->win);
 	mlx_destroy_display(fdf->mlx);
@@ -25,155 +25,165 @@ void	end_program(t_vars *fdf)
 void	change_prespective(int keycode, t_vars *fdf)
 {
 	if (keycode == 112)
-		fdf->map.proj++;
+		fdf->map[fdf->current_map].proj++;
 	if (keycode == 111)
-		fdf->map.proj--;
-	if (fdf->map.proj > 3)
-		fdf->map.proj = 0;
-	if (fdf->map.proj < 0)
-		fdf->map.proj = 3;
-	choose_prespective(fdf, fdf->map.proj);
+		fdf->map[fdf->current_map].proj--;
+	if (fdf->map[fdf->current_map].proj > 5)
+		fdf->map[fdf->current_map].proj = 0;
+	if (fdf->map[fdf->current_map].proj < 0)
+		fdf->map[fdf->current_map].proj = 5;
+	choose_prespective(fdf, fdf->map[fdf->current_map].proj);
 }
 
 void	move_origin(t_vars *fdf)
 {
-	if (fdf->map.b_pressed.mov_l)
-		fdf->map.origin.coord[X] -= fdf->map.translation_velocity;
-	if (fdf->map.b_pressed.mov_u)
-		fdf->map.origin.coord[Y] -= fdf->map.translation_velocity;
-	if (fdf->map.b_pressed.mov_r)
-		fdf->map.origin.coord[X] += fdf->map.translation_velocity;
-	if (fdf->map.b_pressed.mov_d)
-		fdf->map.origin.coord[Y] += fdf->map.translation_velocity;
+	if (fdf->map[fdf->current_map].b_pressed.mov_l)
+		fdf->map[fdf->current_map].origin.coord[X] -= fdf->map[fdf->current_map].translation_velocity;
+	if (fdf->map[fdf->current_map].b_pressed.mov_u)
+		fdf->map[fdf->current_map].origin.coord[Y] -= fdf->map[fdf->current_map].translation_velocity;
+	if (fdf->map[fdf->current_map].b_pressed.mov_r)
+		fdf->map[fdf->current_map].origin.coord[X] += fdf->map[fdf->current_map].translation_velocity;
+	if (fdf->map[fdf->current_map].b_pressed.mov_d)
+		fdf->map[fdf->current_map].origin.coord[Y] += fdf->map[fdf->current_map].translation_velocity;
 }
 
 void	keys_origin(int keycode, t_vars *fdf)
 {
 	if (keycode == 65361)
-		fdf->map.b_pressed.mov_l = 1;
+		fdf->map[fdf->current_map].b_pressed.mov_l = 1;
 	else if (keycode == 65362)
-		fdf->map.b_pressed.mov_u = 1;
+		fdf->map[fdf->current_map].b_pressed.mov_u = 1;
 	else if (keycode == 65363)
-		fdf->map.b_pressed.mov_r = 1;
+		fdf->map[fdf->current_map].b_pressed.mov_r = 1;
 	else
-		fdf->map.b_pressed.mov_d = 1;
+		fdf->map[fdf->current_map].b_pressed.mov_d = 1;
 }
 
 void	reset_position(t_vars *fdf)
 {
-	fdf->map.origin.coord[X] = WIDTH / 2;
-	fdf->map.origin.coord[Y] = HEIGHT / 2;
+	fdf->map[fdf->current_map].origin.coord[X] = WIDTH / 2;
+	fdf->map[fdf->current_map].origin.coord[Y] = HEIGHT / 2;
 }
 
 void	change_scale(int keycode, t_vars *fdf)
 {
 	if (keycode == 109)
 	{
-		fdf->map.scale += 0.1;
-		update_scale_dependants(&fdf->map, 0.1, 0);
+		fdf->map[fdf->current_map].scale += 0.1;
+		update_scale_dependants(&fdf->map[fdf->current_map], 0.1, 0);
 	}
 	else
 	{
-		fdf->map.scale -= 0.1;
-		if (fdf->map.scale < 1)
+		fdf->map[fdf->current_map].scale -= 0.1;
+		if (fdf->map[fdf->current_map].scale < 1)
 		{
-			fdf->map.scale = 1;
-			update_scale_dependants(&fdf->map, 0, 1);
+			fdf->map[fdf->current_map].scale = 1;
+			update_scale_dependants(&fdf->map[fdf->current_map], 0, 1);
 		}
-		update_scale_dependants(&fdf->map, -0.1, 0);
+		update_scale_dependants(&fdf->map[fdf->current_map], -0.1, 0);
 	}
 }
 
 void	change_z_multiplier(int keycode, t_vars *fdf)
 {
 	if (keycode == 4)
-		fdf->map.z_multiplier += 0.1;
+		fdf->map[fdf->current_map].z_multiplier += 0.1;
 	else
-		fdf->map.z_multiplier -= 0.1;
+		fdf->map[fdf->current_map].z_multiplier -= 0.1;
 }
 
 void	rotations(t_vars *fdf)
 {
-	if (fdf->map.b_pressed.pos_rot_x)
-		fdf->map.angles[X] += fdf->map.rotation_velocity;
-	if (fdf->map.b_pressed.neg_rot_x)
-		fdf->map.angles[X] -= fdf->map.rotation_velocity;
-	if (fdf->map.angles[X] > 360 || fdf->map.angles[X] < - 360)
-		fdf->map.angles[X] = 0;
-	if (fdf->map.b_pressed.pos_rot_y)
-		fdf->map.angles[Y] += fdf->map.rotation_velocity;
-	if (fdf->map.b_pressed.neg_rot_y)
-		fdf->map.angles[Y] -= fdf->map.rotation_velocity;
-	if (fdf->map.angles[Y] > 360 || fdf->map.angles[Y] < - 360)
-		fdf->map.angles[Y] = 0;
-	if (fdf->map.b_pressed.pos_rot_z)
-		fdf->map.angles[Z] += fdf->map.rotation_velocity;
-	if (fdf->map.b_pressed.neg_rot_z)
-		fdf->map.angles[Z] -= fdf->map.rotation_velocity;
-	if (fdf->map.angles[Z] > 360 || fdf->map.angles[Z] < - 360)
-		fdf->map.angles[Z] = 0;
+	if (fdf->map[fdf->current_map].b_pressed.pos_rot_x)
+		fdf->map[fdf->current_map].angles[X] += fdf->map[fdf->current_map].rotation_velocity;
+	if (fdf->map[fdf->current_map].b_pressed.neg_rot_x)
+		fdf->map[fdf->current_map].angles[X] -= fdf->map[fdf->current_map].rotation_velocity;
+	if (fdf->map[fdf->current_map].angles[X] > 360 || fdf->map[fdf->current_map].angles[X] < - 360)
+		fdf->map[fdf->current_map].angles[X] = 0;
+	if (fdf->map[fdf->current_map].b_pressed.pos_rot_y)
+		fdf->map[fdf->current_map].angles[Y] += fdf->map[fdf->current_map].rotation_velocity;
+	if (fdf->map[fdf->current_map].b_pressed.neg_rot_y)
+		fdf->map[fdf->current_map].angles[Y] -= fdf->map[fdf->current_map].rotation_velocity;
+	if (fdf->map[fdf->current_map].angles[Y] > 360 || fdf->map[fdf->current_map].angles[Y] < - 360)
+		fdf->map[fdf->current_map].angles[Y] = 0;
+	if (fdf->map[fdf->current_map].b_pressed.pos_rot_z)
+		fdf->map[fdf->current_map].angles[Z] += fdf->map[fdf->current_map].rotation_velocity;
+	if (fdf->map[fdf->current_map].b_pressed.neg_rot_z)
+		fdf->map[fdf->current_map].angles[Z] -= fdf->map[fdf->current_map].rotation_velocity;
+	if (fdf->map[fdf->current_map].angles[Z] > 360 || fdf->map[fdf->current_map].angles[Z] < - 360)
+		fdf->map[fdf->current_map].angles[Z] = 0;
 }
 
 void	map_rotation(int keycode, t_vars *fdf)
 {
 	if (keycode == 113)
-		fdf->map.b_pressed.pos_rot_x = 1;
+		fdf->map[fdf->current_map].b_pressed.pos_rot_x = 1;
 	if (keycode == 101)
-		fdf->map.b_pressed.neg_rot_x = 1;
+		fdf->map[fdf->current_map].b_pressed.neg_rot_x = 1;
 	if (keycode == 97)
-		fdf->map.b_pressed.pos_rot_y = 1;
+		fdf->map[fdf->current_map].b_pressed.pos_rot_y = 1;
 	if (keycode == 100)
-		fdf->map.b_pressed.neg_rot_y = 1;
+		fdf->map[fdf->current_map].b_pressed.neg_rot_y = 1;
 	if (keycode == 119)
-		fdf->map.b_pressed.pos_rot_z = 1;
+		fdf->map[fdf->current_map].b_pressed.pos_rot_z = 1;
 	if (keycode == 115)
-		fdf->map.b_pressed.neg_rot_z = 1;
+		fdf->map[fdf->current_map].b_pressed.neg_rot_z = 1;
 }
 
 void	change_mov_vel(int keycode, t_vars *fdf)
 {
-	if (keycode == 45 && fdf->map.translation_velocity > 0)
-		fdf->map.translation_velocity--;
+	if (keycode == 45 && fdf->map[fdf->current_map].translation_velocity > 0)
+		fdf->map[fdf->current_map].translation_velocity--;
 	else
-		fdf->map.translation_velocity++;
+		fdf->map[fdf->current_map].translation_velocity++;
 }
 
 void	change_rot_vel(int keycode, t_vars *fdf)
 {
-	if (keycode == 91 && fdf->map.rotation_velocity > 0)
-		fdf->map.rotation_velocity--;
+	if (keycode == 91 && fdf->map[fdf->current_map].rotation_velocity > 0)
+		fdf->map[fdf->current_map].rotation_velocity--;
 	else
-		fdf->map.rotation_velocity++;
+		fdf->map[fdf->current_map].rotation_velocity++;
 }
 
 int	key_release(int keycode, t_vars *fdf)
 {
 	//printf("%d\n", keycode);
 	if (keycode == 65361)
-		fdf->map.b_pressed.mov_l = 0;
+		fdf->map[fdf->current_map].b_pressed.mov_l = 0;
 	if (keycode == 65362)
-		fdf->map.b_pressed.mov_u = 0;
+		fdf->map[fdf->current_map].b_pressed.mov_u = 0;
 	if (keycode == 65363)
-		fdf->map.b_pressed.mov_r = 0;
+		fdf->map[fdf->current_map].b_pressed.mov_r = 0;
 	if (keycode == 65364)
-		fdf->map.b_pressed.mov_d = 0;
+		fdf->map[fdf->current_map].b_pressed.mov_d = 0;
 	if (keycode == 113)
-		fdf->map.b_pressed.pos_rot_x = 0;
+		fdf->map[fdf->current_map].b_pressed.pos_rot_x = 0;
 	if (keycode == 101)
-		fdf->map.b_pressed.neg_rot_x = 0;
+		fdf->map[fdf->current_map].b_pressed.neg_rot_x = 0;
 	if (keycode == 97)
-		fdf->map.b_pressed.pos_rot_y = 0;
+		fdf->map[fdf->current_map].b_pressed.pos_rot_y = 0;
 	if (keycode == 100)
-		fdf->map.b_pressed.neg_rot_y = 0;
+		fdf->map[fdf->current_map].b_pressed.neg_rot_y = 0;
 	if (keycode == 119)
-		fdf->map.b_pressed.pos_rot_z = 0;
+		fdf->map[fdf->current_map].b_pressed.pos_rot_z = 0;
 	if (keycode == 115)
-		fdf->map.b_pressed.neg_rot_z = 0;
+		fdf->map[fdf->current_map].b_pressed.neg_rot_z = 0;
 	return (0);
+}
+
+void	change_map(t_vars *fdf)
+{
+	fdf->current_map++;
+	if (fdf->current_map > fdf->number_of_maps - 1)
+		fdf->current_map = 0;
+	fit_window(fdf);
 }
 
 int	key_press(int keycode, t_vars *fdf)
 {
+	static int	prev_proj;
+
 	if (keycode == 45 || keycode == 61) //-, +
 		change_mov_vel(keycode, fdf);
 	if (keycode == 91 || keycode == 93) //[, ]
@@ -189,14 +199,29 @@ int	key_press(int keycode, t_vars *fdf)
 	if (keycode == 65307) //Esc
 		end_program(fdf);
 	if (keycode >= 65361 && keycode <= 65364) //Arrows
-	{
-		//printf("Pressed %d\n", keycode);
 		keys_origin(keycode, fdf);
-	}
 	if (keycode == 103) //G
-		fdf->map.spherical = !fdf->map.spherical;
+	{
+		prev_proj = fdf->map->proj;
+		if (fdf->map->proj != SPHERE)
+			fdf->map->proj = SPHERE;
+		else
+			fdf->map->proj = prev_proj;
+		fdf->map[fdf->current_map].spherical = !fdf->map[fdf->current_map].spherical;
+		fdf->map[fdf->current_map].conic = 0;
+	}
 	if (keycode == 99) //C
-		fdf->map.conic = !fdf->map.conic;
+	{
+		prev_proj = fdf->map[fdf->current_map].proj;
+		if (fdf->map->proj != CONIC)
+			fdf->map[fdf->current_map].proj = CONIC;
+		else
+			fdf->map[fdf->current_map].proj = prev_proj;
+		fdf->map[fdf->current_map].conic = !fdf->map[fdf->current_map].conic;
+		fdf->map[fdf->current_map].spherical = 0;
+	}
+	if (keycode == 108)
+		change_map(fdf);
 	return (0);
 }
 
@@ -219,12 +244,12 @@ int	map_translation(int x, int y, t_vars *fdf)
 	}
 	if (x != prev_x)
 	{
-		fdf->map.origin.coord[X] -= (prev_x - x) * fdf->map.translation_velocity;
+		fdf->map[fdf->current_map].origin.coord[X] -= (prev_x - x) * fdf->map[fdf->current_map].translation_velocity;
 		prev_x = x;
 	}
 	if (y != prev_y)
 	{
-		fdf->map.origin.coord[Y] -= (prev_y - y) * fdf->map.translation_velocity;
+		fdf->map[fdf->current_map].origin.coord[Y] -= (prev_y - y) * fdf->map[fdf->current_map].translation_velocity;
 		prev_y = y;
 	}
 	return (0);

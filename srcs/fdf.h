@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 17:38:19 by joao              #+#    #+#             */
-/*   Updated: 2024/02/14 01:13:52 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/14 18:01:22 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,10 @@
 # define GROOVY 3
 
 # define WHITE 0xFFFFFFFF
+# define SOFT_ORANGE 0xFFFF9933
+# define GROUND_GREEN 0xFF4C9900
+# define DARKISH_AQUA 0xFF00CCCC
 # define FULL_BLUE 0xFF0000FF
-# define FULL_GREEN 0xFF00FF00
 # define NBR_YELLOW 0xFFE1E100
 # define SELECTION 0xFFCC00CC
 
@@ -68,26 +70,26 @@
 
 # define INFO "<================MAP INFORMATION================>"
 # define INFO_SIZE "Number of Points: "
-# define SIZE fdf->map.limits[X] * fdf->map.limits[Y]
+# define SIZE fdf->map[fdf->current_map].limits[X] * fdf->map[fdf->current_map].limits[Y]
 # define INFO_X "X Limit: "
-# define X_LIM fdf->map.limits[X]
+# define X_LIM fdf->map[fdf->current_map].limits[X]
 # define INFO_Y "Y Limit: "
-# define Y_LIM fdf->map.limits[Y]
+# define Y_LIM fdf->map[fdf->current_map].limits[Y]
 # define INFO_ZMAX "Maximum Z: "
-# define ZMAX fdf->map.z_max
+# define ZMAX fdf->map[fdf->current_map].z_max
 # define INFO_ZMIN "Minimum Z: "
-# define ZMIN fdf->map.z_min
+# define ZMIN fdf->map[fdf->current_map].z_min
 
 # define DETAILS "<=================FRAME DETAILS=================>"
 # define ANGLES "Angles in use for rotation"
 # define SPACES "X[    ] Y[    ] Z[    ]"
-# define X_ANGLE fdf->map.angles[X]
-# define Y_ANGLE fdf->map.angles[Y]
-# define Z_ANGLE fdf->map.angles[Z]
+# define X_ANGLE fdf->map[fdf->current_map].angles[X]
+# define Y_ANGLE fdf->map[fdf->current_map].angles[Y]
+# define Z_ANGLE fdf->map[fdf->current_map].angles[Z]
 # define ZOOM "Zoom multiplier: "
-# define SCALE fdf->map.scale
+# define SCALE fdf->map[fdf->current_map].scale
 # define Z_MUL "Z multiplier: "
-# define Z_VAL_MUL fdf->map.z_multiplier
+# define Z_VAL_MUL fdf->map[fdf->current_map].z_multiplier
 
 # define SCHEME "<=================COLOR SCHEMES=================>"
 # define STR_DEFAULT "1: Default"
@@ -96,13 +98,13 @@
 # define NEG_ON "Negative Mode: ON"
 # define NEG_OFF "Negative Mode: OFF"
 
-# define VIEW "<================proj TYPE================>"
-# define STR_ISOMETRIC "Isometric proj"
-# define STR_TOP_VIEW "Top View proj"
-# define STR_SIDE_VIEW "Side View proj"
-# define STR_FRONT_VIEW "Front View proj"
-# define STR_CONIC "Conic proj"
-# define STR_SPHERE "Spheric proj" 
+# define VIEW "<================Projection TYPE================>"
+# define STR_ISOMETRIC "Isometric Projection"
+# define STR_TOP_VIEW "Top View Projection"
+# define STR_SIDE_VIEW "Side View Projection"
+# define STR_FRONT_VIEW "Front View Projection"
+# define STR_CONIC "Conic Projection"
+# define STR_SPHERE "Spheric Projection" 
 
 # define CONTROLS "CONTROLS"
 
@@ -160,6 +162,8 @@ typedef struct s_map
 	int			z_max;
 	int			z_min;
 	int			z_range;
+	int			z_pos_range;
+	int			z_neg_range;
 	int			translation_velocity;
 	int			rotation_velocity;
 	int			proj;
@@ -194,7 +198,9 @@ typedef struct s_vars
 	void		*mlx;
 	void		*win;
 	t_bitmap	bitmap;
-	t_map		map;
+	int			number_of_maps;
+	int			current_map;
+	t_map		*map;
 }				t_vars;
 
 char	**read_map(t_map *map, char *file);
@@ -237,5 +243,6 @@ void	menu_background(t_vars *fdf);
 void	behind_menu(t_point *pixel);
 void	put_info(t_vars *fdf);
 char	*ftoa(float n, int precision);
+t_map	*input_info_init(t_vars *fdf, int argc);
 
 #endif

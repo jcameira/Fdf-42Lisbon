@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 17:55:13 by joao              #+#    #+#             */
-/*   Updated: 2024/02/14 00:34:35 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/14 12:58:04 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,14 @@
 int	main(int argc, char **argv)
 {
 	t_vars	fdf;
+	int		i;
 
-	if (argc != 2)
+	if (argc < 2)
 		return (0);
-	parser(&fdf.map, argv[1]);
+	fdf.map = input_info_init(&fdf, argc);
+	i = -1;
+	while (++i < fdf.number_of_maps)
+		parser(&fdf.map[i], argv[i + 1]);
 	vars_init(&fdf, argv[1]);
 	fit_window(&fdf);
 	mlx_hook(fdf.win, 2, (1L << 0), key_press, &fdf);
