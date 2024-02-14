@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 13:11:59 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/10 13:12:12 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/13 23:26:10 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ t_point	matmul(float mat[3][3], t_point point)
 	while (++i < 3)
 	{
 		j = -1;
-		tmp.coordinates[i] = 0;
+		tmp.coord[i] = 0;
 		while (++j < 3)
 		{
-			tmp.coordinates[i] += point.coordinates[j] * mat[i][j];
+			tmp.coord[i] += point.coord[j] * mat[i][j];
 			tmp.color = point.color;
 			tmp.paint = point.paint;
 		}
@@ -33,7 +33,7 @@ t_point	matmul(float mat[3][3], t_point point)
 	return (tmp);
 }
 
-void	rotatex(t_map *map, t_point **projection, int angle)
+void	rotatex(t_map *map, t_point **proj, int angle)
 {
 	float	rad;
 	int		x;
@@ -55,11 +55,11 @@ void	rotatex(t_map *map, t_point **projection, int angle)
 	{
 		x = -1;
 		while (++x < map->limits[X])
-			projection[y][x] = matmul(rotmat, projection[y][x]);
+			proj[y][x] = matmul(rotmat, proj[y][x]);
 	}
 }
 
-void	rotatey(t_map *map, t_point **projection, int angle)
+void	rotatey(t_map *map, t_point **proj, int angle)
 {
 	float	rad;
 	int		x;
@@ -81,11 +81,11 @@ void	rotatey(t_map *map, t_point **projection, int angle)
 	{
 		x = -1;
 		while (++x < map->limits[X])
-			projection[y][x] = matmul(rotmat, projection[y][x]);
+			proj[y][x] = matmul(rotmat, proj[y][x]);
 	}
 }
 
-void	rotatez(t_map *map, t_point **projection, int angle)
+void	rotatez(t_map *map, t_point **proj, int angle)
 {
 	float	rad;
 	int		x;
@@ -107,11 +107,11 @@ void	rotatez(t_map *map, t_point **projection, int angle)
 	{
 		x = -1;
 		while (++x < map->limits[X])
-			projection[y][x] = matmul(rotmat, projection[y][x]);
+			proj[y][x] = matmul(rotmat, proj[y][x]);
 	}
 }
 
-void	orthographic(t_map *map, t_point **projection)
+void	orthographic(t_map *map, t_point **proj)
 {
 	int		x;
 	int		y;
@@ -131,6 +131,6 @@ void	orthographic(t_map *map, t_point **projection)
 	{
 		x = -1;
 		while (++x < map->limits[X])
-			projection[y][x] = matmul(rotmat, projection[y][x]);
+			proj[y][x] = matmul(rotmat, proj[y][x]);
 	}
 }

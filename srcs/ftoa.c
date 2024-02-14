@@ -6,21 +6,27 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 00:56:38 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/13 01:04:26 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/13 20:00:16 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-static int	num_len(float n, int precision)
+static int	fnum_len(float n, int precision)
 {
 	int		len;
 	long	n_tmp;
 
 	len = 0;
 	n_tmp = (long)n;
+	if (precision > 0)
+		len += 1 + precision;
 	if (n_tmp == 0)
-		return (8);
+	{
+		if (n < 0)
+			return (len + 2);
+		return (len + 1);
+	}
 	if (n_tmp < 0)
 	{
 		n_tmp *= -1;
@@ -31,14 +37,24 @@ static int	num_len(float n, int precision)
 		n_tmp /= 10;
 		len++;
 	}
-	return (len + 1 + precision);
+	return (len);
 }
 
-void	add_int(float n, char *buffer, int precision, int length)
+static void	add_int(float n, char *buffer, int precision, int length)
 {
 	int	tmp_int;
 
 	tmp_int = (int)n;
+	if (tmp_int == 0)
+	{
+		if (n < 0)
+		{
+			buffer[0] = '-';
+			buffer[1] = '0';
+		}
+		else
+			buffer[0] = '0';
+	}
 	while (tmp_int != 0)
 	{
 		if ((tmp_int % 10) < 0)
@@ -49,7 +65,7 @@ void	add_int(float n, char *buffer, int precision, int length)
 	}
 }
 
-void	add_dec(float n, char *buffer, int precision, int length)
+static void	add_dec(float n, char *buffer, int precision, int length)
 {
 	float	tmp_float;
 
@@ -71,12 +87,12 @@ char	*ftoa(float n, int precision)
 	int		n_len;
 	char	*buffer;
 
-	n_len = num_len(n, precision);
+	n_len = fnum_len(n, precision);
 	buffer = malloc(sizeof(char) * (n_len + 1));
 	if (!buffer)
 		return (NULL);
-    buffer[n_len] = '\0';
-    if (precision > 0)
+	buffer[n_len] = '\0';
+	if (precision > 0)
 		buffer[n_len - 1 - precision] = '.';
 	if (n == 0)
 	{

@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:34:32 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/13 02:03:16 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/14 01:13:15 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,22 @@ void	vars_init(t_vars *fdf, char *title)
 			&fdf->bitmap.endian);
 }
 
+void	lambert_init(t_lambert *vars, t_map *map)
+{
+	vars->start_parallel = START_PAR;
+	vars->end_parallel = END_PAR;
+	vars->meridian = INITIAL_MERIDIAN;
+	vars->origin_lat = ORIGIN_LAT;
+	vars->major_axis = map->scale * ((float)map->limits[X] / (float)20);
+	vars->parallel_median = PARALLEL_MEDIAN;
+	vars->radial_distance = RADIAL_DISTANCE;
+}
+
 void	map_init(t_map *map)
 {
 	map->z_min = INT_MAX;
 	map->z_max = INT_MIN;
-	map->projection = 0;
+	map->proj = 0;
 	map->scale = 1;
 	map->point_density = 8 / map->scale;
 	map->x_multiplier = 1;
@@ -37,10 +48,12 @@ void	map_init(t_map *map)
 	map->angles[X] = 30;
 	map->angles[Y] = 330;
 	map->angles[Z] = 45;
-	map->origin.coordinates[X] = WIDTH / 2;
-	map->origin.coordinates[Y] = HEIGHT / 2;
-	map->origin.coordinates[Z] = 0;
+	map->origin.coord[X] = WIDTH / 2;
+	map->origin.coord[Y] = HEIGHT / 2;
+	map->origin.coord[Z] = 0;
 	map->spherical = 0;
+	map->conic = 0;
+	lambert_init(&map->lambert_vars, map);
 	map->b_pressed.mov_d = 0;
 	map->b_pressed.mov_u = 0;
 	map->b_pressed.mov_l = 0;

@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 16:23:16 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/10 16:42:38 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/13 23:26:10 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,12 @@ void	free_map(t_map *map)
 	free(map->map_info);
 }
 
-void	free_projection(t_point **projection, t_map map)
+void	free_proj(t_point **proj, t_map map)
 {
 	int	y;
 
 	y = -1;
 	while (++y < map.limits[Y])
-		free(projection[y]);
-	free(projection);
+		free(proj[y]);
+	free(proj);
 }

@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 17:38:19 by joao              #+#    #+#             */
-/*   Updated: 2024/02/13 02:48:55 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/14 01:13:52 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@
 
 # define WIDTH 1920
 # define HEIGHT 1080
+
+# define MENU_WIDTH 350
 
 # define X 0
 # define Y 1
@@ -55,6 +57,11 @@
 # define FULL_GREEN 0xFF00FF00
 # define NBR_YELLOW 0xFFE1E100
 # define SELECTION 0xFFCC00CC
+
+# define START_PAR 30
+# define END_PAR 60
+# define INITIAL_MERIDIAN -100
+# define ORIGIN_LAT 40
 
 # define MLX fdf->mlx
 # define WIN fdf->win
@@ -89,13 +96,13 @@
 # define NEG_ON "Negative Mode: ON"
 # define NEG_OFF "Negative Mode: OFF"
 
-# define VIEW "<================PROJECTION TYPE================>"
-# define STR_ISOMETRIC "Isometric Projection"
-# define STR_TOP_VIEW "Top View Projection"
-# define STR_SIDE_VIEW "Side View Projection"
-# define STR_FRONT_VIEW "Front View Projection"
-# define STR_CONIC "Conic Projection"
-# define STR_SPHERE "Spheric Projection" 
+# define VIEW "<================proj TYPE================>"
+# define STR_ISOMETRIC "Isometric proj"
+# define STR_TOP_VIEW "Top View proj"
+# define STR_SIDE_VIEW "Side View proj"
+# define STR_FRONT_VIEW "Front View proj"
+# define STR_CONIC "Conic proj"
+# define STR_SPHERE "Spheric proj" 
 
 # define CONTROLS "CONTROLS"
 
@@ -108,12 +115,28 @@
 # define Z_SPACE (X_START + ft_strlen("X[    ] Y[    ] Z[") * 6)
 # define TO_STR(int) ft_itoa(int)
 # define FTO_STR(int) ftoa(int, 1)
+# define PARALLEL_MEDIAN (sin(vars->start_parallel) + sin(vars->end_parallel)) / 2
+# define RADIAL_DISTANCE pow(cos(vars->start_parallel), 2) + 2 * vars->parallel_median * sin(vars->start_parallel)
+# define THETA_LONG map->lambert_vars.parallel_median * (proj[y][x].polar[LONGITUDE] - map->lambert_vars.meridian)
+# define THETA_LAT map->lambert_vars.parallel_median * (proj[y][x].polar[LATITUDE] - map->lambert_vars.origin_lat)
+# define RHO map->lambert_vars.major_axis * sqrt(map->lambert_vars.radial_distance) / map->lambert_vars.parallel_median * tan(M_PI / 4 - THETA_LAT / 2)
+
+typedef struct s_lambert
+{
+	float	start_parallel;
+	float	end_parallel;
+	float	meridian;
+	float	origin_lat;
+	float	major_axis;
+	float	parallel_median;
+	float	radial_distance;
+}				t_lambert;
 
 typedef struct s_point
 {
 	int		color;
 	int		paint;
-	float	coordinates[3];
+	float	coord[3];
 	float	polar[2];
 }				t_point;
 
@@ -139,7 +162,7 @@ typedef struct s_map
 	int			z_range;
 	int			translation_velocity;
 	int			rotation_velocity;
-	int			projection;
+	int			proj;
 	char		**map_info;
 	int			point_density;
 	float		scale;
@@ -150,9 +173,11 @@ typedef struct s_map
 	float		angles[3];
 	float		radius;
 	int			spherical;
+	int			conic;
 	t_pressed	b_pressed;
 	t_point		origin;
 	t_point		**points;
+	t_lambert	lambert_vars;
 }				t_map;
 
 typedef struct s_bitmap
@@ -180,10 +205,10 @@ void	map_init(t_map *map);
 void	parser(t_map *map, char *file);
 void	draw_map(t_vars *fdf);
 t_point	matmul(float mat[3][3], t_point point);
-void	rotatex(t_map *map, t_point **projection, int angle);
-void	rotatey(t_map *map, t_point **projection, int angle);
-void	rotatez(t_map *map, t_point **projection, int angle);
-void	orthographic(t_map *map, t_point **projection);
+void	rotatex(t_map *map, t_point **proj, int angle);
+void	rotatey(t_map *map, t_point **proj, int angle);
+void	rotatez(t_map *map, t_point **proj, int angle);
+void	orthographic(t_map *map, t_point **proj);
 void	change_prespective(int keycode, t_vars *fdf);
 void	end_program(t_vars *fdf);
 void	isometric(t_vars *fdf);
@@ -200,9 +225,9 @@ int		render_frame(t_vars *fdf);
 void	move_origin(t_vars *fdf);
 void	set_point_color(t_map *map);
 void	update_z_limits(t_map *map, t_point **points);
-int		update_color_gradient(int start, int end, int len, int pixels);
+int		update_color_gradient(int start, int end, float len, float pixels);
 int		inside_window(t_vars *fdf, t_point point);
-void	free_projection(t_point **projection, t_map map);
+void	free_proj(t_point **proj, t_map map);
 void	fit_window(t_vars *fdf);
 void	free_map(t_map *map);
 void	free_split(char **split);

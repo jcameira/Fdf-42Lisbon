@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 19:36:35 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/13 02:51:33 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/13 23:26:10 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,26 +25,26 @@ void	end_program(t_vars *fdf)
 void	change_prespective(int keycode, t_vars *fdf)
 {
 	if (keycode == 112)
-		fdf->map.projection++;
+		fdf->map.proj++;
 	if (keycode == 111)
-		fdf->map.projection--;
-	if (fdf->map.projection > 3)
-		fdf->map.projection = 0;
-	if (fdf->map.projection < 0)
-		fdf->map.projection = 3;
-	choose_prespective(fdf, fdf->map.projection);
+		fdf->map.proj--;
+	if (fdf->map.proj > 3)
+		fdf->map.proj = 0;
+	if (fdf->map.proj < 0)
+		fdf->map.proj = 3;
+	choose_prespective(fdf, fdf->map.proj);
 }
 
 void	move_origin(t_vars *fdf)
 {
 	if (fdf->map.b_pressed.mov_l)
-		fdf->map.origin.coordinates[X] -= fdf->map.translation_velocity;
+		fdf->map.origin.coord[X] -= fdf->map.translation_velocity;
 	if (fdf->map.b_pressed.mov_u)
-		fdf->map.origin.coordinates[Y] -= fdf->map.translation_velocity;
+		fdf->map.origin.coord[Y] -= fdf->map.translation_velocity;
 	if (fdf->map.b_pressed.mov_r)
-		fdf->map.origin.coordinates[X] += fdf->map.translation_velocity;
+		fdf->map.origin.coord[X] += fdf->map.translation_velocity;
 	if (fdf->map.b_pressed.mov_d)
-		fdf->map.origin.coordinates[Y] += fdf->map.translation_velocity;
+		fdf->map.origin.coord[Y] += fdf->map.translation_velocity;
 }
 
 void	keys_origin(int keycode, t_vars *fdf)
@@ -61,8 +61,8 @@ void	keys_origin(int keycode, t_vars *fdf)
 
 void	reset_position(t_vars *fdf)
 {
-	fdf->map.origin.coordinates[X] = WIDTH / 2;
-	fdf->map.origin.coordinates[Y] = HEIGHT / 2;
+	fdf->map.origin.coord[X] = WIDTH / 2;
+	fdf->map.origin.coord[Y] = HEIGHT / 2;
 }
 
 void	change_scale(int keycode, t_vars *fdf)
@@ -193,8 +193,10 @@ int	key_press(int keycode, t_vars *fdf)
 		//printf("Pressed %d\n", keycode);
 		keys_origin(keycode, fdf);
 	}
-	if (keycode == 103)
+	if (keycode == 103) //G
 		fdf->map.spherical = !fdf->map.spherical;
+	if (keycode == 99) //C
+		fdf->map.conic = !fdf->map.conic;
 	return (0);
 }
 
@@ -217,12 +219,12 @@ int	map_translation(int x, int y, t_vars *fdf)
 	}
 	if (x != prev_x)
 	{
-		fdf->map.origin.coordinates[X] -= (prev_x - x) * fdf->map.translation_velocity;
+		fdf->map.origin.coord[X] -= (prev_x - x) * fdf->map.translation_velocity;
 		prev_x = x;
 	}
 	if (y != prev_y)
 	{
-		fdf->map.origin.coordinates[Y] -= (prev_y - y) * fdf->map.translation_velocity;
+		fdf->map.origin.coord[Y] -= (prev_y - y) * fdf->map.translation_velocity;
 		prev_y = y;
 	}
 	return (0);
