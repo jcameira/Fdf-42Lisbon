@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 18:23:21 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/14 12:52:33 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/15 01:34:26 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +82,12 @@ void	put_controls(t_vars *fdf)
 
 	y = Y_START;
 	mlx_string_put(MLX, WIN, X_START, NEXT_LINE(y), WHITE, SCHEME);
-	mlx_string_put(MLX, WIN, X_START, NEXT_LINE(y), WHITE, STR_DEFAULT);
-	mlx_string_put(MLX, WIN, X_START, NEXT_LINE(y), SELECTION, STR_EARTH);
-	mlx_string_put(MLX, WIN, X_START, NEXT_LINE(y), WHITE, STR_MONO_W);
+	choose_str_color(fdf, X_START, NEXT_LINE(y), STR_DEFAULT,
+		fdf->map[fdf->current_map].scheme == DEFAULT);
+	choose_str_color(fdf, X_START, NEXT_LINE(y), STR_EARTH,
+		fdf->map[fdf->current_map].scheme == EARTH);
+	choose_str_color(fdf, X_START, NEXT_LINE(y), STR_MONO_W,
+		fdf->map[fdf->current_map].scheme == MONO_W);
 	mlx_string_put(MLX, WIN, X_START, NEXT_LINE(y), WHITE, NEG_OFF);
 	mlx_string_put(MLX, WIN, X_START, NEXT_LINE(y), WHITE, VIEW);
 	choose_str_color(fdf, X_START, NEXT_LINE(y), STR_ISOMETRIC,

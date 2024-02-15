@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 19:36:35 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/14 20:51:24 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/15 01:47:34 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,6 +180,14 @@ void	change_map(t_vars *fdf)
 	fit_window(fdf);
 }
 
+void	change_color_scheme(t_vars *fdf)
+{
+	fdf->map[fdf->current_map].scheme++;
+	if (fdf->map[fdf->current_map].scheme > 1)
+		fdf->map[fdf->current_map].scheme = 0;
+	choose_color_scheme(&fdf->map[fdf->current_map]);
+}
+
 int	key_press(int keycode, t_vars *fdf)
 {
 	static int	prev_proj;
@@ -220,8 +228,10 @@ int	key_press(int keycode, t_vars *fdf)
 		fdf->map[fdf->current_map].conic = !fdf->map[fdf->current_map].conic;
 		fdf->map[fdf->current_map].spherical = 0;
 	}
-	if (keycode == 108)
+	if (keycode == 108) //L
 		change_map(fdf);
+	if (keycode == 104) //H
+		change_color_scheme(fdf);
 	return (0);
 }
 

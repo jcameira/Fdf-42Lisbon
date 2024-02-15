@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:34:32 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/14 12:53:46 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/15 01:22:21 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ void	map_init(t_map *map)
 	map->origin.coord[Z] = 0;
 	map->spherical = 0;
 	map->conic = 0;
+	map->scheme = 0;
 	lambert_init(&map->lambert_vars, map);
 	map->b_pressed.mov_d = 0;
 	map->b_pressed.mov_u = 0;

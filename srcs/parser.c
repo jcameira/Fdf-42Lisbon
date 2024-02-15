@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:30:27 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/14 18:53:15 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/15 01:23:37 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,8 @@ void	update_z_limits(t_map *map, t_point **points)
 
 void	load_coord(t_map *map, t_point ***points, char **z_values, int y)
 {
-	int	x;
+	int		x;
+	char	**z_info;
 
 	x = -1;
 	while (++x < map->limits[X])
@@ -81,6 +82,15 @@ void	load_coord(t_map *map, t_point ***points, char **z_values, int y)
 		(*points)[y][x].coord[X] = (x - (map->limits[X] / 2) + 0.5);
 		(*points)[y][x].coord[Y] = (y - (map->limits[Y] / 2) + 0.5);
 		(*points)[y][x].coord[Z] = (float)atoi(z_values[x]);
+		if (ft_strchr(z_values[x], ','))
+		{
+			z_info = ft_split(z_values[x], ',');
+			(*points)[y][x].original_color = strtol(z_info[1] + 2, NULL, 16);
+			free_split(z_info);
+		}
+		else
+			(*points)[y][x].original_color = WHITE;
+		(*points)[y][x].color = (*points)[y][x].original_color;
 	}
 }
 
@@ -165,12 +175,12 @@ void	find_best_z_multiplier(t_map *map)
 	int	tmp_range;
 
 	tmp_range = map->z_range;
-	while ((float)tmp_range / (float)map->limits[X] > 0.2)
+	while ((float)tmp_range / (float)map->limits[X] > 0.05)
 	{
 		map->z_multiplier -= 0.1;
 		tmp_range = map->z_multiplier * (map->z_max - map->z_min);
 	}
-	while ((float)tmp_range / (float)map->limits[X] < 0.2)
+	while ((float)tmp_range / (float)map->limits[X] < 0.05)
 	{
 		map->z_multiplier += 0.1;
 		tmp_range = map->z_multiplier * (map->z_max - map->z_min);
@@ -193,8 +203,6 @@ void	parser(t_map *map, char *file)
 	map->points = get_original_points(map);
 	update_z_limits(map, map->points);
 	find_best_z_multiplier(map);
-	//printf("Zmax and Zmin: %d %d\n", map->z_max, map->z_min);
-	set_point_color(map);
+	//set_point_color(map);
 	get_polar_coord(map);
-	//printf("Z_min, Z_max: %d, %d\n", map->z_min, map->z_max);
 }

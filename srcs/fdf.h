@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 17:38:19 by joao              #+#    #+#             */
-/*   Updated: 2024/02/14 18:01:22 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/15 01:46:44 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,17 +40,17 @@
 # define LONGITUDE 0
 # define LATITUDE 1
 
+# define DEFAULT 0
+# define EARTH 1
+# define MONO_W 2
+# define GROOVY 3
+
 # define ISOMETRIC 0
 # define TOP_VIEW 1
 # define SIDE_VIEW 2
 # define FRONT_VIEW 3
 # define CONIC 4
 # define SPHERE 5
-
-# define DEFAULT 0
-# define EARTH 1
-# define MONO_W 2
-# define GROOVY 3
 
 # define WHITE 0xFFFFFFFF
 # define SOFT_ORANGE 0xFFFF9933
@@ -136,6 +136,7 @@ typedef struct s_lambert
 
 typedef struct s_point
 {
+	int		original_color;
 	int		color;
 	int		paint;
 	float	coord[3];
@@ -156,6 +157,15 @@ typedef struct s_pressed
 	int	mov_u;
 	int	mov_d;
 }				t_pressed;
+
+typedef struct s_colors
+{
+	int	top_color;
+	int	top_transition_color;
+	int	mid_color;
+	int	bottom_transition_color;
+	int	bottom_color;
+}				t_colors;
 
 typedef struct s_map
 {
@@ -178,6 +188,8 @@ typedef struct s_map
 	float		radius;
 	int			spherical;
 	int			conic;
+	int			scheme;
+	t_colors	color_scheme;
 	t_pressed	b_pressed;
 	t_point		origin;
 	t_point		**points;
@@ -244,5 +256,6 @@ void	behind_menu(t_point *pixel);
 void	put_info(t_vars *fdf);
 char	*ftoa(float n, int precision);
 t_map	*input_info_init(t_vars *fdf, int argc);
+void	choose_color_scheme(t_map *map);
 
 #endif
