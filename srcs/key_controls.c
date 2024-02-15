@@ -6,13 +6,13 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 19:36:35 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/15 01:47:34 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/15 16:45:14 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	end_program(t_vars *fdf)
+int	end_program(t_vars *fdf)
 {
 	free_map(&fdf->map[fdf->current_map]);
 	mlx_destroy_image(fdf->mlx, fdf->bitmap.img);
@@ -67,7 +67,7 @@ void	reset_position(t_vars *fdf)
 
 void	change_scale(int keycode, t_vars *fdf)
 {
-	if (keycode == 109)
+	if (keycode == 109 || keycode == 4)
 	{
 		fdf->map[fdf->current_map].scale += 0.1;
 		update_scale_dependants(&fdf->map[fdf->current_map], 0.1, 0);
@@ -180,18 +180,36 @@ void	change_map(t_vars *fdf)
 	fit_window(fdf);
 }
 
-void	change_color_scheme(t_vars *fdf)
+void	change_color_scheme(t_vars *fdf, int keycode)
 {
-	fdf->map[fdf->current_map].scheme++;
-	if (fdf->map[fdf->current_map].scheme > 1)
+	if (keycode >= 49 && keycode <= 57)
+		fdf->map[fdf->current_map].scheme = keycode - 49;
+	else
+		fdf->map[fdf->current_map].scheme++;
+	if (fdf->map[fdf->current_map].scheme > 8)
 		fdf->map[fdf->current_map].scheme = 0;
 	choose_color_scheme(&fdf->map[fdf->current_map]);
+	if (fdf->map[fdf->current_map].inverted)
+		turn_negative(fdf);
+}
+
+void	turn_negative(t_vars *fdf)
+{
+	int	x;
+	int	y;
+
+	y = -1;
+	while (++y < fdf->map[fdf->current_map].limits[Y])
+	{
+		x = -1;
+		while (++x < fdf->map[fdf->current_map].limits[X])
+			invert_color(&fdf->map[fdf->current_map].points[y][x]);
+	}
 }
 
 int	key_press(int keycode, t_vars *fdf)
 {
-	static int	prev_proj;
-
+	//printf("Keycode: %d\n", keycode);
 	if (keycode == 45 || keycode == 61) //-, +
 		change_mov_vel(keycode, fdf);
 	if (keycode == 91 || keycode == 93) //[, ]
@@ -210,28 +228,25 @@ int	key_press(int keycode, t_vars *fdf)
 		keys_origin(keycode, fdf);
 	if (keycode == 103) //G
 	{
-		prev_proj = fdf->map->proj;
-		if (fdf->map->proj != SPHERE)
-			fdf->map->proj = SPHERE;
-		else
-			fdf->map->proj = prev_proj;
 		fdf->map[fdf->current_map].spherical = !fdf->map[fdf->current_map].spherical;
 		fdf->map[fdf->current_map].conic = 0;
 	}
 	if (keycode == 99) //C
 	{
-		prev_proj = fdf->map[fdf->current_map].proj;
-		if (fdf->map->proj != CONIC)
-			fdf->map[fdf->current_map].proj = CONIC;
-		else
-			fdf->map[fdf->current_map].proj = prev_proj;
 		fdf->map[fdf->current_map].conic = !fdf->map[fdf->current_map].conic;
 		fdf->map[fdf->current_map].spherical = 0;
 	}
 	if (keycode == 108) //L
 		change_map(fdf);
-	if (keycode == 104) //H
-		change_color_scheme(fdf);
+	if ((keycode >= 49 && keycode <= 57) || keycode == 104) //H
+		change_color_scheme(fdf, keycode);
+	if (keycode == 65505) //Shift
+		fdf->map[fdf->current_map].b_pressed.shift = !fdf->map[fdf->current_map].b_pressed.shift;
+	if (keycode == 117) //U
+	{
+		turn_negative(fdf);
+		fdf->map[fdf->current_map].inverted = !fdf->map[fdf->current_map].inverted;
+	}
 	return (0);
 }
 
@@ -252,16 +267,39 @@ int	map_translation(int x, int y, t_vars *fdf)
 		prev_x = x;
 		prev_y = y;
 	}
-	if (x != prev_x)
+	if (x != prev_x && fdf->map[fdf->current_map].b_pressed.mouse_l)
 	{
-		fdf->map[fdf->current_map].origin.coord[X] -= (prev_x - x) * fdf->map[fdf->current_map].translation_velocity;
+		if (fdf->map[fdf->current_map].b_pressed.shift)
+			fdf->map[fdf->current_map].angles[X] -= (prev_x - x) * fdf->map[fdf->current_map].rotation_velocity;
+		else
+			fdf->map[fdf->current_map].origin.coord[X] -= (prev_x - x) * fdf->map[fdf->current_map].translation_velocity;
 		prev_x = x;
 	}
-	if (y != prev_y)
+	if (y != prev_y && fdf->map[fdf->current_map].b_pressed.mouse_l)
 	{
-		fdf->map[fdf->current_map].origin.coord[Y] -= (prev_y - y) * fdf->map[fdf->current_map].translation_velocity;
+		if (fdf->map[fdf->current_map].b_pressed.shift)
+			fdf->map[fdf->current_map].angles[Y] += (prev_y - y) * fdf->map[fdf->current_map].rotation_velocity;
+		else
+			fdf->map[fdf->current_map].origin.coord[Y] -= (prev_y - y) * fdf->map[fdf->current_map].translation_velocity;
 		prev_y = y;
 	}
+		if (x != prev_x && fdf->map[fdf->current_map].b_pressed.mouse_r)
+	{
+		if (fdf->map[fdf->current_map].b_pressed.shift)
+			fdf->map[fdf->current_map].angles[Z] += (prev_x - x) * fdf->map[fdf->current_map].rotation_velocity;
+		prev_x = x;
+	}
+	return (0);
+}
+
+int	mouse_release(int button, int x, int y, t_vars *fdf)
+{
+	x = y;
+	y = x;
+	if (button == 1)
+		fdf->map[fdf->current_map].b_pressed.mouse_l = 0;
+	if (button == 3)
+		fdf->map[fdf->current_map].b_pressed.mouse_r = 0;
 	return (0);
 }
 
@@ -269,8 +307,12 @@ int	mouse_press(int button, int x, int y, t_vars *fdf)
 {
 	x = y;
 	y = x;
+	if (button == 1)
+		fdf->map[fdf->current_map].b_pressed.mouse_l = 1;
+	if (button == 3)
+		fdf->map[fdf->current_map].b_pressed.mouse_r = 1;
 	if (button == 4 || button == 5)
-		change_z_multiplier(button, fdf);
+		change_scale(button, fdf);
 	return (0);
 }
 

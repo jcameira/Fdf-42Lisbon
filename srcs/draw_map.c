@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 20:16:42 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/15 01:54:57 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/15 11:52:28 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,9 @@ void	dda(t_vars *fdf, t_point start, t_point end)
 		{
 			if ((int)(pixel.coord[X]) <= MENU_WIDTH && (int)(pixel.coord[X]) >= 0)
 				behind_menu(&pixel);
-			if (*(unsigned int *)(fdf->bitmap.address + ((int)pixel.coord[Y] * fdf->bitmap.line_length + (int)pixel.coord[X] * (fdf->bitmap.bits_per_pixel / 8))) < (unsigned int)pixel.color)
+			if ((int)(pixel.coord[X]) <= MENU_WIDTH)
+				faster_pixel_put(&fdf->bitmap, (int)(pixel.coord[X]), (int)(pixel.coord[Y]), pixel.color);
+			else if (*(unsigned int *)(fdf->bitmap.address + ((int)pixel.coord[Y] * fdf->bitmap.line_length + (int)pixel.coord[X] * (fdf->bitmap.bits_per_pixel / 8))) < (unsigned int)pixel.color)
 				faster_pixel_put(&fdf->bitmap, (int)(pixel.coord[X]), (int)(pixel.coord[Y]), pixel.color);
 		}
 		pixel.coord[X] += x_variation;
