@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 13:11:59 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/14 12:44:23 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/16 23:22:28 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,10 @@ void	rotatex(t_map *map, t_point **proj, int angle)
 	rotmat[2][1] = sin(rad);
 	rotmat[2][2] = cos(rad);
 	y = -1;
-	while (++y < map->limits[Y])
+	while (++y < map->lim[Y])
 	{
 		x = -1;
-		while (++x < map->limits[X])
+		while (++x < map->lim[X])
 			proj[y][x] = matmul(rotmat, proj[y][x]);
 	}
 }
@@ -77,10 +77,10 @@ void	rotatey(t_map *map, t_point **proj, int angle)
 	rotmat[2][1] = 0;
 	rotmat[2][2] = cos(rad);
 	y = -1;
-	while (++y < map->limits[Y])
+	while (++y < map->lim[Y])
 	{
 		x = -1;
-		while (++x < map->limits[X])
+		while (++x < map->lim[X])
 			proj[y][x] = matmul(rotmat, proj[y][x]);
 	}
 }
@@ -103,10 +103,10 @@ void	rotatez(t_map *map, t_point **proj, int angle)
 	rotmat[2][1] = 0;
 	rotmat[2][2] = 1;
 	y = -1;
-	while (++y < map->limits[Y])
+	while (++y < map->lim[Y])
 	{
 		x = -1;
-		while (++x < map->limits[X])
+		while (++x < map->lim[X])
 			proj[y][x] = matmul(rotmat, proj[y][x]);
 	}
 }
@@ -127,10 +127,10 @@ void	orthographic(t_map *map, t_point **proj)
 	rotmat[2][1] = 0;
 	rotmat[2][2] = 0;
 	y = -1;
-	while (++y < map->limits[Y])
+	while (++y < map->lim[Y])
 	{
 		x = -1;
-		while (++x < map->limits[X])
+		while (++x < map->lim[X])
 			proj[y][x] = matmul(rotmat, proj[y][x]);
 	}
 }

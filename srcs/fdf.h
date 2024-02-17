@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 17:38:19 by joao              #+#    #+#             */
-/*   Updated: 2024/02/15 16:45:50 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/16 23:22:57 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 # include <fcntl.h>
 # include <math.h>
 # include <limits.h>
+
+# define HEX "0123456789ABCDEF"
 
 # define WIDTH 1920
 # define HEIGHT 1080
@@ -118,28 +120,28 @@
 
 # define INFO "<================MAP INFORMATION================>"
 # define INFO_SIZE "Number of Points: "
-# define SIZE fdf->map[fdf->current_map].limits[X] * fdf->map[fdf->current_map].limits[Y]
+# define SIZE fdf->map[fdf->in_use].lim[X] * fdf->map[fdf->in_use].lim[Y]
 # define INFO_X_Y "X Limit:        Y Limit: "
 # define INFO_X "X Limit: "
-# define X_LIM fdf->map[fdf->current_map].limits[X]
+# define X_LIM fdf->map[fdf->in_use].lim[X]
 # define INFO_Y "Y Limit: "
-# define Y_LIM fdf->map[fdf->current_map].limits[Y]
+# define Y_LIM fdf->map[fdf->in_use].lim[Y]
 # define INFO_ZMAX_ZMIN "Maximum Z:        Minimum Z: "
 # define INFO_ZMAX "Maximum Z: "
-# define ZMAX fdf->map[fdf->current_map].z_max
+# define ZMAX fdf->map[fdf->in_use].z_max
 # define INFO_ZMIN "Minimum Z: "
-# define ZMIN fdf->map[fdf->current_map].z_min
+# define ZMIN fdf->map[fdf->in_use].z_min
 
 # define DETAILS "<=================FRAME DETAILS=================>"
 # define ANGLES "Angles in use for rotation"
 # define SPACES "X[    ] Y[    ] Z[    ]"
-# define X_ANGLE fdf->map[fdf->current_map].angles[X]
-# define Y_ANGLE fdf->map[fdf->current_map].angles[Y]
-# define Z_ANGLE fdf->map[fdf->current_map].angles[Z]
+# define X_ANGLE fdf->map[fdf->in_use].angles[X]
+# define Y_ANGLE fdf->map[fdf->in_use].angles[Y]
+# define Z_ANGLE fdf->map[fdf->in_use].angles[Z]
 # define ZOOM "Zoom multiplier: "
-# define SCALE fdf->map[fdf->current_map].scale
+# define SCALE fdf->map[fdf->in_use].scale
 # define Z_MUL "Z multiplier: "
-# define Z_VAL_MUL fdf->map[fdf->current_map].z_multiplier
+# define Z_VAL_MUL fdf->map[fdf->in_use].mul[Z]
 
 # define SCHEME "<=================COLOR SCHEMES=================>"
 # define STR_DEFAULT "1: Default"
@@ -163,17 +165,26 @@
 # define STR_SPHERE "Spheric Projection" 
 
 # define CONTROLS "<====================CONTROLS===================>"
+# define TRANSLATION "Mouse Lclick -> Translation"
+# define ARROWS "Arrow keys -> Translation"
+# define RMOUSE_ROT "Shift + Mouse Rclick -> Z Axis Rotation"
+# define LMOUSE_ROT "Shift + Mouse Lclick -> X and Y Axis Rotation"
 # define X_ROT "Q/E -> X Axis Rotation"
 # define Y_ROT "A/D -> Y Axis Rotation"
 # define Z_ROT "W/S -> Z Axis Rotation"
-# define TRANSLATION "Mouse Lclick drag -> Translation"
 # define ZOOM_CHANGE "N/M -> Zoom out/in"
+# define MOUSE_WHEEL "Mouse Wheel -> Zoom out/in"
+# define S_MOUSE_WHEEL "Shift + Mouse Wheel -> Change X Multiplier"
+# define C_MOUSE_WHEEL "CTRL + Mouse Wheel -> Change Y Multiplier"
+# define A_MOUSE_WHEEL "Left ALT + Mouse Wheel -> Change Z Multiplier"
 # define PROJ_CHANGE "P -> Projection Change"
 # define SCHEME_CHANGE "H -> Color Scheme Change"
 # define ROT_VEL "-/+ -> Rotation Velocity"
 # define TRANSLATION_VEL "{/} -> Translation Velocity"
 # define MAP_CHANGE "L -> Map Change"
 # define INVERT "U -> Invert Colors"
+
+# define MAP_NAME "<===================CURRENT MAP=================>"
 
 # define Y_START 30
 # define X_START 30
@@ -184,11 +195,11 @@
 # define Z_SPACE (X_START + ft_strlen("X[    ] Y[    ] Z[") * 6)
 # define TO_STR(int) ft_itoa(int)
 # define FTO_STR(int) ftoa(int, 1)
-# define PARALLEL_MEDIAN (sin(vars->start_parallel) + sin(vars->end_parallel)) / 2
-# define RADIAL_DISTANCE pow(cos(vars->start_parallel), 2) + 2 * vars->parallel_median * sin(vars->start_parallel)
-# define THETA_LONG map->lambert_vars.parallel_median * (proj[y][x].polar[LONGITUDE] - map->lambert_vars.meridian)
-# define THETA_LAT map->lambert_vars.parallel_median * (proj[y][x].polar[LATITUDE] - map->lambert_vars.origin_lat)
-# define RHO map->lambert_vars.major_axis * sqrt(map->lambert_vars.radial_distance) / map->lambert_vars.parallel_median * tan(M_PI / 4 - THETA_LAT / 2)
+# define PARALLEL_MEDIAN (sin(map->l_vars.start_parallel) + sin(map->l_vars.end_parallel)) / 2
+# define RADIAL_DISTANCE pow(cos(map->l_vars.start_parallel), 2) + 2 * map->l_vars.parallel_median * sin(map->l_vars.start_parallel)
+# define THETA_LONG map->l_vars.parallel_median * (proj[y][x].polar[LONGITUDE] - map->l_vars.meridian)
+# define THETA_LAT map->l_vars.parallel_median * (proj[y][x].polar[LATITUDE] - map->l_vars.origin_lat)
+# define RHO map->l_vars.major_axis * sqrt(map->l_vars.radial_distance) / map->l_vars.parallel_median * tan(M_PI / 4 - THETA_LAT / 2)
 
 typedef struct s_lambert
 {
@@ -212,7 +223,6 @@ typedef struct s_point
 
 typedef struct s_pressed
 {
-	int	close;
 	int	pos_rot_x;
 	int	neg_rot_x;
 	int	pos_rot_y;
@@ -226,15 +236,17 @@ typedef struct s_pressed
 	int	mouse_l;
 	int mouse_r;
 	int	shift;
+	int	ctrl;
+	int	alt;
 }				t_pressed;
 
 typedef struct s_colors
 {
-	int	top_color;
-	int	top_transition_color;
-	int	mid_color;
-	int	bottom_transition_color;
-	int	bottom_color;
+	int	t_color;
+	int	t_t_color;
+	int	m_color;
+	int	b_t_color;
+	int	b_color;
 }				t_colors;
 
 typedef struct s_map
@@ -244,27 +256,26 @@ typedef struct s_map
 	int			z_range;
 	int			z_pos_range;
 	int			z_neg_range;
-	int			translation_velocity;
-	int			rotation_velocity;
+	int			t_vel;
+	int			r_vel;
 	int			proj;
 	char		**map_info;
-	int			point_density;
+	int			den;
 	float		scale;
-	float		x_multiplier;
-	float		y_multiplier;
-	float		z_multiplier;
-	int			limits[2];
+	float		mul[3];
+	int			lim[2];
 	float		angles[3];
 	float		radius;
 	int			spherical;
 	int			conic;
 	int			scheme;
 	int			inverted;
+	char		*name;
 	t_colors	color_scheme;
 	t_pressed	b_pressed;
 	t_point		origin;
 	t_point		**points;
-	t_lambert	lambert_vars;
+	t_lambert	l_vars;
 }				t_map;
 
 typedef struct s_bitmap
@@ -282,15 +293,16 @@ typedef struct s_vars
 	void		*win;
 	t_bitmap	bitmap;
 	int			number_of_maps;
-	int			current_map;
+	int			in_use;
 	t_map		*map;
+	int			menu;
 }				t_vars;
 
 char	**read_map(t_map *map, char *file);
 t_point	**copy_map(t_map original_map);
 void	faster_pixel_put(t_bitmap *bitmap, int x, int y, int color);
 void	vars_init(t_vars *fdf, char *title);
-void	map_init(t_map *map);
+void	map_init(t_map *map, char *name);
 void	parser(t_map *map, char *file);
 void	draw_map(t_vars *fdf);
 t_point	matmul(float mat[3][3], t_point point);
@@ -307,7 +319,7 @@ void	keys_origin(int keycode, t_vars *fdf);
 int		key_press(int keycode, t_vars *fdf);
 int		key_release(int keycode, t_vars *fdf);
 void	change_scale(int keycode, t_vars *fdf);
-void	change_z_multiplier(int keycode, t_vars *fdf);
+void	change_z_mul(int keycode, t_vars *fdf);
 int		mouse_press(int button, int x, int y, t_vars *fdf);
 int		map_translation(int x, int y, t_vars *fdf);
 int		render_frame(t_vars *fdf);
@@ -331,5 +343,7 @@ void	choose_color_scheme(t_map *map);
 int		mouse_release(int button, int x, int y, t_vars *fdf);
 void	invert_color(t_point *point);
 void	turn_negative(t_vars *fdf);
+void 	menu_button(t_vars *fdf);
+long	ft_strhextol(char *str);
 
 #endif

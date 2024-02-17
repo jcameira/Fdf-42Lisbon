@@ -1,47 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   memory_handle.c                                    :+:      :+:    :+:   */
+/*   ft_strhextol.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/01 16:23:16 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/17 00:14:26 by jcameira         ###   ########.fr       */
+/*   Created: 2024/02/16 19:21:49 by jcameira          #+#    #+#             */
+/*   Updated: 2024/02/16 22:10:55 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	free_split(char **split)
+static int	strpos(char c, char *str)
 {
 	int	i;
 
 	i = -1;
-	while (split[++i])
-		free(split[i]);
-	free(split);
-}
-
-void	free_map(t_map *map)
-{
-	int	y;
-
-	y = -1;
-	while (++y < map->lim[Y])
+	while (str[++i])
 	{
-		free(map->points[y]);
-		free(map->map_info[y]);
+		if (c == str[i])
+			return (i);
 	}
-	free(map->points);
-	free(map->map_info);
+	return (-1);
 }
 
-void	free_proj(t_point **proj, t_map map)
+long	ft_strhextol(char *str)
 {
-	int	y;
+	int			i;
+	long int	n;
 
-	y = -1;
-	while (++y < map.lim[Y])
-		free(proj[y]);
-	free(proj);
+	n = 0;
+	i = -1;
+	while (str[++i])
+	{
+		n *= 16;
+		n += strpos(ft_toupper(str[i]), HEX);
+	}
+	return (n);
 }
