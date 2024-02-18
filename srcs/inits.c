@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:34:32 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/17 00:10:07 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/17 22:12:58 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,10 @@ void	lambert_init(t_map *map)
 	map->l_vars.meridian = INITIAL_MERIDIAN;
 	map->l_vars.origin_lat = ORIGIN_LAT;
 	map->l_vars.major_axis = map->scale * ((float)map->lim[X] / (float)20);
-	map->l_vars.parallel_median = PARALLEL_MEDIAN;
-	map->l_vars.radial_distance = RADIAL_DISTANCE;
+	map->l_vars.parallel_median = (sin(map->l_vars.start_parallel)
+			+ sin(map->l_vars.end_parallel)) / 2;
+	map->l_vars.radial_distance = pow(cos(map->l_vars.start_parallel), 2)
+		+ 2 * map->l_vars.parallel_median * sin(map->l_vars.start_parallel);
 }
 
 void	buttons_init(t_map *map)

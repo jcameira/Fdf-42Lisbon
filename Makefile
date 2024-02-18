@@ -7,7 +7,8 @@ RM					=	rm -rf
 
 SRCS				=	fdf.c fdf_utils.c inits.c parser.c draw_map.c \
 						matrix_operations.c prespectives.c key_controls.c \
-						color.c memory_handle.c menu.c ftoa.c ft_strhextol.c
+						color.c memory_handle.c menu.c ftoa.c ft_strhextol.c \
+						color_utils.c dda.c key_press.c key_release.c
 SRCS_PATH			=	srcs/
 
 MAIN				=	$(SRCS_PATH)fdf.c

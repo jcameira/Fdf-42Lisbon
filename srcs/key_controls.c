@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 19:36:35 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/17 00:11:11 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/18 00:50:54 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ void	reset_position(t_vars *fdf)
 {
 	fdf->map[fdf->in_use].origin.coord[X] = WIDTH / 2;
 	fdf->map[fdf->in_use].origin.coord[Y] = HEIGHT / 2;
+	fit_window(fdf);
 }
 
 void	change_scale(int keycode, t_vars *fdf)
@@ -149,33 +150,6 @@ void	change_rot_vel(int keycode, t_vars *fdf)
 		fdf->map[fdf->in_use].r_vel++;
 }
 
-int	key_release(int keycode, t_vars *fdf)
-{
-	if (keycode == 65361)
-		fdf->map[fdf->in_use].b_pressed.mov_l = 0;
-	if (keycode == 65362)
-		fdf->map[fdf->in_use].b_pressed.mov_u = 0;
-	if (keycode == 65363)
-		fdf->map[fdf->in_use].b_pressed.mov_r = 0;
-	if (keycode == 65364)
-		fdf->map[fdf->in_use].b_pressed.mov_d = 0;
-	if (keycode == 113)
-		fdf->map[fdf->in_use].b_pressed.pos_rot_x = 0;
-	if (keycode == 101)
-		fdf->map[fdf->in_use].b_pressed.neg_rot_x = 0;
-	if (keycode == 97)
-		fdf->map[fdf->in_use].b_pressed.pos_rot_y = 0;
-	if (keycode == 100)
-		fdf->map[fdf->in_use].b_pressed.neg_rot_y = 0;
-	if (keycode == 119)
-		fdf->map[fdf->in_use].b_pressed.pos_rot_z = 0;
-	if (keycode == 115)
-		fdf->map[fdf->in_use].b_pressed.neg_rot_z = 0;
-	if (keycode == 65505)
-		fdf->map[fdf->in_use].b_pressed.shift = 0;
-	return (0);
-}
-
 void	change_map(t_vars *fdf)
 {
 	fdf->in_use++;
@@ -186,12 +160,8 @@ void	change_map(t_vars *fdf)
 
 void	change_color_scheme(t_vars *fdf, int keycode)
 {
-	if (keycode >= 49 && keycode <= 57)
+	if (keycode >= ONE && keycode <= NINE)
 		fdf->map[fdf->in_use].scheme = keycode - 49;
-	else
-		fdf->map[fdf->in_use].scheme++;
-	if (fdf->map[fdf->in_use].scheme > 8)
-		fdf->map[fdf->in_use].scheme = 0;
 	choose_color_scheme(&fdf->map[fdf->in_use]);
 	if (fdf->map[fdf->in_use].inverted)
 		turn_negative(fdf);
@@ -209,51 +179,6 @@ void	turn_negative(t_vars *fdf)
 		while (++x < fdf->map[fdf->in_use].lim[X])
 			invert_color(&fdf->map[fdf->in_use].points[y][x]);
 	}
-}
-
-int	key_press(int keycode, t_vars *fdf)
-{
-	//printf("Keycode: %d\n", keycode);
-	if (keycode == 45 || keycode == 61) //-, +
-		change_mov_vel(keycode, fdf);
-	if (keycode == 91 || keycode == 93) //[, ]
-		change_rot_vel(keycode, fdf);
-	if (keycode == 113 || keycode == 119 || keycode == 101 || keycode == 97 || keycode == 115 || keycode == 100) //Q, W, E, A, S, D
-		map_rotation(keycode, fdf);
-	if (keycode == 109 || keycode == 110) //M, N
-		change_scale(keycode, fdf);
-	if (keycode == 111 || keycode == 112) //O, P
-		change_prespective(keycode, fdf);
-	if (keycode == 114) //R
-		reset_position(fdf);
-	if (keycode == 65307) //Esc
-		end_program(fdf);
-	if (keycode >= 65361 && keycode <= 65364) //Arrows
-		keys_origin(keycode, fdf);
-	if (keycode == 103) //G
-	{
-		fdf->map[fdf->in_use].spherical = !fdf->map[fdf->in_use].spherical;
-		fdf->map[fdf->in_use].conic = 0;
-	}
-	if (keycode == 99) //C
-	{
-		fdf->map[fdf->in_use].conic = !fdf->map[fdf->in_use].conic;
-		fdf->map[fdf->in_use].spherical = 0;
-	}
-	if (keycode == 108) //L
-		change_map(fdf);
-	if ((keycode >= 49 && keycode <= 57) || keycode == 104) //H
-	{
-		change_color_scheme(fdf, keycode);
-	}
-	if (keycode == 65505) //Shift
-		fdf->map[fdf->in_use].b_pressed.shift = !fdf->map[fdf->in_use].b_pressed.shift;
-	if (keycode == 117) //U
-	{
-		turn_negative(fdf);
-		fdf->map[fdf->in_use].inverted = !fdf->map[fdf->in_use].inverted;
-	}
-	return (0);
 }
 
 int	check_vicinity(int x1, int x2, int y1, int y2)

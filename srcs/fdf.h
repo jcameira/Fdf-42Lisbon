@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 17:38:19 by joao              #+#    #+#             */
-/*   Updated: 2024/02/16 23:22:57 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/18 00:41:45 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,53 @@
 
 # define MENU_WIDTH 350
 
+# define ZERO 48
+# define ONE 49
+# define TWO 50
+# define THREE 51
+# define FOUR 52
+# define FIVE 53
+# define SIX 54
+# define SEVEN 55
+# define EIGHT 56
+# define NINE 57
+# define KA 97
+# define KB 98
+# define KC 99
+# define KD 100
+# define KE 101
+# define KF 102
+# define KG 103
+# define KH 104
+# define KI 105
+# define KJ 106
+# define KK 107
+# define KL 108
+# define KM 109
+# define KN 110
+# define KO 111
+# define KP 112
+# define KQ 113
+# define KR 114
+# define KS 115
+# define KT 116
+# define KU 117
+# define KV 118
+# define KW 119
+# define KX 120
+# define KY 121
+# define KZ 122
+# define L_ARROW 65361
+# define D_ARROW 65364
+# define R_ARROW 65363
+# define U_ARROW 65362
+# define PLUS 61
+# define MINUS 45
+# define L_SHIFT 65505
+# define L_CTRL 65507
+# define L_ALT 65513
+# define ESC 65307
+
 # define X 0
 # define Y 1
 # define Z 2
@@ -42,6 +89,13 @@
 # define LONGITUDE 0
 # define LATITUDE 1
 
+# define ISOMETRIC 0
+# define TOP_VIEW 1
+# define SIDE_VIEW 2
+# define FRONT_VIEW 3
+# define CONIC 4
+# define SPHERE 5
+
 # define DEFAULT 0
 # define EARTH 1
 # define BLUEISH_TONES 2
@@ -51,13 +105,6 @@
 # define ANOTHER_EARTH 6
 # define BRIGHT_PASTEL 7
 # define PINKISH_PASTEL 8
-
-# define ISOMETRIC 0
-# define TOP_VIEW 1
-# define SIDE_VIEW 2
-# define FRONT_VIEW 3
-# define CONIC 4
-# define SPHERE 5
 
 # define WHITE 0xFFFFFFFF
 # define SOFT_ORANGE 0xFFFF9933
@@ -195,11 +242,6 @@
 # define Z_SPACE (X_START + ft_strlen("X[    ] Y[    ] Z[") * 6)
 # define TO_STR(int) ft_itoa(int)
 # define FTO_STR(int) ftoa(int, 1)
-# define PARALLEL_MEDIAN (sin(map->l_vars.start_parallel) + sin(map->l_vars.end_parallel)) / 2
-# define RADIAL_DISTANCE pow(cos(map->l_vars.start_parallel), 2) + 2 * map->l_vars.parallel_median * sin(map->l_vars.start_parallel)
-# define THETA_LONG map->l_vars.parallel_median * (proj[y][x].polar[LONGITUDE] - map->l_vars.meridian)
-# define THETA_LAT map->l_vars.parallel_median * (proj[y][x].polar[LATITUDE] - map->l_vars.origin_lat)
-# define RHO map->l_vars.major_axis * sqrt(map->l_vars.radial_distance) / map->l_vars.parallel_median * tan(M_PI / 4 - THETA_LAT / 2)
 
 typedef struct s_lambert
 {
@@ -210,6 +252,8 @@ typedef struct s_lambert
 	float	major_axis;
 	float	parallel_median;
 	float	radial_distance;
+	float	theta_long;
+	float	theta_lat;
 }				t_lambert;
 
 typedef struct s_point
@@ -345,5 +389,14 @@ void	invert_color(t_point *point);
 void	turn_negative(t_vars *fdf);
 void 	menu_button(t_vars *fdf);
 long	ft_strhextol(char *str);
+void	behind_menu(t_point *pixel);
+int		update_color_gradient(int startcolor, int endcolor, float len, float pixels);
+void	dda(t_vars *fdf, t_point start, t_point end);
+void	change_color_scheme(t_vars *fdf, int keycode);
+void	map_rotation(int keycode, t_vars *fdf);
+void	change_mov_vel(int keycode, t_vars *fdf);
+void	change_rot_vel(int keycode, t_vars *fdf);
+void	reset_position(t_vars *fdf);
+void	change_map(t_vars *fdf);
 
 #endif

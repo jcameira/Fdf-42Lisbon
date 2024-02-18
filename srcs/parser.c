@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:30:27 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/16 23:22:28 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/17 16:47:45 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,30 @@ void	get_polar_coord(t_map *map)
 		x = -1;
 		while (++x < map->lim[X])
 		{
-			map->points[y][x].polar[LONGITUDE] = -(map->points[y][x].coord[X]) * steps_x;
-			map->points[y][x].polar[LATITUDE] = ((map->points[y][x].coord[Y]) + (map->lim[Y] / 2)) * steps_y;
+			map->points[y][x].polar[LONGITUDE] = -(map->points[y][x].coord[X])
+				* steps_x;
+			map->points[y][x].polar[LATITUDE] = ((map->points[y][x].coord[Y])
+					+ (map->lim[Y] / 2)) * steps_y;
 		}
+	}
+}
+
+void	update_z_ranges(t_map *map)
+{
+	if (map->z_max > 0 && map->z_min < 0)
+	{
+		map->z_pos_range = map->z_max;
+		map->z_neg_range = -map->z_min;
+	}
+	else if (map->z_max > 0 && map->z_min >= 0)
+	{
+		map->z_pos_range = map->z_range;
+		map->z_neg_range = 0;
+	}
+	else if (map->z_max <= 0 && map->z_min < 0)
+	{
+		map->z_pos_range = 0;
+		map->z_neg_range = map->z_range;
 	}
 }
 
@@ -54,21 +75,7 @@ void	update_z_limits(t_map *map, t_point **points)
 		}
 	}
 	map->z_range = map->z_max - map->z_min;
-	if (map->z_max > 0 && map->z_min < 0)
-	{
-		map->z_pos_range = map->z_max;
-		map->z_neg_range = -map->z_min;
-	}
-	else if (map->z_max > 0 && map->z_min >= 0)
-	{
-		map->z_pos_range = map->z_range;
-		map->z_neg_range = 0;
-	}
-	else if (map->z_max > 0 && map->z_min >= 0)
-	{
-		map->z_pos_range = 0;
-		map->z_neg_range = map->z_range;
-	}
+	update_z_ranges(map);
 }
 
 void	load_coord(t_map *map, t_point ***points, char **z_values, int y)
@@ -163,8 +170,6 @@ void	get_x_y_limits(t_map *map, char *file)
 		line = get_next_line(fd);
 	}
 	free(line);
-	printf("X limit: %d\n", map->lim[X]);
-	printf("Y limit: %d\n", map->lim[Y]);
 	close(fd);
 }
 
