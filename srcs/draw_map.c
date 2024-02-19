@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 20:16:42 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/17 22:33:51 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/19 19:27:22 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,8 @@ void	draw_map(t_vars *fdf)
 	t_point	**proj;
 
 	proj = copy_map(fdf->map[fdf->in_use]);
+	if (!proj)
+		return ;
 	if (fdf->map[fdf->in_use].spherical)
 		spherize(&fdf->map[fdf->in_use], proj);
 	if (fdf->map[fdf->in_use].conic)

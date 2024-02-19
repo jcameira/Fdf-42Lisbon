@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 01:23:28 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/19 01:25:20 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/19 15:47:54 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,7 @@ void	draw_menu(t_vars *fdf)
 	y = Y_START;
 	put_info(fdf, &y);
 	put_angles(fdf, &y);
-	put_zoom(fdf, &y);
-	put_velocities(fdf, &y);
+	put_zoom_vel(fdf, &y);
 	put_scheme(fdf, &y);
 	put_proj(fdf, &y);
 	put_controls(fdf, &y);

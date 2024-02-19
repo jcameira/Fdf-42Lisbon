@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:30:27 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/19 03:35:33 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/19 19:46:36 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	get_polar_coord(t_map *map)
 	}
 }
 
-void	load_coord(t_map *map, t_point ***points, char **z_values, int y)
+int	load_coord(t_map *map, t_point ***points, char **z_values, int y)
 {
 	int		x;
 	char	**z_info;
@@ -50,6 +50,11 @@ void	load_coord(t_map *map, t_point ***points, char **z_values, int y)
 		if (ft_strchr(z_values[x], ','))
 		{
 			z_info = ft_split(z_values[x], ',');
+			if (!z_info)
+			{
+				free_split(z_info);
+				return (1);
+			}
 			(*points)[y][x].original_color = ft_strhextol(z_info[1] + 2);
 			free_split(z_info);
 		}
@@ -57,35 +62,18 @@ void	load_coord(t_map *map, t_point ***points, char **z_values, int y)
 			(*points)[y][x].original_color = WHITE;
 		(*points)[y][x].color = (*points)[y][x].original_color;
 	}
-}
-
-void	print_progress_bar(int progress, int total, char *map_name)
-{
-	int	length;
-	int	i;
-
-	length = progress * 50 / total;
-	ft_printf("%s [", map_name);
-	i = -1;
-	while (++i < 50)
-	{
-		if (i < length)
-			ft_printf("#");
-		else
-			ft_printf("-");
-	}
-	ft_printf("] %d%%\r", progress * 100 / total);
+	return (0);
 }
 
 t_point	**get_original_points(t_map *map)
 {
-	int		y;
-	char	**z_values;
-	t_point	**points;
+	int			y;
+	char		**z_values;
+	t_point		**points;
 
 	points = malloc(sizeof (t_point *) * map->lim[Y]);
 	if (!points)
-		return (NULL);
+		return (malloc_points_error(map->name));
 	y = -1;
 	while (++y < map->lim[Y])
 	{
@@ -93,16 +81,20 @@ t_point	**get_original_points(t_map *map)
 		if (!points[y])
 		{
 			free_proj(points, *map);
-			return (NULL);
+			return (malloc_points_error(map->name));
 		}
 		z_values = ft_split(map->map_info[y], ' ');
 		if (!z_values)
-			return (NULL);
-		load_coord(map, &points, z_values, y);
+			return (malloc_points_error(map->name));
+		if (load_coord(map, &points, z_values, y))
+		{
+			free_proj(points, *map);
+			return (malloc_points_error(map->name));
+		}
 		free_split(z_values);
 		print_progress_bar(y + 1, map->lim[Y], map->name);
 	}
-	printf("\n");
+	ft_printf("\n");
 	return (points);
 }
 
@@ -113,19 +105,18 @@ char	**read_map(t_map *map, char *file)
 	char	**map_info;
 	char	*tmp;
 
+	if (fd_check(&fd, file))
+		return (NULL);
 	map_info = malloc(sizeof (char *) * map->lim[Y]);
 	if (!map_info)
-		return (NULL);
-	fd = open(file, O_RDONLY);
-	if (fd < 0)
-		return (NULL);
+		return (malloc_map_error(fd, file));
 	tmp = get_next_line(fd);
 	y = -1;
 	while (++y < map->lim[Y])
 	{
 		map_info[y] = ft_strtrim(tmp, " \n");
 		if (!map_info[y])
-			return (NULL);
+			return (exit_read_map_early(map_info, fd, file));
 		free(tmp);
 		tmp = get_next_line(fd);
 	}
@@ -136,29 +127,17 @@ char	**read_map(t_map *map, char *file)
 
 int	parser(t_map *map, char *file)
 {
-	static int	read_maps;
-
 	map_init(map, file);
 	if (get_x_y_limits(map, file))
-	{
-		ft_printf("Couldn't read map\n");
 		return (1);
-	}
 	map->map_info = read_map(map, file);
 	if (!map->map_info)
-	{
-		ft_printf("Couldn't read map\n");
 		return (1);
-	}
 	map->points = get_original_points(map);
 	if (!map->points)
-	{
-		ft_printf("Couldn't read map\n");
 		return (1);
-	}
 	update_z_limits(map, map->points);
 	find_best_z_mul(map);
 	get_polar_coord(map);
-	read_maps++;
 	return (0);
 }

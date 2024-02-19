@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 18:10:14 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/19 01:12:31 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/19 15:49:50 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ int	mouse_press(int button, int x, int y, t_vars *fdf)
 			fdf->menu = 0;
 		if (x > 0 && x < 15 && y > 0 && y < 15 && !fdf->menu)
 			fdf->menu = 1;
-		if (x > 300 && x < 315 && y > 1018 && y < 1033 && fdf->menu)
+		if (x > 300 && x < 315 && y > 958 && y < 973 && fdf->menu)
 			fdf->in_use--;
-		if (x > 320 && x < 335 && y > 1018 && y < 1033 && fdf->menu)
+		if (x > 320 && x < 335 && y > 958 && y < 973 && fdf->menu)
 			fdf->in_use++;
 		if (fdf->in_use == fdf->number_of_maps)
 			fdf->in_use = 0;

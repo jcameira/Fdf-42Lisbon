@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 18:39:58 by joao              #+#    #+#             */
-/*   Updated: 2024/02/19 02:12:07 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/19 20:19:28 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ void	fit_window(t_vars *fdf)
 	while (1)
 	{
 		proj = copy_map(fdf->map[fdf->in_use]);
+		if (!proj)
+			end_program(fdf, fdf->number_of_maps, 0);
 		y = -1;
 		while (++y < fdf->map[fdf->in_use].lim[Y])
 		{

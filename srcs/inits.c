@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:34:32 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/19 01:55:19 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/19 16:36:00 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ void	map_init(t_map *map, char *name)
 	map->proj = 0;
 	map->scale = 1;
 	map->den = 8 / map->scale;
+	map->lim[Y] = 0;
 	map->mul[X] = 1;
 	map->mul[Y] = 1;
 	map->mul[Z] = 1;

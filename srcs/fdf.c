@@ -6,26 +6,37 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 17:55:13 by joao              #+#    #+#             */
-/*   Updated: 2024/02/19 03:19:12 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/19 17:55:01 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
+void	get_maps(t_vars *fdf, char **argv)
+{
+	int		i;
+
+	i = -1;
+	while (++i < fdf->number_of_maps)
+	{
+		if (parser(&fdf->map[i], argv[i + 1]))
+			end_program(fdf, i, 1);
+	}
+}
+
 int	main(int argc, char **argv)
 {
 	t_vars	fdf;
-	int		i;
 
 	if (argc < 2)
 		return (0);
 	fdf.map = input_info_init(&fdf, argc);
-	i = -1;
-	while (++i < fdf.number_of_maps)
+	if (!fdf.map)
 	{
-		if (parser(&fdf.map[i], argv[i + 1]))
-			end_program(&fdf, i, 1);
+		ft_printf(ERROR_INIT);
+		return (0);
 	}
+	get_maps(&fdf, argv);
 	vars_init(&fdf, "FDF by Jcameira");
 	fit_window(&fdf);
 	mlx_hook(fdf.win, 2, (1L << 0), key_press, &fdf);

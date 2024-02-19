@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 17:07:59 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/18 00:36:28 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/19 19:39:53 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,10 @@ void	invert_color(t_point *point)
 		+ (new_color[G] << 8) + new_color[B];
 }
 
-int	update_color_gradient(int startcolor, int endcolor, float len, float pixels)
+unsigned int	update_color_gradient(int startcolor, int endcolor, float len, float pixels)
 {
-	float	increment[4];
-	int		new_color[4];
+	float				increment[4];
+	unsigned int		new_color[4];
 
 	increment[T] = ((endcolor >> 24 & 0xFF) - (startcolor >> 24 & 0xFF)) / len;
 	increment[R] = ((endcolor >> 16 & 0xFF) - (startcolor >> 16 & 0xFF)) / len;

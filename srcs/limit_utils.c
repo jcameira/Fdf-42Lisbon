@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 20:25:20 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/19 03:11:18 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/19 18:06:13 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,23 +60,24 @@ int	get_x_y_limits(t_map *map, char *file)
 	char	*line;
 	char	*trimmed_line;
 
-	fd = open(file, O_RDONLY);
+	if (fd_check(&fd, file))
+		return (1);
 	line = get_next_line(fd);
 	trimmed_line = ft_strtrim(line, " \n");
+	if (!trimmed_line)
+		return (early_lim_exit(line, trimmed_line, fd, file));
 	map->lim[X] = (float)word_count(trimmed_line, ' ');
-	map->lim[Y] = 0;
-	free(trimmed_line);
 	while (line)
 	{
 		map->lim[Y]++;
 		free(line);
+		free(trimmed_line);
 		line = get_next_line(fd);
 		if (!line)
 			break ;
 		trimmed_line = ft_strtrim(line, " \n");
-		if (word_count(trimmed_line, ' ') != map->lim[X])
-			return (1);
-		free(trimmed_line);
+		if (!trimmed_line || word_count(trimmed_line, ' ') != map->lim[X])
+			return (early_lim_exit(line, trimmed_line, fd, file));
 	}
 	close(fd);
 	return (0);

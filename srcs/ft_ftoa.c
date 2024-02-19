@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 00:56:38 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/19 00:06:47 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/19 17:35:51 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static int	fnum_len(float n, int precision)
 	return (len);
 }
 
-static void	add_int(float n, char *buffer, int precision, int length)
+static void	add_int(float n, char *n_str, int precision, int length)
 {
 	int	tmp_int;
 
@@ -49,23 +49,27 @@ static void	add_int(float n, char *buffer, int precision, int length)
 	{
 		if (n < 0)
 		{
-			buffer[0] = '-';
-			buffer[1] = '0';
+			n_str[0] = '-';
+			n_str[1] = '0';
 		}
 		else
-			buffer[0] = '0';
+			n_str[0] = '0';
 	}
 	while (tmp_int != 0)
 	{
-		if ((tmp_int % 10) < 0)
-			buffer[length-- - 2 - precision] = (tmp_int % 10) * (-1) + '0';
-		else
-			buffer[length-- - 2 - precision] = (tmp_int % 10) + '0';
+		if ((tmp_int % 10) < 0 && precision > 0)
+			n_str[length-- - 2 - precision] = (tmp_int % 10) * (-1) + '0';
+		else if ((tmp_int % 10) < 0)
+			n_str[length-- - 1] = (tmp_int % 10) * (-1) + '0';
+		else if ((tmp_int % 10) >= 0 && precision > 0)
+			n_str[length-- - 2 - precision] = (tmp_int % 10) + '0';
+		else if ((tmp_int % 10) >= 0)
+			n_str[length-- - 1] = (tmp_int % 10) + '0';
 		tmp_int /= 10;
 	}
 }
 
-static void	add_dec(float n, char *buffer, int precision, int length)
+static void	add_dec(float n, char *n_str, int precision, int length)
 {
 	float	tmp_float;
 
@@ -74,9 +78,9 @@ static void	add_dec(float n, char *buffer, int precision, int length)
 	{
 		tmp_float *= 10;
 		if (((int)tmp_float % 10) < 0)
-			buffer[length - precision] = ((int)tmp_float % 10) * (-1) + '0';
+			n_str[length - precision] = ((int)tmp_float % 10) * (-1) + '0';
 		else
-			buffer[length - precision] = ((int)tmp_float % 10) + '0';
+			n_str[length - precision] = ((int)tmp_float % 10) + '0';
 		tmp_float -= (int)tmp_float;
 		precision--;
 	}
@@ -85,28 +89,28 @@ static void	add_dec(float n, char *buffer, int precision, int length)
 char	*ft_ftoa(float n, int precision)
 {
 	int		n_len;
-	char	*buffer;
+	char	*n_str;
 
 	n_len = fnum_len(n, precision);
-	buffer = malloc(sizeof(char) * (n_len + 1));
-	if (!buffer)
+	n_str = malloc(sizeof(char) * (n_len + 1));
+	if (!n_str)
 		return (NULL);
-	buffer[n_len] = '\0';
+	n_str[n_len] = '\0';
 	if (precision > 0)
-		buffer[n_len - 1 - precision] = '.';
+		n_str[n_len - 1 - precision] = '.';
 	if (n == 0)
 	{
-		buffer[0] = '0';
+		n_str[0] = '0';
 		while (precision > 0)
 		{
-			buffer[1 + precision] = '0';
+			n_str[1 + precision] = '0';
 			precision--;
 		}
-		return (buffer);
+		return (n_str);
 	}
 	if (n < 0)
-		buffer[0] = '-';
-	add_int(n, buffer, precision, n_len);
-	add_dec(n, buffer, precision, n_len);
-	return (buffer);
+		n_str[0] = '-';
+	add_int(n, n_str, precision, n_len);
+	add_dec(n, n_str, precision, n_len);
+	return (n_str);
 }
