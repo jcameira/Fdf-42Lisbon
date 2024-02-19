@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:30:27 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/17 16:47:45 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/19 03:35:33 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,48 +36,6 @@ void	get_polar_coord(t_map *map)
 	}
 }
 
-void	update_z_ranges(t_map *map)
-{
-	if (map->z_max > 0 && map->z_min < 0)
-	{
-		map->z_pos_range = map->z_max;
-		map->z_neg_range = -map->z_min;
-	}
-	else if (map->z_max > 0 && map->z_min >= 0)
-	{
-		map->z_pos_range = map->z_range;
-		map->z_neg_range = 0;
-	}
-	else if (map->z_max <= 0 && map->z_min < 0)
-	{
-		map->z_pos_range = 0;
-		map->z_neg_range = map->z_range;
-	}
-}
-
-void	update_z_limits(t_map *map, t_point **points)
-{
-	int	y;
-	int	x;
-
-	y = -1;
-	map->z_min = INT_MAX;
-	map->z_max = INT_MIN;
-	while (++y < map->lim[Y])
-	{
-		x = -1;
-		while (++x < map->lim[X])
-		{
-			if (map->z_min > round(points[y][x].coord[Z]))
-				map->z_min = round(points[y][x].coord[Z]);
-			if (map->z_max < round(points[y][x].coord[Z]))
-				map->z_max = round(points[y][x].coord[Z]);
-		}
-	}
-	map->z_range = map->z_max - map->z_min;
-	update_z_ranges(map);
-}
-
 void	load_coord(t_map *map, t_point ***points, char **z_values, int y)
 {
 	int		x;
@@ -101,6 +59,24 @@ void	load_coord(t_map *map, t_point ***points, char **z_values, int y)
 	}
 }
 
+void	print_progress_bar(int progress, int total, char *map_name)
+{
+	int	length;
+	int	i;
+
+	length = progress * 50 / total;
+	ft_printf("%s [", map_name);
+	i = -1;
+	while (++i < 50)
+	{
+		if (i < length)
+			ft_printf("#");
+		else
+			ft_printf("-");
+	}
+	ft_printf("] %d%%\r", progress * 100 / total);
+}
+
 t_point	**get_original_points(t_map *map)
 {
 	int		y;
@@ -115,13 +91,18 @@ t_point	**get_original_points(t_map *map)
 	{
 		points[y] = malloc(sizeof (t_point) * map->lim[X]);
 		if (!points[y])
+		{
+			free_proj(points, *map);
 			return (NULL);
+		}
 		z_values = ft_split(map->map_info[y], ' ');
 		if (!z_values)
 			return (NULL);
 		load_coord(map, &points, z_values, y);
 		free_split(z_values);
+		print_progress_bar(y + 1, map->lim[Y], map->name);
 	}
+	printf("\n");
 	return (points);
 }
 
@@ -143,6 +124,8 @@ char	**read_map(t_map *map, char *file)
 	while (++y < map->lim[Y])
 	{
 		map_info[y] = ft_strtrim(tmp, " \n");
+		if (!map_info[y])
+			return (NULL);
 		free(tmp);
 		tmp = get_next_line(fd);
 	}
@@ -151,62 +134,31 @@ char	**read_map(t_map *map, char *file)
 	return (map_info);
 }
 
-void	get_x_y_limits(t_map *map, char *file)
+int	parser(t_map *map, char *file)
 {
-	int		fd;
-	char	*line;
-	char	*trimmed_line;
+	static int	read_maps;
 
-	fd = open(file, O_RDONLY);
-	line = get_next_line(fd);
-	trimmed_line = ft_strtrim(line, " \n");
-	map->lim[X] = (float)word_count(trimmed_line, ' ');
-	map->lim[Y] = 0;
-	free(trimmed_line);
-	while (line)
-	{
-		map->lim[Y]++;
-		free(line);
-		line = get_next_line(fd);
-	}
-	free(line);
-	close(fd);
-}
-
-void	find_best_z_mul(t_map *map)
-{
-	int	x;
-	int	y;
-	int	tmp_range;
-
-	tmp_range = map->z_range;
-	while ((float)tmp_range / (float)map->lim[X] > 0.05)
-	{
-		map->mul[Z] -= 0.1;
-		tmp_range = map->mul[Z] * (map->z_max - map->z_min);
-	}
-	while ((float)tmp_range / (float)map->lim[X] < 0.05)
-	{
-		map->mul[Z] += 0.1;
-		tmp_range = map->mul[Z] * (map->z_max - map->z_min);
-	}
-	y = -1;
-	while (++y < map->lim[Y])
-	{
-		x = -1;
-		while (++x < map->lim[X])
-			map->points[y][x].coord[Z] *= map->mul[Z];
-	}
-	update_z_limits(map, map->points);
-}
-
-void	parser(t_map *map, char *file)
-{
 	map_init(map, file);
-	get_x_y_limits(map, file);
+	if (get_x_y_limits(map, file))
+	{
+		ft_printf("Couldn't read map\n");
+		return (1);
+	}
 	map->map_info = read_map(map, file);
+	if (!map->map_info)
+	{
+		ft_printf("Couldn't read map\n");
+		return (1);
+	}
 	map->points = get_original_points(map);
+	if (!map->points)
+	{
+		ft_printf("Couldn't read map\n");
+		return (1);
+	}
 	update_z_limits(map, map->points);
 	find_best_z_mul(map);
 	get_polar_coord(map);
+	read_maps++;
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 00:45:42 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/18 00:49:57 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/18 20:13:07 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,10 @@ void	release_miscelaneous_keys(int keycode, t_vars *fdf)
 {
 	if (keycode == L_SHIFT)
 		fdf->map[fdf->in_use].b_pressed.shift = 0;
+	if (keycode == L_CTRL)
+		fdf->map[fdf->in_use].b_pressed.ctrl = 0;
+	if (keycode == L_ALT)
+		fdf->map[fdf->in_use].b_pressed.alt = 0;
 }
 
 int	key_release(int keycode, t_vars *fdf)

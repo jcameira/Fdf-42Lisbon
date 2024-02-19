@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ftoa.c                                             :+:      :+:    :+:   */
+/*   ft_ftoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 00:56:38 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/13 20:00:16 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/19 00:06:47 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ static void	add_dec(float n, char *buffer, int precision, int length)
 	}
 }
 
-char	*ftoa(float n, int precision)
+char	*ft_ftoa(float n, int precision)
 {
 	int		n_len;
 	char	*buffer;
@@ -99,7 +99,7 @@ char	*ftoa(float n, int precision)
 		buffer[0] = '0';
 		while (precision > 0)
 		{
-			buffer[2 + precision] = '0';
+			buffer[1 + precision] = '0';
 			precision--;
 		}
 		return (buffer);

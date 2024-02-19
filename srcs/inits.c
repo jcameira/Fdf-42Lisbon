@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:34:32 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/17 22:12:58 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/19 01:55:19 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ t_map	*input_info_init(t_vars *fdf, int argc)
 	t_map	*map;
 
 	map = malloc(sizeof (t_map) * (argc - 1));
+	if (!map)
+		return (NULL);
 	fdf->number_of_maps = argc - 1;
 	fdf->in_use = 0;
 	return (map);
@@ -75,8 +77,9 @@ void	map_init(t_map *map, char *name)
 	map->mul[X] = 1;
 	map->mul[Y] = 1;
 	map->mul[Z] = 1;
-	map->t_vel = 10;
-	map->r_vel = 3;
+	map->t_vel = 1;
+	map->r_vel = 1;
+	map->s_vel = 0.1;
 	map->angles[X] = 30;
 	map->angles[Y] = 330;
 	map->angles[Z] = 45;

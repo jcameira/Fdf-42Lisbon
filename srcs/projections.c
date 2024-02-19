@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prespectives.c                                     :+:      :+:    :+:   */
+/*   projections.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 19:25:38 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/16 01:06:51 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/18 18:57:36 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	side_view(t_vars *fdf)
 	fdf->map[fdf->in_use].angles[Z] = 0;
 }
 
-void	choose_prespective(t_vars *fdf, int prespective)
+void	choose_projection(t_vars *fdf, int prespective)
 {
 	if (prespective == ISOMETRIC)
 	{

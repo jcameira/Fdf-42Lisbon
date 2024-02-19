@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 17:07:55 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/17 21:46:41 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/18 20:31:31 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,12 @@ void	set_point_color(t_map *map)
 		while (++x < map->lim[X])
 		{
 			if (map->points[y][x].coord[Z] > 0
-				&& round(map->points[y][x].coord[Z]) == map->z_max)
+				&& ft_round(map->points[y][x].coord[Z]) == map->z_max)
 				map->points[y][x].color = map->color_scheme.t_color;
 			else if (round(map->points[y][x].coord[Z]) == 0)
 				map->points[y][x].color = map->color_scheme.m_color;
 			else if (map->points[y][x].coord[Z] < 0
-				&& round(map->points[y][x].coord[Z]) == map->z_min)
+				&& ft_round(map->points[y][x].coord[Z]) == map->z_min)
 				map->points[y][x].color = map->color_scheme.b_color;
 			else
 				set_point_color_gradient(map, x, y);

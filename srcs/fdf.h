@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 17:38:19 by joao              #+#    #+#             */
-/*   Updated: 2024/02/18 00:41:45 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/19 03:19:26 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "../complete_lib/mlx_linux/mlx.h"
 # include "../complete_lib/libft/libft.h"
+# include "../complete_lib/ft_printf/ft_printf.h"
 # include "../complete_lib/get_next_line/get_next_line_bonus.h"
 # include <unistd.h>
 # include <stdio.h>
@@ -29,6 +30,12 @@
 # define HEIGHT 1080
 
 # define MENU_WIDTH 350
+
+# define MOUSE_L_CLICK 1
+# define MOUSE_M_CLICK 2
+# define MOUSE_R_CLICK 3
+# define MOUSE_W_UP 4
+# define MOUSE_W_DOWN 5
 
 # define ZERO 48
 # define ONE 49
@@ -154,6 +161,9 @@
 # define DARK_PURPLE 0xFF6D597A
 # define MORE_GREYISH_BLUE 0xFF355070
 
+# define MENU_BACKGROUND 0xFF151515
+# define BUTTON 0xFFAAAAAA
+# define BUTTON_STR 0xFF000000
 # define NBR_YELLOW 0xFFE1E100
 # define SELECTION 0xFFCC00CC
 
@@ -162,33 +172,26 @@
 # define INITIAL_MERIDIAN -100
 # define ORIGIN_LAT 40
 
-# define MLX fdf->mlx
-# define WIN fdf->win
-
 # define INFO "<================MAP INFORMATION================>"
 # define INFO_SIZE "Number of Points: "
-# define SIZE fdf->map[fdf->in_use].lim[X] * fdf->map[fdf->in_use].lim[Y]
 # define INFO_X_Y "X Limit:        Y Limit: "
 # define INFO_X "X Limit: "
-# define X_LIM fdf->map[fdf->in_use].lim[X]
-# define INFO_Y "Y Limit: "
-# define Y_LIM fdf->map[fdf->in_use].lim[Y]
-# define INFO_ZMAX_ZMIN "Maximum Z:        Minimum Z: "
-# define INFO_ZMAX "Maximum Z: "
-# define ZMAX fdf->map[fdf->in_use].z_max
+# define INFO_ZMAX_ZMIN "Minimum Z:        Maximum Z: "
 # define INFO_ZMIN "Minimum Z: "
-# define ZMIN fdf->map[fdf->in_use].z_min
 
 # define DETAILS "<=================FRAME DETAILS=================>"
 # define ANGLES "Angles in use for rotation"
 # define SPACES "X[    ] Y[    ] Z[    ]"
-# define X_ANGLE fdf->map[fdf->in_use].angles[X]
-# define Y_ANGLE fdf->map[fdf->in_use].angles[Y]
-# define Z_ANGLE fdf->map[fdf->in_use].angles[Z]
+# define X_SPACE "X["
+# define Y_SPACE "X[    ] Y["
+# define Z_SPACE "X[    ] Y[    ] Z["
 # define ZOOM "Zoom multiplier: "
-# define SCALE fdf->map[fdf->in_use].scale
+# define X_MUL "X multiplier: "
+# define Y_MUL "Y multiplier: "
 # define Z_MUL "Z multiplier: "
-# define Z_VAL_MUL fdf->map[fdf->in_use].mul[Z]
+# define STR_TRANSLATION_VEL "Translation velocity: "
+# define STR_ROTATION_VEL "Rotation velocity: "
+# define STR_SCALE_VEL "Scale velocity: "
 
 # define SCHEME "<=================COLOR SCHEMES=================>"
 # define STR_DEFAULT "1: Default"
@@ -214,34 +217,28 @@
 # define CONTROLS "<====================CONTROLS===================>"
 # define TRANSLATION "Mouse Lclick -> Translation"
 # define ARROWS "Arrow keys -> Translation"
-# define RMOUSE_ROT "Shift + Mouse Rclick -> Z Axis Rotation"
-# define LMOUSE_ROT "Shift + Mouse Lclick -> X and Y Axis Rotation"
+# define RMOUSE_ROT "Left Shift + Mouse Rclick -> Z Axis Rotation"
+# define LMOUSE_ROT "Left Shift + Mouse Lclick -> X and Y Axis Rotation"
 # define X_ROT "Q/E -> X Axis Rotation"
 # define Y_ROT "A/D -> Y Axis Rotation"
 # define Z_ROT "W/S -> Z Axis Rotation"
 # define ZOOM_CHANGE "N/M -> Zoom out/in"
-# define MOUSE_WHEEL "Mouse Wheel -> Zoom out/in"
-# define S_MOUSE_WHEEL "Shift + Mouse Wheel -> Change X Multiplier"
-# define C_MOUSE_WHEEL "CTRL + Mouse Wheel -> Change Y Multiplier"
-# define A_MOUSE_WHEEL "Left ALT + Mouse Wheel -> Change Z Multiplier"
-# define PROJ_CHANGE "P -> Projection Change"
+# define MOUSE_W "Mouse Wheel -> Zoom out/in"
+# define S_MOUSE_W "Left Shift + Mouse Wheel -> Change X Multiplier"
+# define C_MOUSE_W "Left CTRL + Mouse Wheel -> Change Y Multiplier"
+# define A_MOUSE_W "Left ALT + Mouse Wheel -> Change Z Multiplier"
+# define PROJ_CHANGE "O/P -> Projection Change"
 # define SCHEME_CHANGE "H -> Color Scheme Change"
 # define ROT_VEL "-/+ -> Rotation Velocity"
-# define TRANSLATION_VEL "{/} -> Translation Velocity"
+# define TRANSLATION_VEL "Left Shift + -/+ -> Translation Velocity"
+# define SCALE_VEL "Left CTRL + -/+ -> Scale Velocity"
 # define MAP_CHANGE "L -> Map Change"
-# define INVERT "U -> Invert Colors"
+# define INVERT "I -> Invert Colors"
 
 # define MAP_NAME "<===================CURRENT MAP=================>"
 
 # define Y_START 30
 # define X_START 30
-# define NEXT_LINE(current_y) (current_y = 20 * (__COUNTER__) + Y_START, current_y - 1)
-# define X_END(str) (X_START + ft_strlen(str) * 6)
-# define X_SPACE (X_START + ft_strlen("X[") * 6)
-# define Y_SPACE (X_START + ft_strlen("X[    ] Y[") * 6)
-# define Z_SPACE (X_START + ft_strlen("X[    ] Y[    ] Z[") * 6)
-# define TO_STR(int) ft_itoa(int)
-# define FTO_STR(int) ftoa(int, 1)
 
 typedef struct s_lambert
 {
@@ -278,7 +275,7 @@ typedef struct s_pressed
 	int	mov_u;
 	int	mov_d;
 	int	mouse_l;
-	int mouse_r;
+	int	mouse_r;
 	int	shift;
 	int	ctrl;
 	int	alt;
@@ -300,12 +297,14 @@ typedef struct s_map
 	int			z_range;
 	int			z_pos_range;
 	int			z_neg_range;
-	int			t_vel;
-	int			r_vel;
+	float		t_vel;
+	float		r_vel;
+	float		s_vel;
 	int			proj;
 	char		**map_info;
 	int			den;
 	float		scale;
+	float		f_scale;
 	float		mul[3];
 	int			lim[2];
 	float		angles[3];
@@ -347,27 +346,27 @@ t_point	**copy_map(t_map original_map);
 void	faster_pixel_put(t_bitmap *bitmap, int x, int y, int color);
 void	vars_init(t_vars *fdf, char *title);
 void	map_init(t_map *map, char *name);
-void	parser(t_map *map, char *file);
+int		parser(t_map *map, char *file);
 void	draw_map(t_vars *fdf);
 t_point	matmul(float mat[3][3], t_point point);
 void	rotatex(t_map *map, t_point **proj, int angle);
 void	rotatey(t_map *map, t_point **proj, int angle);
 void	rotatez(t_map *map, t_point **proj, int angle);
 void	orthographic(t_map *map, t_point **proj);
-void	change_prespective(int keycode, t_vars *fdf);
-int		end_program(t_vars *fdf);
+void	change_projection(int keycode, t_vars *fdf);
+int		end_program(t_vars *fdf, int maps, int no_vars);
 void	isometric(t_vars *fdf);
 void	top_view(t_vars *fdf);
-void	choose_prespective(t_vars *fdf, int prespective);
-void	keys_origin(int keycode, t_vars *fdf);
+void	choose_projection(t_vars *fdf, int prespective);
+void	keys_translation(int keycode, t_vars *fdf);
 int		key_press(int keycode, t_vars *fdf);
 int		key_release(int keycode, t_vars *fdf);
 void	change_scale(int keycode, t_vars *fdf);
 void	change_z_mul(int keycode, t_vars *fdf);
 int		mouse_press(int button, int x, int y, t_vars *fdf);
-int		map_translation(int x, int y, t_vars *fdf);
+int		map_movement(int x, int y, t_vars *fdf);
 int		render_frame(t_vars *fdf);
-void	move_origin(t_vars *fdf);
+void	translations(t_vars *fdf);
 void	set_point_color(t_map *map);
 void	update_z_limits(t_map *map, t_point **points);
 int		update_color_gradient(int start, int end, float len, float pixels);
@@ -380,23 +379,43 @@ void	update_scale_dependants(t_map *map, float increment, int reset);
 void	draw_menu(t_vars *fdf);
 void	menu_background(t_vars *fdf);
 void	behind_menu(t_point *pixel);
-void	put_info(t_vars *fdf);
-char	*ftoa(float n, int precision);
+char	*ft_ftoa(float n, int precision);
 t_map	*input_info_init(t_vars *fdf, int argc);
 void	choose_color_scheme(t_map *map);
 int		mouse_release(int button, int x, int y, t_vars *fdf);
 void	invert_color(t_point *point);
 void	turn_negative(t_vars *fdf);
-void 	menu_button(t_vars *fdf);
+void	menu_button(t_vars *fdf);
 long	ft_strhextol(char *str);
 void	behind_menu(t_point *pixel);
-int		update_color_gradient(int startcolor, int endcolor, float len, float pixels);
+int		update_color_gradient(int startcolor, int endcolor,
+			float len, float pixels);
 void	dda(t_vars *fdf, t_point start, t_point end);
 void	change_color_scheme(t_vars *fdf, int keycode);
-void	map_rotation(int keycode, t_vars *fdf);
+void	keys_rotation(int keycode, t_vars *fdf);
 void	change_mov_vel(int keycode, t_vars *fdf);
 void	change_rot_vel(int keycode, t_vars *fdf);
 void	reset_position(t_vars *fdf);
 void	change_map(t_vars *fdf);
+void	rotations(t_vars *fdf);
+void	keys_rotation(int keycode, t_vars *fdf);
+void	translations(t_vars *fdf);
+void	keys_translation(int keycode, t_vars *fdf);
+int		ft_round(float n);
+int		get_x_y_limits(t_map *map, char *file);
+void	find_best_z_mul(t_map *map);
+void	change_scale_vel(int keycode, t_vars *fdf);
+void	put_info(t_vars *fdf, int *y);
+void	put_angles(t_vars *fdf, int *y);
+void	put_zoom(t_vars *fdf, int *y);
+void	put_velocities(t_vars *fdf, int *y);
+void	put_scheme(t_vars *fdf, int *y);
+void	put_proj(t_vars *fdf, int *y);
+void	put_controls(t_vars *fdf, int *y);
+void	put_in_use_name(t_vars *fdf, int *y);
+void	choose_str_color(t_vars *fdf, int y, char *str, int flag);
+int		next_line(int *y);
+int		x_end(char *str);
+t_point	**get_proj(t_map original_map);
 
 #endif

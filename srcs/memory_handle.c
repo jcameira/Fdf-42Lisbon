@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 16:23:16 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/17 00:14:26 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/19 03:20:14 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,4 +44,22 @@ void	free_proj(t_point **proj, t_map map)
 	while (++y < map.lim[Y])
 		free(proj[y]);
 	free(proj);
+}
+
+int	end_program(t_vars *fdf, int maps, int no_vars)
+{
+	int	i;
+
+	i = -1;
+	while (++i < maps)
+		free_map(&fdf->map[i]);
+	free(fdf->map);
+	if (!no_vars)
+	{
+		mlx_destroy_image(fdf->mlx, fdf->bitmap.img);
+		mlx_destroy_window(fdf->mlx, fdf->win);
+		mlx_destroy_display(fdf->mlx);
+		free(fdf->mlx);
+	}
+	exit(0);
 }

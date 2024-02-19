@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 22:33:58 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/17 22:34:16 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/19 01:49:46 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,8 @@ void	dda_put_pixel(t_vars *fdf, t_point start, t_point end, t_point pixel)
 		if ((int)(pixel.coord[X]) <= MENU_WIDTH)
 			faster_pixel_put(&fdf->bitmap, (int)(pixel.coord[X]),
 				(int)(pixel.coord[Y]), pixel.color);
-		else if (*(unsigned int *)(fdf->bitmap.address + ((int)pixel.coord[Y]
-				* fdf->bitmap.line_length + (int)pixel.coord[X]
-				* (fdf->bitmap.bits_per_pixel / 8)))
-				< (unsigned int)pixel.color)
-			faster_pixel_put(&fdf->bitmap, (int)(pixel.coord[X]),
-				(int)(pixel.coord[Y]), pixel.color);
+		faster_pixel_put(&fdf->bitmap, (int)(pixel.coord[X]),
+			(int)(pixel.coord[Y]), pixel.color);
 	}
 }
 
