@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 01:48:17 by jcameira          #+#    #+#             */
-/*   Updated: 2023/11/21 22:06:48 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/20 11:48:01 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,12 @@ int	ft_strlen_gnl(char *str)
 	return (i);
 }
 
+void	*malloc_fail(char *str1)
+{
+	free(str1);
+	return (NULL);
+}
+
 char	*ft_strjoin_gnl(char *str1, char *str2)
 {
 	char	*new_str;
@@ -34,7 +40,7 @@ char	*ft_strjoin_gnl(char *str1, char *str2)
 
 	new_str = malloc(ft_strlen_gnl(str1) + ft_strlen_gnl(str2) + 1);
 	if (!new_str)
-		return (NULL);
+		return (malloc_fail(str1));
 	i = 0;
 	while (str1 && str1[i])
 	{

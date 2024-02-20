@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 18:23:21 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/19 15:50:46 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/20 12:03:24 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,23 +19,22 @@ void	put_info(t_vars *fdf, int *y)
 	mlx_string_put(fdf->mlx, fdf->win, X_START, *y, WHITE, INFO);
 	mlx_string_put(fdf->mlx, fdf->win, X_START, next_line(y), WHITE, INFO_SIZE);
 	tmp = ft_itoa(fdf->map[fdf->in_use].lim[X] * fdf->map[fdf->in_use].lim[Y]);
-	mlx_string_put(fdf->mlx, fdf->win, x_end(INFO_SIZE), *y, NBR_YELLOW, tmp);
+	string_put_check(fdf, x_end(INFO_SIZE), *y, tmp);
 	free(tmp);
 	mlx_string_put(fdf->mlx, fdf->win, X_START, next_line(y), WHITE, INFO_X_Y);
 	tmp = ft_itoa(fdf->map[fdf->in_use].lim[X]);
-	mlx_string_put(fdf->mlx, fdf->win, x_end(INFO_X), *y, NBR_YELLOW, tmp);
+	string_put_check(fdf, x_end(INFO_X), *y, tmp);
 	free(tmp);
 	tmp = ft_itoa(fdf->map[fdf->in_use].lim[Y]);
-	mlx_string_put(fdf->mlx, fdf->win, x_end(INFO_X_Y), *y, NBR_YELLOW, tmp);
+	string_put_check(fdf, x_end(INFO_X_Y), *y, tmp);
 	free(tmp);
 	mlx_string_put(fdf->mlx, fdf->win, X_START, next_line(y),
 		WHITE, INFO_ZMAX_ZMIN);
 	tmp = ft_itoa(fdf->map[fdf->in_use].z_min);
-	mlx_string_put(fdf->mlx, fdf->win, x_end(INFO_ZMIN), *y, NBR_YELLOW, tmp);
+	string_put_check(fdf, x_end(INFO_ZMIN), *y, tmp);
 	free(tmp);
 	tmp = ft_itoa(fdf->map[fdf->in_use].z_max);
-	mlx_string_put(fdf->mlx, fdf->win, x_end(INFO_ZMAX_ZMIN),
-		*y, NBR_YELLOW, tmp);
+	string_put_check(fdf, x_end(INFO_ZMAX_ZMIN), *y, tmp);
 	free(tmp);
 }
 

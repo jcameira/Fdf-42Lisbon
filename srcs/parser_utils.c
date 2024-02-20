@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 12:33:36 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/19 19:49:07 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/20 10:24:27 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,5 +67,6 @@ void	*exit_read_map_early(char **map_info, int fd, char *file)
 	i = -1;
 	while (map_info[++i])
 		free(map_info[i]);
+	free(map_info);
 	return (malloc_map_error(fd, file));
 }

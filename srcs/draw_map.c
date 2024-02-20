@@ -6,11 +6,26 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 20:16:42 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/20 00:58:40 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/20 14:58:48 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+
+void	hide_back_sphere(t_map *map, t_point **proj)
+{
+	int	x;
+	int	y;
+
+	y = -1;
+	while (++y < map->lim[Y])
+	{
+		x = -1;
+		while (++x < map->lim[X])
+			if (proj[y][x].coord[Z] < 0)
+				proj[y][x].paint = 0;
+	}
+}
 
 void	spherize(t_map *map, t_point **proj)
 {
@@ -86,21 +101,6 @@ void	draw_lines(t_vars *fdf, t_point **proj)
 			x += fdf->map[fdf->in_use].den;
 		}
 		y += fdf->map[fdf->in_use].den;
-	}
-}
-
-void	hide_back_sphere(t_map *map, t_point **proj)
-{
-	int	x;
-	int	y;
-
-	y = -1;
-	while (++y < map->lim[Y])
-	{
-		x = -1;
-		while (++x < map->lim[X])
-			if (proj[y][x].coord[Z] < 0)
-				proj[y][x].paint = 0;
 	}
 }
 

@@ -1,7 +1,9 @@
 NAME 				=	fdf
 
 CC					=	clang
-CFLAGS				=	-Wall -Wextra -Werror -g -fsanitize=address,undefined #-Xlinker --wrap=malloc
+CFLAGS				=	-Wall -Wextra -Werror
+SANITIZE			=	-g -fsanitize=address,undefined
+RANDOM_MALLOC		=	-Xlinker --wrap=malloc
 AR					=	ar rcs
 RM					=	rm -rf
 
@@ -31,14 +33,17 @@ FT_PRINTF_PATH		=	complete_lib/ft_printf/
 FT_PRINTF			=	$(FT_PRINTF_PATH)libprintf.a
 GNL_PATH			=	complete_lib/get_next_line/
 GNL					=	$(GNL_PATH)libgnl.a
+PERSONAL_LIBS		=	-lft -lgnl -lftprintf
+OTHER_LIBS			=	-lmlx -lXext -lX11 -lm -lz
 
 $(OBJ_DIR)%.o:		$(SRCS_PATH)%.c
-					@$(CC) $(CFLAGS) -c $< -o $@
+					@$(CC) $(CFLAGS) -c $< -o $@  && printf "## Compiled $<\r"
 
 all:				$(NAME)
 
 $(NAME):			$(OBJ_DIR) $(OBJS) $(MLX) $(LIBFT) $(GNL) $(FT_PRINTF)
-					@$(CC) $(CFLAGS) $(OBJS) -L$(LIBFT_PATH) -lft -L$(GNL_PATH) -lgnl -L$(FT_PRINTF_PATH) -lftprintf -L$(MLX_PATH) -lmlx -lXext -lX11 -lm -lz -o $(NAME)
+					@$(CC) $(CFLAGS) $(OBJS) -L$(LIBFT_PATH) -L$(GNL_PATH) -L$(FT_PRINTF_PATH) -L$(MLX_PATH) $(PERSONAL_LIBS) $(OTHER_LIBS) -o $(NAME)
+					@echo "## Linking complete"
 
 $(MLX):
 					@make -s -C $(MLX_PATH) all
@@ -69,3 +74,18 @@ fclean:				clean
 re:					fclean all
 
 .PHONY:				all bonus clean fclean re
+
+#define progress_bar
+#awk "BEGIN { printf \"Progress: [\"; for(i=0;i<$(1);i++) printf \"=\"; printf \">%3d%%\r\",$(1)*2; }"
+#endef
+
+progress-bar:
+	@progress=0; \
+		total_steps=$(shell echo $(words $(SRCS)) | bc); \
+		for step in $(SRCS); do \
+			$(MAKE) -s $(OBJ_DIR)$${step%.c}.o; \
+			progress=$$(($$progress + 1)); \
+			percent=$$(($$progress * 100 / $$total_steps)); \
+			printf "\rBuilding objects... [%-50s] %d%%" "$$(printf '#%.0s' {1..$$(($$progress * 50 / $$total_steps))})" "$$percent"; \
+		done; \
+		printf "\n"

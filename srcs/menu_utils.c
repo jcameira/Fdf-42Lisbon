@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 00:33:51 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/19 01:37:31 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/20 12:11:23 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,4 +29,15 @@ int	next_line(int *y)
 int	x_end(char *str)
 {
 	return (X_START + ft_strlen(str) * 6);
+}
+
+void	string_put_check(t_vars *fdf, int x, int y, char *str)
+{
+	if (str)
+		mlx_string_put(fdf->mlx, fdf->win, x, y, NBR_YELLOW, str);
+	else
+	{
+		ft_printf(ERROR_MAP);
+		end_program(fdf, fdf->number_of_maps, 0);
+	}
 }

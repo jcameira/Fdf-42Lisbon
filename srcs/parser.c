@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:30:27 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/20 01:15:59 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/20 12:09:14 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,12 +80,12 @@ t_point	**get_original_points(t_map *map)
 	{
 		points[y] = malloc(sizeof (t_point) * map->lim[X]);
 		if (!points[y])
-			return (read_error(map, points, y - 1));
+			return (read_error(map, points, y, NULL));
 		z_values = ft_split(map->map_info[y], ' ');
 		if (!z_values)
-			return (read_error(map, points, y));
+			return (read_error(map, points, y + 1, NULL));
 		if (load_coord(map, &points, z_values, y))
-			return (read_error(map, points, y));
+			return (read_error(map, points, y + 1, z_values));
 		free_split(z_values);
 		print_progress_bar(y + 1, map->lim[Y], map->name);
 	}
@@ -110,9 +110,9 @@ char	**read_map(t_map *map, char *file)
 	while (++y < map->lim[Y])
 	{
 		map_info[y] = ft_strtrim(tmp, " \n");
+		free(tmp);
 		if (!map_info[y])
 			return (exit_read_map_early(map_info, fd, file));
-		free(tmp);
 		tmp = get_next_line(fd);
 	}
 	free(tmp);

@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 14:29:42 by jcameira          #+#    #+#             */
-/*   Updated: 2023/10/07 20:30:43 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/20 10:19:01 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	*ft_strtrim(char const *str, char const *charset)
 	size_t	end;
 	char	*new_str;
 
-	if (!str && !charset)
+	if (!str || !charset)
 		return (NULL);
 	start = 0;
 	end = ft_strlen(str);
