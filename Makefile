@@ -1,20 +1,20 @@
 NAME 				=	fdf
 
 CC					=	clang
-CFLAGS				=	-Wall -Wextra -Werror -g -fsanitize=address,undefined
+CFLAGS				=	-Wall -Wextra -Werror -g -fsanitize=address,undefined #-Xlinker --wrap=malloc
 AR					=	ar rcs
 RM					=	rm -rf
 
 SRCS				=	color_control_utils.c color_utils.c color.c dda.c \
-						draw_map.c draw_menu.c fdf_utils.c fdf.c ft_ftoa.c \
-						ft_round.c ft_strhextol.c inits.c key_press.c \
-						key_release.c limit_utils.c map_control_utils.c \
-						map_keyboard_movement.c map_mouse_movement.c \
-						matrix_operations.c memory_handle.c menu_frame_info.c \
-						menu_utils.c menu.c mouse_press.c mouse_release.c \
-						parser_utils.c parser.c projections.c render_frame.c \
-						scale_utils.c velocity_control_utils.c\
-						malloc.c
+						draw_map.c draw_menu.c fdf_utils.c fdf.c fit_window.c \
+						ft_ftoa.c ft_round.c ft_strhextol.c inits.c \
+						key_press.c key_release.c limit_utils.c \
+						map_control_utils.c map_keyboard_movement.c \
+						map_mouse_movement.c matrix_operations.c \
+						memory_handle.c menu_frame_info.c menu_utils.c menu.c \
+						mouse_press.c mouse_release.c parser_utils.c parser.c \
+						projections.c render_frame.c scale_utils.c \
+						velocity_control_utils.c #malloc.c
 SRCS_PATH			=	srcs/
 
 MAIN				=	$(SRCS_PATH)fdf.c
@@ -38,7 +38,7 @@ $(OBJ_DIR)%.o:		$(SRCS_PATH)%.c
 all:				$(NAME)
 
 $(NAME):			$(OBJ_DIR) $(OBJS) $(MLX) $(LIBFT) $(GNL) $(FT_PRINTF)
-					@$(CC) $(CFLAGS) -Xlinker --wrap=malloc $(OBJS) -L$(LIBFT_PATH) -lft -L$(GNL_PATH) -lgnl -L$(FT_PRINTF_PATH) -lftprintf -L$(MLX_PATH) -lmlx -lXext -lX11 -lm -lz -o $(NAME)
+					@$(CC) $(CFLAGS) $(OBJS) -L$(LIBFT_PATH) -lft -L$(GNL_PATH) -lgnl -L$(FT_PRINTF_PATH) -lftprintf -L$(MLX_PATH) -lmlx -lXext -lX11 -lm -lz -o $(NAME)
 
 $(MLX):
 					@make -s -C $(MLX_PATH) all

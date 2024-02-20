@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 16:23:16 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/19 20:30:57 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/20 01:09:33 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,14 +50,14 @@ void	free_map(t_map *map)
 	free(map->map_info);
 }
 
-void	free_proj(t_point **proj, t_map map)
+void	free_proj(t_point **proj, int y_lim)
 {
 	int	y;
 
 	if (proj)
 	{
 		y = -1;
-		while (++y < map.lim[Y])
+		while (++y < y_lim)
 			free(proj[y]);
 		free(proj);
 	}
@@ -69,10 +69,7 @@ int	end_program(t_vars *fdf, int maps, int no_vars)
 
 	i = -1;
 	while (++i < maps)
-	{
-		printf("Here\n");
 		free_map(&fdf->map[i]);
-	}
 	free(fdf->map);
 	if (!no_vars)
 	{

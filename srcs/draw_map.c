@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 20:16:42 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/19 19:27:22 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/20 00:58:40 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,5 +123,5 @@ void	draw_map(t_vars *fdf)
 	orthographic(&fdf->map[fdf->in_use], proj);
 	draw_lines(fdf, proj);
 	mlx_put_image_to_window(fdf->mlx, fdf->win, fdf->bitmap.img, 0, 0);
-	free_proj(proj, fdf->map[fdf->in_use]);
+	free_proj(proj, fdf->map[fdf->in_use].lim[Y]);
 }

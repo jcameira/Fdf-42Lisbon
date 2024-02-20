@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:30:27 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/19 19:46:36 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/20 01:15:59 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,22 +75,17 @@ t_point	**get_original_points(t_map *map)
 	if (!points)
 		return (malloc_points_error(map->name));
 	y = -1;
+	ft_printf("Loading points...\n");
 	while (++y < map->lim[Y])
 	{
 		points[y] = malloc(sizeof (t_point) * map->lim[X]);
 		if (!points[y])
-		{
-			free_proj(points, *map);
-			return (malloc_points_error(map->name));
-		}
+			return (read_error(map, points, y - 1));
 		z_values = ft_split(map->map_info[y], ' ');
 		if (!z_values)
-			return (malloc_points_error(map->name));
+			return (read_error(map, points, y));
 		if (load_coord(map, &points, z_values, y))
-		{
-			free_proj(points, *map);
-			return (malloc_points_error(map->name));
-		}
+			return (read_error(map, points, y));
 		free_split(z_values);
 		print_progress_bar(y + 1, map->lim[Y], map->name);
 	}

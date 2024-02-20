@@ -6,41 +6,16 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 18:39:58 by joao              #+#    #+#             */
-/*   Updated: 2024/02/19 20:19:28 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/20 01:01:00 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	fit_window(t_vars *fdf)
+void	*read_error(t_map *map, t_point **points, int y)
 {
-	t_point	**proj;
-	int		x;
-	int		y;
-
-	while (1)
-	{
-		proj = copy_map(fdf->map[fdf->in_use]);
-		if (!proj)
-			end_program(fdf, fdf->number_of_maps, 0);
-		y = -1;
-		while (++y < fdf->map[fdf->in_use].lim[Y])
-		{
-			x = -1;
-			while (++x < fdf->map[fdf->in_use].lim[X])
-			{
-				if (!inside_window(fdf, proj[y][x]))
-				{
-					fdf->map[fdf->in_use].f_scale = fdf->map[fdf->in_use].scale;
-					free_proj(proj, fdf->map[fdf->in_use]);
-					return ;
-				}
-			}
-		}
-		fdf->map[fdf->in_use].scale += 0.1;
-		update_scale_dependants(&fdf->map[fdf->in_use], 0.1, 0);
-		free_proj(proj, fdf->map[fdf->in_use]);
-	}
+	free_proj(points, y - 1);
+	return (malloc_points_error(map->name));
 }
 
 int	inside_window(t_vars *fdf, t_point point)
@@ -71,7 +46,7 @@ t_point	**get_proj(t_map original_map)
 		proj[y] = malloc(sizeof (t_point) * original_map.lim[X]);
 		if (!proj[y])
 		{
-			free_proj(proj, original_map);
+			free_proj(proj, y - 1);
 			return (NULL);
 		}
 	}

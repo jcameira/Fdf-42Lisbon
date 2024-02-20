@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 17:38:19 by joao              #+#    #+#             */
-/*   Updated: 2024/02/19 19:50:36 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/20 01:13:20 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,10 +88,9 @@
 # define Y 1
 # define Z 2
 
-# define T 0
-# define R 1
-# define G 2
-# define B 3
+# define R 0
+# define G 1
+# define B 2
 
 # define LONGITUDE 0
 # define LATITUDE 1
@@ -351,85 +350,88 @@ typedef struct s_vars
 	int			menu;
 }				t_vars;
 
-char				**read_map(t_map *map, char *file);
-t_point				**copy_map(t_map original_map);
-void				faster_pixel_put(t_bitmap *bitmap, int x, int y, int color);
-void				vars_init(t_vars *fdf, char *title);
-void				map_init(t_map *map, char *name);
-int					parser(t_map *map, char *file);
-void				draw_map(t_vars *fdf);
-t_point				matmul(float mat[3][3], t_point point);
-void				rotatex(t_map *map, t_point **proj, int angle);
-void				rotatey(t_map *map, t_point **proj, int angle);
-void				rotatez(t_map *map, t_point **proj, int angle);
-void				orthographic(t_map *map, t_point **proj);
-void				change_projection(int keycode, t_vars *fdf);
-int					end_program(t_vars *fdf, int maps, int no_vars);
-void				isometric(t_vars *fdf);
-void				top_view(t_vars *fdf);
-void				choose_projection(t_vars *fdf, int prespective);
-void				keys_translation(int keycode, t_vars *fdf);
-int					key_press(int keycode, t_vars *fdf);
-int					key_release(int keycode, t_vars *fdf);
-void				change_scale(int keycode, t_vars *fdf);
-void				change_z_mul(int keycode, t_vars *fdf);
-int					mouse_press(int button, int x, int y, t_vars *fdf);
-int					map_movement(int x, int y, t_vars *fdf);
-int					render_frame(t_vars *fdf);
-void				translations(t_vars *fdf);
-void				set_point_color(t_map *map);
-void				update_z_limits(t_map *map, t_point **points);
-unsigned int		update_color_gradient(int start, int end, float len, float pixels);
-int					inside_window(t_vars *fdf, t_point point);
-void				free_proj(t_point **proj, t_map map);
-void				fit_window(t_vars *fdf);
-void				free_map(t_map *map);
-void				free_split(char **split);
-void				update_scale_dependants(t_map *map, float increment, int reset);
-void				draw_menu(t_vars *fdf);
-void				menu_background(t_vars *fdf);
-void				behind_menu(t_point *pixel);
-char				*ft_ftoa(float n, int precision);
-t_map				*input_info_init(t_vars *fdf, int argc);
-void				choose_color_scheme(t_map *map);
-int					mouse_release(int button, int x, int y, t_vars *fdf);
-void				invert_color(t_point *point);
-void				turn_negative(t_vars *fdf);
-void				menu_button(t_vars *fdf);
-long				ft_strhextol(char *str);
-void				behind_menu(t_point *pixel);
-void				dda(t_vars *fdf, t_point start, t_point end);
-void				change_color_scheme(t_vars *fdf, int keycode);
-void				keys_rotation(int keycode, t_vars *fdf);
-void				change_mov_vel(int keycode, t_vars *fdf);
-void				change_rot_vel(int keycode, t_vars *fdf);
-void				reset_position(t_vars *fdf);
-void				change_map(t_vars *fdf);
-void				rotations(t_vars *fdf);
-void				keys_rotation(int keycode, t_vars *fdf);
-void				translations(t_vars *fdf);
-void				keys_translation(int keycode, t_vars *fdf);
-int					ft_round(float n);
-int					get_x_y_limits(t_map *map, char *file);
-void				find_best_z_mul(t_map *map);
-void				change_scale_vel(int keycode, t_vars *fdf);
-void				put_info(t_vars *fdf, int *y);
-void				put_angles(t_vars *fdf, int *y);
-void				put_zoom_vel(t_vars *fdf, int *y);
-void				put_velocities(t_vars *fdf, int *y);
-void				put_scheme(t_vars *fdf, int *y);
-void				put_proj(t_vars *fdf, int *y);
-void				put_controls(t_vars *fdf, int *y);
-void				put_in_use_name(t_vars *fdf, int *y);
-void				choose_str_color(t_vars *fdf, int y, char *str, int flag);
-int					next_line(int *y);
-int					x_end(char *str);
-t_point				**get_proj(t_map original_map);
-int					early_lim_exit(char *line, char *trimmed_line, int fd, char *file);
-void				print_progress_bar(int progress, int total, char *map_name);
-int					fd_check(int *fd, char *file);
-void				*malloc_map_error(int fd, char *file);
-void				*malloc_points_error(char *file);
-void				*exit_read_map_early(char **map_info, int fd, char *file);
+char	**read_map(t_map *map, char *file);
+t_point	**copy_map(t_map original_map);
+void	faster_pixel_put(t_bitmap *bitmap, int x, int y, int color);
+void	vars_init(t_vars *fdf, char *title);
+void	map_init(t_map *map, char *name);
+int		parser(t_map *map, char *file);
+void	draw_map(t_vars *fdf);
+t_point	matmul(float mat[3][3], t_point point);
+void	rotatex(t_map *map, t_point **proj, int angle);
+void	rotatey(t_map *map, t_point **proj, int angle);
+void	rotatez(t_map *map, t_point **proj, int angle);
+void	orthographic(t_map *map, t_point **proj);
+void	change_projection(int keycode, t_vars *fdf);
+int		end_program(t_vars *fdf, int maps, int no_vars);
+void	isometric(t_vars *fdf);
+void	top_view(t_vars *fdf);
+void	choose_projection(t_vars *fdf, int prespective);
+void	keys_translation(int keycode, t_vars *fdf);
+int		key_press(int keycode, t_vars *fdf);
+int		key_release(int keycode, t_vars *fdf);
+void	change_scale(int keycode, t_vars *fdf);
+void	change_z_mul(int keycode, t_vars *fdf);
+int		mouse_press(int button, int x, int y, t_vars *fdf);
+int		map_movement(int x, int y, t_vars *fdf);
+int		render_frame(t_vars *fdf);
+void	translations(t_vars *fdf);
+void	set_point_color(t_map *map);
+void	update_z_limits(t_map *map, t_point **points);
+int		update_color_gradient(int start, int end, float len, float pixels);
+int		inside_window(t_vars *fdf, t_point point);
+void	free_proj(t_point **proj, int y_lim);
+void	fit_window(t_vars *fdf);
+void	free_map(t_map *map);
+void	free_split(char **split);
+void	update_scale_dependants(t_map *map, float increment,
+			int reset);
+void	draw_menu(t_vars *fdf);
+void	menu_background(t_vars *fdf);
+void	behind_menu(t_point *pixel);
+char	*ft_ftoa(float n, int precision);
+t_map	*input_info_init(t_vars *fdf, int argc);
+void	choose_color_scheme(t_map *map);
+int		mouse_release(int button, int x, int y, t_vars *fdf);
+void	invert_color(t_point *point);
+void	turn_negative(t_vars *fdf);
+void	menu_button(t_vars *fdf);
+long	ft_strhextol(char *str);
+void	behind_menu(t_point *pixel);
+void	dda(t_vars *fdf, t_point start, t_point end);
+void	change_color_scheme(t_vars *fdf, int keycode);
+void	keys_rotation(int keycode, t_vars *fdf);
+void	change_mov_vel(int keycode, t_vars *fdf);
+void	change_rot_vel(int keycode, t_vars *fdf);
+void	reset_position(t_vars *fdf);
+void	change_map(t_vars *fdf);
+void	rotations(t_vars *fdf);
+void	keys_rotation(int keycode, t_vars *fdf);
+void	translations(t_vars *fdf);
+void	keys_translation(int keycode, t_vars *fdf);
+int		ft_round(float n);
+int		get_x_y_limits(t_map *map, char *file);
+void	find_best_z_mul(t_map *map);
+void	change_scale_vel(int keycode, t_vars *fdf);
+void	put_info(t_vars *fdf, int *y);
+void	put_angles(t_vars *fdf, int *y);
+void	put_zoom_vel(t_vars *fdf, int *y);
+void	put_velocities(t_vars *fdf, int *y);
+void	put_scheme(t_vars *fdf, int *y);
+void	put_proj(t_vars *fdf, int *y);
+void	put_controls(t_vars *fdf, int *y);
+void	put_in_use_name(t_vars *fdf, int *y);
+void	choose_str_color(t_vars *fdf, int y, char *str, int flag);
+int		next_line(int *y);
+int		x_end(char *str);
+t_point	**get_proj(t_map original_map);
+int		early_lim_exit(char *line, char *trimmed_line, int fd,
+			char *file);
+void	print_progress_bar(int progress, int total, char *map_name);
+int		fd_check(int *fd, char *file);
+void	*malloc_map_error(int fd, char *file);
+void	*malloc_points_error(char *file);
+void	*exit_read_map_early(char **map_info, int fd, char *file);
+void	*read_error(t_map *map, t_point **points, int y);
 
 #endif
