@@ -6,11 +6,11 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 16:23:16 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/20 11:50:47 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/21 02:02:19 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include <fdf.h>
 
 int	early_lim_exit(char *line, char *trimmed_line, int fd, char *file)
 {
@@ -61,22 +61,4 @@ void	free_proj(t_point **proj, int y_lim)
 			free(proj[y]);
 		free(proj);
 	}
-}
-
-int	end_program(t_vars *fdf, int maps, int no_vars)
-{
-	int	i;
-
-	i = -1;
-	while (++i < maps)
-		free_map(&fdf->map[i]);
-	free(fdf->map);
-	if (!no_vars)
-	{
-		mlx_destroy_image(fdf->mlx, fdf->bitmap.img);
-		mlx_destroy_window(fdf->mlx, fdf->win);
-		mlx_destroy_display(fdf->mlx);
-		free(fdf->mlx);
-	}
-	exit(0);
 }

@@ -6,11 +6,11 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 12:33:36 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/20 10:24:27 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/21 02:02:39 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include <fdf.h>
 
 void	print_progress_bar(int progress, int total, char *map_name)
 {

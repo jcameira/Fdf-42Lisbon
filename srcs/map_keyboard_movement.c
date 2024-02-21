@@ -6,11 +6,11 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 18:31:27 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/18 18:36:15 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/21 02:02:08 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include <fdf.h>
 
 void	rotations(t_vars *fdf)
 {

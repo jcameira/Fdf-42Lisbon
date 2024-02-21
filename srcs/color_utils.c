@@ -6,11 +6,11 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 17:07:59 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/20 01:14:33 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/21 02:01:06 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include <fdf.h>
 
 void	behind_menu(t_point *pixel)
 {

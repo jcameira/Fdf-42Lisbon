@@ -6,11 +6,11 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 18:37:48 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/18 18:38:16 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/21 02:02:50 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include <fdf.h>
 
 int	render_frame(t_vars *fdf)
 {

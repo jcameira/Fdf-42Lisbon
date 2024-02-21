@@ -6,11 +6,11 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 18:54:58 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/18 20:00:34 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/21 02:02:03 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include <fdf.h>
 
 void	change_projection(int keycode, t_vars *fdf)
 {

@@ -6,11 +6,11 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 00:56:38 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/19 17:35:51 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/21 02:01:34 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include <fdf.h>
 
 static int	fnum_len(float n, int precision)
 {

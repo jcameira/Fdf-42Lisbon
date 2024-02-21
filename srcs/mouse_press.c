@@ -6,11 +6,11 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 18:10:14 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/19 15:49:50 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/21 02:02:31 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include <fdf.h>
 
 int	mouse_press(int button, int x, int y, t_vars *fdf)
 {

@@ -6,11 +6,11 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 19:21:49 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/16 22:10:55 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/21 02:01:44 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include <fdf.h>
 
 static int	strpos(char c, char *str)
 {

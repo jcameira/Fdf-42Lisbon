@@ -6,11 +6,11 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 00:33:51 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/20 12:11:23 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/21 02:02:26 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include <fdf.h>
 
 void	choose_str_color(t_vars *fdf, int y, char *str, int flag)
 {

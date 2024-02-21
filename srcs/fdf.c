@@ -6,11 +6,11 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 17:55:13 by joao              #+#    #+#             */
-/*   Updated: 2024/02/19 17:55:01 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/21 02:01:27 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include <fdf.h>
 
 void	get_maps(t_vars *fdf, char **argv)
 {
@@ -44,7 +44,7 @@ int	main(int argc, char **argv)
 	mlx_hook(fdf.win, 4, (1L << 2), mouse_press, &fdf);
 	mlx_hook(fdf.win, 5, (1L << 3), mouse_release, &fdf);
 	mlx_hook(fdf.win, 6, (1L << 6), map_movement, &fdf);
-	mlx_hook(fdf.win, 17, 0, end_program, &fdf);
+	mlx_hook(fdf.win, 17, 0, exit_button, &fdf);
 	mlx_loop_hook(fdf.mlx, render_frame, &fdf);
 	mlx_loop(fdf.mlx);
 	return (0);

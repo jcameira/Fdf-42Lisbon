@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 17:38:19 by joao              #+#    #+#             */
-/*   Updated: 2024/02/20 16:11:53 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/21 01:25:58 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -510,6 +510,7 @@ int		mouse_press(int button, int x, int y, t_vars *fdf);
 void	change_map(t_vars *fdf);
 int		mouse_release(int button, int x, int y, t_vars *fdf);
 int		map_movement(int x, int y, t_vars *fdf);
+int		exit_button(t_vars *fdf);
 int		end_program(t_vars *fdf, int maps, int no_vars);
 int		render_frame(t_vars *fdf);
 

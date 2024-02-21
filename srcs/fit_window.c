@@ -6,11 +6,11 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 00:51:53 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/20 00:59:06 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/21 02:01:29 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include <fdf.h>
 
 void	next_try(t_vars *fdf, t_point **proj)
 {

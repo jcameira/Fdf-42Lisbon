@@ -6,17 +6,18 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 18:39:58 by joao              #+#    #+#             */
-/*   Updated: 2024/02/20 12:08:38 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/21 02:01:24 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include <fdf.h>
 
 void	*read_error(t_map *map, t_point **points, int y, char **split)
 {
 	if (split)
 		free_split(split);
 	free_proj(points, y);
+	free_split(map->map_info);
 	return (malloc_points_error(map->name));
 }
 

@@ -6,11 +6,11 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 20:00:11 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/19 01:12:31 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/21 02:02:53 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include <fdf.h>
 
 void	update_scale_dependants(t_map *map, float increment, int reset)
 {

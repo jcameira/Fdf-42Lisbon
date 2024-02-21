@@ -6,11 +6,11 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 01:23:28 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/19 15:47:54 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/21 02:01:20 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include <fdf.h>
 
 void	draw_menu(t_vars *fdf)
 {

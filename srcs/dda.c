@@ -6,11 +6,11 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 22:33:58 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/20 16:40:02 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/21 02:01:14 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include <fdf.h>
 
 void	dda_put_pixel(t_vars *fdf, t_point start, t_point end, t_point pixel)
 {

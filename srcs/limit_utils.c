@@ -6,11 +6,11 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 20:25:20 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/20 10:27:03 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/21 02:01:57 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include <fdf.h>
 
 void	update_z_ranges(t_map *map)
 {

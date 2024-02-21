@@ -6,11 +6,11 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 22:49:07 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/19 03:19:41 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/21 02:01:51 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include <fdf.h>
 
 void	keyboard_color(int keycode, t_vars *fdf)
 {

@@ -6,11 +6,11 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 00:45:42 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/19 20:18:21 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/21 02:01:54 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include <fdf.h>
 
 void	release_movement(int keycode, t_vars *fdf)
 {

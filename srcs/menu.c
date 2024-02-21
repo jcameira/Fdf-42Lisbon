@@ -6,11 +6,11 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 18:23:21 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/20 12:03:24 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/21 02:02:29 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include <fdf.h>
 
 void	put_info(t_vars *fdf, int *y)
 {

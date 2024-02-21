@@ -6,11 +6,11 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 20:21:15 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/19 00:10:01 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/21 02:02:56 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include <fdf.h>
 
 void	change_mov_vel(int keycode, t_vars *fdf)
 {

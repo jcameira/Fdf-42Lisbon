@@ -6,11 +6,11 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 18:48:47 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/18 18:49:15 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/21 02:01:00 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include <fdf.h>
 
 void	change_color_scheme(t_vars *fdf, int keycode)
 {

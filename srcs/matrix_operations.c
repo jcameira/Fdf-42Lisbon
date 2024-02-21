@@ -6,11 +6,11 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 13:11:59 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/16 23:22:28 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/21 02:02:16 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include <fdf.h>
 
 t_point	matmul(float mat[3][3], t_point point)
 {
