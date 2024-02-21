@@ -50,12 +50,12 @@ define PRINT_PROGRESS
     if [ "$(FILES)" -eq "1" ]; then \
         printf "\033[0K$(3)\n["; \
     else \
-        printf "\033[0K\033[F\033[0K$(3)\n["; \
+        printf "\033[0K\033[1F\033[0K$(3)\n["; \
     fi
-    @for i in `seq 1 $(shell expr $(FILES) \* 75 / $(1))`; do \
+    @for i in `seq 1 $(shell expr $(FILES) \* 70 / $(1))`; do \
         printf "$(2)=\033[0m"; \
     done
-    @for i in `seq 1 $(shell expr 75 - $(FILES) \* 75 / $(1))`; do \
+    @for i in `seq 1 $(shell expr 70 - $(FILES) \* 70 / $(1))`; do \
         printf " "; \
     done
     @printf "] $(shell echo $$(($(FILES) * 100 / $(1))))%%"

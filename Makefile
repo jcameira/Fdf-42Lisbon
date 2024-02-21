@@ -60,6 +60,7 @@ random_m:			$(OBJ_DIR) $(LIBFT) $(GNL) $(FT_PRINTF) $(MLX) $(OBJS)
 					@echo "\033[2F\033[0K$(CYAN)$(NAME)$(DEFAULT) successfully created\033[E"
 
 $(MLX):
+					@chmod 777 $(MLX_PATH)configure
 					@make -s -C $(MLX_PATH) all
 
 $(LIBFT):
@@ -105,12 +106,12 @@ define PRINT_PROGRESS
     if [ "$(FILES)" -eq "1" ]; then \
         printf "\033[0K$(3)\n["; \
     else \
-        printf "\033[0K\033[F\033[0K$(3)\n["; \
+        printf "\033[0K\033[1F\033[0K$(3)\n["; \
     fi
-    @for i in `seq 1 $(shell expr $(FILES) \* 75 / $(1))`; do \
+    @for i in `seq 1 $(shell expr $(FILES) \* 70 / $(1))`; do \
         printf "$(2)=\033[0m"; \
     done
-    @for i in `seq 1 $(shell expr 75 - $(FILES) \* 75 / $(1))`; do \
+    @for i in `seq 1 $(shell expr 70 - $(FILES) \* 70 / $(1))`; do \
         printf " "; \
     done
     @printf "] $(shell echo $$(($(FILES) * 100 / $(1))))%%"

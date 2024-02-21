@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 20:25:20 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/21 02:01:57 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/21 19:02:41 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,8 @@ void	find_best_z_mul(t_map *map)
 	int	tmp_range;
 
 	tmp_range = map->z_range;
+	if (tmp_range == 0)
+		return ;
 	while ((float)tmp_range / (float)map->lim[X] > 0.05)
 	{
 		map->mul[Z] -= 0.1;
