@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 18:23:21 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/21 02:02:29 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/22 00:38:34 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,9 +103,9 @@ void	put_controls(t_vars *fdf, int *y)
 	mlx_string_put(fdf->mlx, fdf->win, X_START, next_line(y), WHITE, A_MOUSE_W);
 	mlx_string_put(fdf->mlx, fdf->win, X_START, next_line(y), WHITE,
 		PROJ_CHANGE);
-	mlx_string_put(fdf->mlx, fdf->win, X_START, next_line(y), WHITE, ROT_VEL);
 	mlx_string_put(fdf->mlx, fdf->win, X_START, next_line(y), WHITE,
 		TRANSLATION_VEL);
+	mlx_string_put(fdf->mlx, fdf->win, X_START, next_line(y), WHITE, ROT_VEL);
 	mlx_string_put(fdf->mlx, fdf->win, X_START, next_line(y), WHITE, SCALE_VEL);
 	mlx_string_put(fdf->mlx, fdf->win, X_START, next_line(y), WHITE, INVERT);
 }

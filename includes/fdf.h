@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 17:38:19 by joao              #+#    #+#             */
-/*   Updated: 2024/02/21 01:25:58 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/02/22 00:38:55 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -252,8 +252,8 @@
 # define A_MOUSE_W "Left ALT + Mouse Wheel -> Change Z Multiplier"
 # define PROJ_CHANGE "O/P -> Projection Change"
 # define SCHEME_CHANGE "H -> Color Scheme Change"
-# define ROT_VEL "-/+ -> Rotation Velocity"
-# define TRANSLATION_VEL "Left Shift + -/+ -> Translation Velocity"
+# define TRANSLATION_VEL "-/+ -> Translation Velocity"
+# define ROT_VEL "Left Shift + -/+ -> Rotation Velocity"
 # define SCALE_VEL "Left CTRL + -/+ -> Scale Velocity"
 # define MAP_CHANGE "L -> Map Change"
 # define INVERT "I -> Invert Colors"
