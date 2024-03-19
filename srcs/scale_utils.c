@@ -6,7 +6,7 @@
 /*   By: jcameira <jcameira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 20:00:11 by jcameira          #+#    #+#             */
-/*   Updated: 2024/02/21 02:02:53 by jcameira         ###   ########.fr       */
+/*   Updated: 2024/03/19 02:02:10 by jcameira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ void	update_scale_dependants(t_map *map, float increment, int reset)
 	map->mul[Y] += increment;
 	if (map->mul[Y] < 1)
 		map->mul[Y] = 1;
-	map->mul[Z] += increment;
-	if (map->mul[Z] < 1)
-		map->mul[Z] = 1;
+	//map->mul[Z] += increment;
+	//if (map->mul[Z] < 1)
+	//	map->mul[Z] = 1;
 }
 
 void	change_x_mul(int keycode, t_vars *fdf)
